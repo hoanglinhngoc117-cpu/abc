@@ -3,7 +3,7 @@ YPE html>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FIN-HR PRESTIGE - Hệ Thống Phân Tích & Báo Cáo Doanh Thu Doanh Nghiệp</title>
+  <title>BIZDATA AI - Nền Tảng Xử Lý & Phân Tích Dữ Liệu Kinh Doanh Doanh Nghiệp</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
@@ -19,7 +19,6 @@ YPE html>
       
       --bg-page: #faf8f5;
       --surface-white: #ffffff;
-      --surface-card: #ffffff;
       --surface-subtle: #f5f2eb;
       
       --text-main: #18191b;
@@ -42,7 +41,7 @@ YPE html>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; }
     body { background-color: var(--bg-page); color: var(--text-main); min-height: 100vh; padding-bottom: 70px; line-height: 1.6; }
 
-    /* ================= AUTH GATE (MODAL ĐĂNG NHẬP SANG TRỌNG) ================= */
+    /* ================= AUTH GATE (CỔNG XÁC THỰC SANG TRỌNG) ================= */
     #authOverlay {
       position: fixed;
       inset: 0;
@@ -57,11 +56,10 @@ YPE html>
     .auth-modal {
       background: var(--surface-white);
       width: 100%;
-      max-width: 460px;
+      max-width: 470px;
       border-radius: 24px;
       padding: 38px 34px;
       box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(212, 175, 55, 0.2);
-      position: relative;
       animation: modalScale 0.35s ease;
     }
     @keyframes modalScale {
@@ -209,7 +207,7 @@ YPE html>
       letter-spacing: 0.5px;
     }
 
-    /* Top Tabs Navigation (3 Trang Cân Đối) */
+    /* 3 Top Tabs: Rõ ràng, Tinh gọn */
     .nav-tabs {
       display: flex;
       background: var(--surface-subtle);
@@ -240,7 +238,7 @@ YPE html>
       border: 1px solid var(--gold-border);
     }
 
-    /* User Chip Header */
+    /* Profile Badge */
     .user-profile-badge {
       display: flex;
       align-items: center;
@@ -275,7 +273,7 @@ YPE html>
     }
     .btn-switch-user:hover { text-decoration: underline; }
 
-    /* ================= MAIN CONTAINER & CARDS ================= */
+    /* ================= MAIN WRAPPER ================= */
     .main-wrap {
       max-width: 1240px;
       margin: 28px auto 0;
@@ -295,7 +293,6 @@ YPE html>
       box-shadow: var(--card-shadow);
       padding: 26px 28px;
       margin-bottom: 24px;
-      position: relative;
     }
     .card-header-clean {
       margin-bottom: 18px;
@@ -380,7 +377,7 @@ YPE html>
       color: rgba(255, 255, 255, 0.9);
     }
 
-    /* KPI Cards (Vàng Golf & Trắng Thanh Lịch) */
+    /* KPI Deck: 4 Chỉ Số Kinh Doanh Toàn Diện */
     .kpi-deck {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -420,10 +417,10 @@ YPE html>
     .tag-up { color: var(--success); }
     .tag-neutral { color: var(--gold-dark); }
 
-    /* Ingestion Box (Gọn gàng, không rối) */
+    /* Ingestion Grid (Nạp dữ liệu kinh doanh đa dạng) */
     .ingest-grid {
       display: grid;
-      grid-template-columns: 1fr 1.1fr;
+      grid-template-columns: 1fr 1.15fr;
       gap: 22px;
     }
     @media (max-width: 860px) {
@@ -498,7 +495,7 @@ YPE html>
     .slide-cta-info h4 { font-size: 1.05rem; font-weight: 800; color: var(--text-main); margin-bottom: 4px; }
     .slide-cta-info p { font-size: 0.85rem; color: var(--text-secondary); }
 
-    /* ================= TRANG 2: BỘ SLIDE THUYẾT TRÌNH (TRANG RIÊNG) ================= */
+    /* ================= TRANG 2: SLIDE THUYẾT TRÌNH RIÊNG BIỆT ================= */
     .slide-deck-container {
       background: #151618;
       border-radius: var(--radius-lg);
@@ -543,7 +540,6 @@ YPE html>
     }
     .btn-slide-ctrl:hover { background: rgba(212, 175, 55, 0.3); border-color: var(--gold-light); }
 
-    /* Empty State for Slide Page */
     .slide-uninitialized-box {
       text-align: center;
       padding: 60px 20px;
@@ -552,7 +548,7 @@ YPE html>
       border: 1.5px dashed var(--gold-border);
     }
 
-    /* ================= TRANG 3: KIỂM DUYỆT & LỊCH SỬ & CHIẾN LƯỢC ================= */
+    /* ================= TRANG 3: KIỂM DUYỆT, LỊCH SỬ & CHIẾN LƯỢC ================= */
     .history-table {
       width: 100%;
       border-collapse: collapse;
@@ -631,38 +627,39 @@ YPE html>
 <body>
 
   <!-- ============================================================== -->
-  <!-- MODAL XÁC THỰC NHÂN SỰ BẮT BUỘC (VÀNG GOLF & TRẮNG CAO CẤP)    -->
+  <!-- MODAL XÁC THỰC BẮT BUỘC: HỌ TÊN + SĐT/GMAIL DOANH NGHIỆP        -->
   <!-- ============================================================== -->
   <div id="authOverlay">
     <div class="auth-modal">
       <div class="auth-crest">👑</div>
       <div class="auth-badge">Cổng Xác Thực An Toàn</div>
-      <h2 class="auth-title">FIN-HR PRESTIGE ANALYTICS</h2>
-      <p class="auth-desc">Vui lòng nhập định danh để khởi tạo phiên làm việc bảo mật và cá nhân hóa người lập báo cáo tài chính.</p>
+      <h2 class="auth-title">BIZDATA PRESTIGE INTELLIGENCE</h2>
+      <p class="auth-desc">Vui lòng nhập định danh nhân sự để khởi tạo phiên phân tích và cá nhân hóa người lập báo cáo kinh doanh.</p>
 
       <form id="authForm" onsubmit="handleAuthSubmit(event)">
         <div class="form-group">
-          <label>Họ và Tên Nhân Sự (*)</label>
+          <label>Họ và Tên Nhân Sự / Chuyên Viên (*)</label>
           <input type="text" id="inputAuthName" class="form-control" placeholder="Ví dụ: Hoàng Linh Ngọc" required />
         </div>
 
         <div class="form-group">
           <label>Số Điện Thoại HOẶC Gmail Doanh Nghiệp (*)</label>
-          <input type="text" id="inputAuthContact" class="form-control" placeholder="Ví dụ: ngoc.finance@corp.com hoặc 0988123456" required />
+          <input type="text" id="inputAuthContact" class="form-control" placeholder="Ví dụ: ngoc.biz@corp.com hoặc 0988123456" required />
         </div>
 
         <div class="form-group">
-          <label>Phòng Ban Quản Trị</label>
+          <label>Khối / Phòng Ban Quản Trị</label>
           <select id="inputAuthDept" class="form-control">
-            <option value="Phòng Tài Chính - Kế Toán" selected>Phòng Tài Chính - Kế Toán</option>
-            <option value="Phòng Nhân Sự (HR & Payroll)">Phòng Nhân Sự (HR & Payroll)</option>
-            <option value="Phòng Kinh Doanh (Sales Operations)">Phòng Kinh Doanh (Sales Operations)</option>
-            <option value="Ban Giám Đốc (Executive)">Ban Giám Đốc (Executive)</option>
+            <option value="Khối Kinh Doanh & Bán Hàng (Sales)" selected>Khối Kinh Doanh & Bán Hàng (Sales)</option>
+            <option value="Khối Marketing & Tăng Trưởng (Growth)">Khối Marketing & Tăng Trưởng (Growth)</option>
+            <option value="Khối Kế Hoạch - Tài Chính (Finance)">Khối Kế Hoạch - Tài Chính (Finance)</option>
+            <option value="Khối Vận Hành & Chuỗi Cung Ứng (Ops)">Khối Vận Hành & Chuỗi Cung Ứng (Ops)</option>
+            <option value="Ban Giám Đốc Điều Hành (C-Level)">Ban Giám Đốc Điều Hành (C-Level)</option>
           </select>
         </div>
 
         <button type="submit" class="btn-gold-action">
-          <span>👑</span> Xác Thực & Vào Bảng Điều Khiển
+          <span>👑</span> Xác Thực & Vào Nền Tảng Dữ Liệu
         </button>
       </form>
     </div>
@@ -676,15 +673,15 @@ YPE html>
       <div class="brand-box">
         <div class="brand-crest">✦</div>
         <div>
-          <div class="brand-name">FIN-HR <span>PRESTIGE</span></div>
-          <div class="brand-tag">Financial & HR Intelligence</div>
+          <div class="brand-name">BIZDATA <span>PRESTIGE</span></div>
+          <div class="brand-tag">Enterprise Business Intelligence</div>
         </div>
       </div>
 
-      <!-- 3 Navigation Tabs: Rõ ràng, Tách riêng Slide -->
+      <!-- 3 Navigation Tabs -->
       <nav class="nav-tabs">
         <button class="nav-tab-btn active" onclick="switchPage('page1', this)">
-          <span>📊</span> Trang 1: Báo Cáo Doanh Thu
+          <span>📊</span> Trang 1: Báo Cáo Kinh Doanh
         </button>
         <button class="nav-tab-btn" onclick="switchPage('pageSlide', this)">
           <span>📽️</span> Trang 2: Khởi Tạo Slide
@@ -699,9 +696,9 @@ YPE html>
         <div class="user-avatar" id="headerAvatar">HN</div>
         <div>
           <div class="user-text-name" id="headerUserName">Hoàng Linh Ngọc</div>
-          <div class="user-text-role" id="headerUserContact">ngoc.finance@corp.com</div>
+          <div class="user-text-role" id="headerUserContact">ngoc.biz@corp.com</div>
         </div>
-        <button class="btn-switch-user" onclick="logoutAuth()" title="Đổi nhân sự khác">Đổi</button>
+        <button class="btn-switch-user" onclick="logoutAuth()" title="Đổi người dùng">Đổi</button>
       </div>
     </div>
   </header>
@@ -709,67 +706,67 @@ YPE html>
   <div class="main-wrap">
 
     <!-- ============================================================== -->
-    <!-- TRANG 1: BÁO CÁO DOANH THU & TÀI CHÍNH THÁNG CHO NHÂN SỰ        -->
+    <!-- TRANG 1: XỬ LÝ & BÁO CÁO DỮ LIỆU KINH DOANH TỔNG THỂ           -->
     <!-- ============================================================== -->
     <section id="page1" class="page-section active">
 
       <!-- Executive Hero Banner -->
       <div class="hero-executive">
-        <div class="hero-badge-gold">✦ Doanh Nghiệp FinTech & EdTech Solutions</div>
-        <h2 class="hero-headline">Hệ Thống Phân Tích Doanh Thu & Tài Chính Tháng Cho Nhân Sự</h2>
+        <div class="hero-badge-gold">✦ Nền Tảng Phân Tích & Xử Lý Dữ Liệu Doanh Nghiệp</div>
+        <h2 class="hero-headline">Hệ Thống Xử Lý & Báo Cáo Dữ Liệu Kinh Doanh Tổng Hợp</h2>
         <p class="hero-desc">
-          Tự động hóa hoàn toàn quy trình xử lý dữ liệu từ file Excel doanh số, bảng lương nhân sự đến báo cáo Word. 
-          Giúp nhân sự chuyển đổi số liệu phức tạp thành báo cáo điều hành rõ ràng và chuẩn xác chỉ trong vài giây.
+          Tự động hóa hoàn toàn chuỗi xử lý dữ liệu từ file Excel đơn hàng, bảng tính doanh số, dữ liệu khách hàng CRM đến báo cáo chiến lược Word. 
+          Giúp doanh nghiệp chuyển hóa các tập dữ liệu vận hành thô thành báo cáo điều hành sắc nét và bộ slide trình chiếu trong vài giây.
         </p>
         <div class="hero-stats-line">
           <div class="hero-stat-pill"><span>⚡</span> Xử lý tự động: &lt; 3 giây</div>
           <div class="hero-stat-pill"><span>🛡️</span> Chuẩn an toàn: AST Sanitizer & Che PII</div>
-          <div class="hero-stat-pill"><span>📑</span> Đa định dạng: Excel (.xlsx), Word (.docx)</div>
-          <div class="hero-stat-pill"><span>📽️</span> Tích hợp bộ Slide thuyết trình riêng</div>
+          <div class="hero-stat-pill"><span>📑</span> Đa định dạng: Excel (.xlsx, .csv), Word (.docx)</div>
+          <div class="hero-stat-pill"><span>📽️</span> Tích hợp bộ Slide kinh doanh riêng biệt</div>
         </div>
       </div>
 
-      <!-- KPI Deck: 4 Chỉ Số Cốt Lõi (Gọn gàng, bắt mắt) -->
+      <!-- KPI Deck: 4 Chỉ Số Kinh Doanh Cốt Lõi (Doanh số, Đơn hàng, Khách hàng, Biên LN) -->
       <div class="kpi-deck">
         <div class="kpi-tile">
-          <div class="kpi-tile-label">Tổng Doanh Thu Tháng</div>
-          <div class="kpi-tile-val" id="kpiRevenue">2,850,000,000 ₫</div>
-          <div class="kpi-tile-tag tag-up">↑ +14.2% so với tháng trước</div>
+          <div class="kpi-tile-label">Tổng Doanh Thu Kinh Doanh</div>
+          <div class="kpi-tile-val" id="kpiRevenue">3,450,000,000 ₫</div>
+          <div class="kpi-tile-tag tag-up">↑ +18.5% so với tháng trước</div>
         </div>
         <div class="kpi-tile">
-          <div class="kpi-tile-label">Chi Phí Nhân Sự (HR Payroll)</div>
-          <div class="kpi-tile-val" id="kpiHrCost">720,000,000 ₫</div>
-          <div class="kpi-tile-tag tag-neutral">Chiếm 25.2% tổng doanh thu</div>
+          <div class="kpi-tile-label">Tổng Đơn Hàng Thành Công</div>
+          <div class="kpi-tile-val" id="kpiOrders">4,820 Đơn</div>
+          <div class="kpi-tile-tag tag-up">Giá trị TB: 715,000 ₫ / đơn</div>
         </div>
         <div class="kpi-tile">
-          <div class="kpi-tile-label">Lợi Nhuận Gộp (Gross Profit)</div>
-          <div class="kpi-tile-val" id="kpiProfit">1,210,000,000 ₫</div>
-          <div class="kpi-tile-tag tag-up">Tỷ suất lợi nhuận đạt 42.4%</div>
+          <div class="kpi-tile-label">Biên Lợi Nhuận Gộp (Margin)</div>
+          <div class="kpi-tile-val" id="kpiProfit">1,560,000,000 ₫</div>
+          <div class="kpi-tile-tag tag-neutral">Tỷ suất LN gộp: 45.2%</div>
         </div>
         <div class="kpi-tile">
-          <div class="kpi-tile-label">Doanh Thu / Đầu Nhân Sự</div>
-          <div class="kpi-tile-val" id="kpiRevenuePerHead">57,000,000 ₫</div>
-          <div class="kpi-tile-tag tag-up">Quy mô: 50 nhân sự toàn công ty</div>
+          <div class="kpi-tile-label">Khách Hàng Mới & Quay Lại</div>
+          <div class="kpi-tile-val" id="kpiCustomers">1,280 Khách</div>
+          <div class="kpi-tile-tag tag-up">Tỷ lệ quay lại (Retention): 42.6%</div>
         </div>
       </div>
 
-      <!-- Ingestion & Analysis Section (Không rối mắt) -->
+      <!-- Ingestion & Analysis Section (Nạp Dữ Liệu Kinh Doanh Đa Dạng) -->
       <div class="luxury-card">
         <div class="card-header-clean">
-          <h3><span>📥</span> Nạp Dữ Liệu & Khởi Tạo Phân Tích</h3>
-          <p>Kéo thả file hoặc chọn nhanh các kịch bản báo cáo doanh thu tài chính mẫu dưới đây:</p>
+          <h3><span>📥</span> Nạp Dữ Liệu Kinh Doanh & Khởi Tạo Phân Tích</h3>
+          <p>Kéo thả tệp dữ liệu kinh doanh hoặc chọn nhanh các kịch bản mẫu dưới đây:</p>
         </div>
 
         <div class="ingest-grid">
           <div>
             <div class="dropzone-gold" onclick="document.getElementById('fileUploadInput').click()">
               <div style="font-size: 2.2rem; color: var(--gold-primary);">📁</div>
-              <div style="font-size: 0.95rem; font-weight: 700; margin-top: 6px; color: var(--text-main);">Kéo Thả Hoặc Bấm Để Chọn File</div>
-              <div style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 4px;">Hỗ trợ Excel (.xlsx, .csv), Word (.docx), Báo cáo Nhân sự</div>
+              <div style="font-size: 0.95rem; font-weight: 700; margin-top: 6px; color: var(--text-main);">Kéo Thả Hoặc Bấm Để Chọn Tệp Dữ Liệu</div>
+              <div style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 4px;">Hỗ trợ Excel Đơn hàng (.xlsx, .csv), Word Báo cáo (.docx)</div>
               <div class="file-badges-row">
-                <span class="badge-fmt">📊 Excel Doanh Thu</span>
-                <span class="badge-fmt">📑 Word Báo Cáo</span>
-                <span class="badge-fmt">👥 Bảng Lương HR</span>
+                <span class="badge-fmt">📊 Excel Doanh Số / Đơn Hàng</span>
+                <span class="badge-fmt">📑 Word Báo Cáo Kế Hoạch</span>
+                <span class="badge-fmt">👥 Dữ Liệu Khách Hàng CRM</span>
               </div>
               <input type="file" id="fileUploadInput" accept=".xlsx,.csv,.docx,.doc" style="display: none;" onchange="handleFileSelect(event)" />
             </div>
@@ -778,27 +775,27 @@ YPE html>
 
           <div>
             <div class="form-group">
-              <label>Yêu Cầu Kinh Doanh Của Nhân Sự:</label>
-              <textarea id="promptInput" class="form-control" style="min-height: 95px; resize: vertical;" placeholder="Nhập yêu cầu phân tích...">Lập báo cáo tổng hợp doanh thu và chi phí nhân sự tháng 11/2026, phân tích hiệu suất lao động theo phòng ban và đưa ra khuyến nghị tối ưu dòng tiền.</textarea>
+              <label>Yêu Cầu Phân Tích Kinh Doanh Của Doanh Nghiệp:</label>
+              <textarea id="promptInput" class="form-control" style="min-height: 95px; resize: vertical;" placeholder="Nhập yêu cầu phân tích...">Phân tích tổng hợp doanh số bán hàng, tốc độ tăng trưởng đơn hàng và cơ cấu doanh thu theo các kênh phân phối chính; đề xuất chiến lược tối ưu chi phí tiếp thị.</textarea>
             </div>
             <div class="prompt-presets">
-              <div class="preset-chip" onclick="setSamplePrompt(1)">📌 Kịch bản 1: Báo cáo Doanh thu & Chi phí Nhân sự Tháng 11</div>
-              <div class="preset-chip" onclick="setSamplePrompt(2)">📌 Kịch bản 2: Hiệu suất Kinh doanh 3 Chi nhánh (Bắc - Trung - Nam)</div>
-              <div class="preset-chip" onclick="setSamplePrompt(3)">📌 Kịch bản 3: Tối ưu hóa Dòng tiền & Cắt giảm Chi phí Vận hành</div>
+              <div class="preset-chip" onclick="setSamplePrompt(1)">📌 Kịch bản 1: Phân tích Doanh thu & Tốc độ tăng trưởng Đơn hàng tháng</div>
+              <div class="preset-chip" onclick="setSamplePrompt(2)">📌 Kịch bản 2: Hiệu suất Kinh doanh theo Kênh bán & Khu vực (B2B, Online, Đại lý)</div>
+              <div class="preset-chip" onclick="setSamplePrompt(3)">📌 Kịch bản 3: Tối ưu hóa Chi phí Bán hàng (CAC, ROI Marketing, Chuyển đổi)</div>
             </div>
           </div>
         </div>
 
         <button class="btn-gold-action" style="margin-top: 18px;" onclick="runAnalysisAndGenerateReport()">
-          <span>⚡</span> Khởi Tạo & Cập Nhật Báo Cáo Tài Chính
+          <span>⚡</span> Khởi Tạo & Cập Nhật Báo Cáo Kinh Doanh
         </button>
       </div>
 
-      <!-- Báo Cáo Điều Hành Hoàn Chỉnh -->
+      <!-- Báo Cáo Điều Hành Kinh Doanh Hoàn Chỉnh -->
       <div class="luxury-card">
         <div class="card-header-clean">
-          <h3><span>📑</span> Văn Bản Báo Cáo Doanh Thu Hoàn Chỉnh</h3>
-          <p id="reportHeaderMeta">Người lập báo cáo: <strong>Hoàng Linh Ngọc</strong> | Phòng ban: <strong>Phòng Tài Chính - Kế Toán</strong> | Ngày lập: 18/11/2026</p>
+          <h3><span>📑</span> Văn Bản Báo Cáo Kinh Doanh Tổng Thể Hoàn Chỉnh</h3>
+          <p id="reportHeaderMeta">Người lập báo cáo: <strong>Hoàng Linh Ngọc</strong> | Khối: <strong>Khối Kinh Doanh & Bán Hàng</strong> | Ngày lập: 18/11/2026</p>
         </div>
         <div id="fullReportContainer" style="background: var(--surface-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 24px; font-size: 0.9rem; line-height: 1.7;">
           <!-- Dynamically filled report content -->
@@ -809,11 +806,11 @@ YPE html>
         </div>
       </div>
 
-      <!-- Banner Dẫn Sang Trang Slide Riêng Biệt (Không rối mắt) -->
+      <!-- Banner Dẫn Sang Trang Slide Riêng Biệt -->
       <div class="slide-cta-banner">
         <div class="slide-cta-info">
           <h4>📽️ Bạn Có Nhu Cầu Trình Chiếu Cho Ban Giám Đốc?</h4>
-          <p>Hệ thống hỗ trợ chuyển đổi báo cáo trên thành bộ Slide PowerPoint chuyên nghiệp 4 trang chuẩn doanh nghiệp.</p>
+          <p>Hệ thống tự động chuyển đổi toàn bộ báo cáo kinh doanh trên thành bộ Slide PowerPoint chuyên nghiệp 4 trang chuẩn doanh nghiệp.</p>
         </div>
         <button class="btn-gold-action" style="width: auto; padding: 10px 22px; margin: 0;" onclick="triggerSlidePageFromHome()">
           <span>✨</span> Mở & Khởi Tạo Bộ Slide Ngay ▶
@@ -823,29 +820,29 @@ YPE html>
     </section>
 
     <!-- ============================================================== -->
-    <!-- TRANG 2: BỘ SLIDE THUYẾT TRÌNH (TRANG MỚI RIÊNG BIỆT)           -->
+    <!-- TRANG 2: BỘ SLIDE THUYẾT TRÌNH KINH DOANH (TRANG RIÊNG)        -->
     <!-- ============================================================== -->
     <section id="pageSlide" class="page-section">
 
       <!-- Trạng thái chưa tạo slide -->
       <div id="slideUninitialized" class="slide-uninitialized-box">
         <div style="font-size: 3rem; margin-bottom: 12px; color: var(--gold-primary);">📽️</div>
-        <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--text-main); margin-bottom: 8px;">Khởi Tạo Bộ Slide Trình Chiếu Ban Giám Đốc</h3>
-        <p style="font-size: 0.9rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto 22px;">
-          Để tránh rối mắt, các slide sẽ được khởi tạo khi bạn có nhu cầu. 
-          AI sẽ tự động tổng hợp số liệu doanh thu, phân bổ chi nhánh và đề xuất chiến lược thành bản trình chiếu hoàn chỉnh.
+        <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--text-main); margin-bottom: 8px;">Khởi Tạo Bộ Slide Báo Cáo Kinh Doanh</h3>
+        <p style="font-size: 0.9rem; color: var(--text-secondary); max-width: 620px; margin: 0 auto 22px;">
+          Để giao diện luôn gọn gàng, bộ slide sẽ được khởi tạo khi bạn có nhu cầu. 
+          AI sẽ tổng hợp doanh số, kênh bán hàng, biên lợi nhuận và kế hoạch hành động thành bản trình chiếu 16:9 sắc nét.
         </p>
         <button class="btn-gold-action" style="width: auto; padding: 13px 28px; margin: 0 auto;" onclick="initSlideDeck()">
           <span>✨</span> Nhấn Vào Đây Để Khởi Tạo Slide Thuyết Trình
         </button>
       </div>
 
-      <!-- Khung Trình Chiếu Slide (Chỉ hiện khi người dùng bấm tạo) -->
+      <!-- Khung Trình Chiếu Slide (Chỉ hiện khi bấm tạo) -->
       <div id="slideDeckBox" style="display: none;" class="slide-deck-container">
         <div class="slide-deck-bar">
           <div>
-            <span style="font-weight: 800; font-size: 1.05rem; color: var(--gold-light);">✦ BỘ SLIDE THUYẾT TRÌNH BÁO CÁO DOANH NGHIỆP</span>
-            <div style="font-size: 0.78rem; opacity: 0.8; margin-top: 2px;">Trình bày kết quả tài chính và định biên nhân sự tháng 11/2026</div>
+            <span style="font-weight: 800; font-size: 1.05rem; color: var(--gold-light);">✦ BỘ SLIDE BÁO CÁO KẾT QUẢ KINH DOANH DOANH NGHIỆP</span>
+            <div style="font-size: 0.78rem; opacity: 0.8; margin-top: 2px;">Trình bày số liệu kinh doanh, tăng trưởng doanh số và chiến lược quý mới</div>
           </div>
           <div style="display: flex; gap: 10px; align-items: center;">
             <button class="btn-slide-ctrl" onclick="prevSlide()">◀ Slide Trước</button>
@@ -857,7 +854,7 @@ YPE html>
 
         <!-- Màn hình Slide 16:9 Cao Cấp -->
         <div class="slide-canvas-screen" id="slideCanvas">
-          <!-- Slide content dynamically rendered here -->
+          <!-- Dynamic slide content -->
         </div>
       </div>
 
@@ -868,11 +865,11 @@ YPE html>
     <!-- ============================================================== -->
     <section id="page2" class="page-section">
 
-      <!-- Lịch Sử Trải Nghiệm & Chỉnh Sửa Báo Cáo -->
+      <!-- Lịch Sử Báo Cáo & Tùy Chỉnh Số Liệu -->
       <div class="luxury-card">
         <div class="card-header-clean">
-          <h3><span>⏳</span> Lịch Sử Báo Cáo & Tùy Chỉnh Số Liệu</h3>
-          <p>Xem lại các báo cáo đã phân tích trước đây. Bạn có thể <strong>chỉnh sửa trực tiếp</strong> tiêu đề, số tiền và nhận xét.</p>
+          <h3><span>⏳</span> Lịch Sử Báo Cáo Kinh Doanh & Tùy Chỉnh</h3>
+          <p>Xem lại các phiên xử lý dữ liệu trước đây. Bạn có thể <strong>chỉnh sửa trực tiếp</strong> tiêu đề, doanh thu và ghi chú chiến lược.</p>
         </div>
 
         <div style="overflow-x: auto;">
@@ -881,9 +878,9 @@ YPE html>
               <tr>
                 <th>Mã Báo Cáo</th>
                 <th>Thời Gian</th>
-                <th>Nhân Sự Tạo</th>
-                <th>Chủ Đề Phân Tích</th>
-                <th>Doanh Thu</th>
+                <th>Người Thực Hiện</th>
+                <th>Chủ Đề Kinh Doanh</th>
+                <th>Doanh Thu Ghi Nhận</th>
                 <th>Trạng Thái</th>
                 <th>Thao Tác</th>
               </tr>
@@ -895,25 +892,25 @@ YPE html>
         </div>
       </div>
 
-      <!-- Làm Sạch & Kiểm Duyệt Dữ Liệu -->
+      <!-- Làm Sạch & Kiểm Duyệt Dữ Liệu Kinh Doanh -->
       <div class="luxury-card">
         <div class="card-header-clean">
-          <h3><span>🧹</span> Kiểm Duyệt & Làm Sạch Dữ Liệu Tự Động (Data Quarantine)</h3>
-          <p>Trước khi đưa vào báo cáo, hệ thống tự động lọc bản ghi lỗi, che mờ thông tin cá nhân (PII) và kiểm duyệt AST:</p>
+          <h3><span>🧹</span> Kiểm Duyệt & Làm Sạch Dữ Liệu Kinh Doanh (Data Cleaning Pipeline)</h3>
+          <p>Trước khi đưa vào báo cáo, hệ thống tự động lọc bản ghi lỗi, che mờ thông tin cá nhân khách hàng (PII) và kiểm duyệt AST:</p>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 18px;">
           <div style="background: var(--surface-subtle); padding: 14px 18px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
             <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">TỔNG DÒNG DỮ LIỆU NẠP</div>
-            <div style="font-family:'Space Grotesk',sans-serif; font-size:1.4rem; font-weight:800;">1,450 dòng</div>
+            <div style="font-family:'Space Grotesk',sans-serif; font-size:1.4rem; font-weight:800;">2,450 dòng</div>
           </div>
           <div style="background: var(--danger-soft); padding: 14px 18px; border-radius: var(--radius-md); border: 1px solid #fecdd3;">
-            <div style="font-size: 0.75rem; color: var(--danger); font-weight: 700;">DÒNG LỖI ĐÃ LÀM SẠCH</div>
-            <div style="font-family:'Space Grotesk',sans-serif; font-size:1.4rem; font-weight:800; color:var(--danger);">27 dòng (1.8%)</div>
+            <div style="font-size: 0.75rem; color: var(--danger); font-weight: 700;">ĐƠN HÀNG LỖI ĐÃ LÀM SẠCH</div>
+            <div style="font-family:'Space Grotesk',sans-serif; font-size:1.4rem; font-weight:800; color:var(--danger);">36 đơn (1.5%)</div>
           </div>
           <div style="background: var(--success-soft); padding: 14px 18px; border-radius: var(--radius-md); border: 1px solid #a7f3d0;">
             <div style="font-size: 0.75rem; color: var(--success); font-weight: 700;">DỮ LIỆU ĐẠT CHUẨN</div>
-            <div style="font-family:'Space Grotesk',sans-serif; font-size:1.4rem; font-weight:800; color:var(--success);">1,423 dòng (98.2%)</div>
+            <div style="font-family:'Space Grotesk',sans-serif; font-size:1.4rem; font-weight:800; color:var(--success);">2,414 đơn (98.5%)</div>
           </div>
           <div style="background: var(--gold-soft); padding: 14px 18px; border-radius: var(--radius-md); border: 1px solid var(--gold-border);">
             <div style="font-size: 0.75rem; color: var(--gold-dark); font-weight: 700;">BẢO MẬT PII MASKING</div>
@@ -922,31 +919,31 @@ YPE html>
         </div>
 
         <div style="font-size: 0.85rem; color: var(--text-secondary); background: #faf9f6; padding: 14px 18px; border-radius: 10px; border: 1px solid var(--border-subtle);">
-          • <strong>Lọc trùng:</strong> Loại bỏ 18 bản ghi trùng lặp từ file Excel kế toán.<br/>
-          • <strong>Bổ khuyết:</strong> Điền bù 9 ô trống về phụ cấp nhân sự theo trung vị phòng ban.<br/>
-          • <strong>Che mờ bảo mật PII:</strong> Mã định danh CCCD <code>001099******</code>, SĐT <code>098****123</code>, Số tài khoản ngân hàng.
+          • <strong>Lọc trùng lặp đơn hàng:</strong> Loại bỏ 36 bản ghi trùng lặp mã đơn và sai mã SKU sản phẩm.<br/>
+          • <strong>Bổ khuyết giá trị thiếu:</strong> Bổ sung 14 ô trống về cước phí vận chuyển theo trung vị kênh bán.<br/>
+          • <strong>Che mờ bảo mật thông tin khách hàng (PII):</strong> Số điện thoại <code>098****456</code>, Địa chỉ giao hàng cá nhân, Số thẻ thanh toán.
         </div>
       </div>
 
-      <!-- Cảnh Báo Rủi Ro & Lời Khuyên Chiến Lược Từ AI -->
+      <!-- Cảnh Báo Rủi Ro Kinh Doanh & Lời Khuyên Chiến Lược -->
       <div class="risk-advice-grid">
         <!-- Hộp Cảnh Báo Đỏ -->
         <div class="notice-card danger">
-          <h4><span>🚨</span> CẢNH BÁO RỦI RO DOANH THU & NHÂN SỰ</h4>
+          <h4><span>🚨</span> CẢNH BÁO RỦI RO KINH DOANH & VẬN HÀNH</h4>
           <ul>
-            <li><strong>Chi phí nhân sự Chi nhánh Miền Nam:</strong> Đạt mức <strong>36.5%</strong> trên doanh thu (vượt ngưỡng kiểm soát tối đa 30%).</li>
-            <li><strong>Thời hạn thu hồi công nợ B2B:</strong> Các hợp đồng trường Đại học quá hạn 30 ngày tăng 12% so với tháng 10.</li>
-            <li><strong>Hiệu suất tuần cuối:</strong> Doanh thu tuần 4 giảm 8% do thiếu nhân viên tư vấn EdTech vào thời điểm cao điểm.</li>
+            <li><strong>Tỷ lệ hủy đơn hàng Kênh E-commerce:</strong> Đạt <strong>14.2%</strong> vào khung giờ cuối tuần (vượt ngưỡng kiểm soát tối đa 10%).</li>
+            <li><strong>Công nợ khách hàng B2B:</strong> Khoản thanh toán quá hạn 30 ngày của nhóm khách hàng đại lý tăng 15% so với tháng trước.</li>
+            <li><strong>Tồn kho sản phẩm chậm luân chuyển:</strong> Nhóm hàng combo phụ trợ có thời gian lưu kho trung bình vượt quá 45 ngày.</li>
           </ul>
         </div>
 
         <!-- Hộp Lời Khuyên Vàng Golf -->
         <div class="notice-card gold-advice">
-          <h4><span>💡</span> LỜI KHUYÊN & CHIẾN LƯỢC TỐI ƯU TỪ AI</h4>
+          <h4><span>💡</span> LỜI KHUYÊN & CHIẾN LƯỢC TĂNG TRƯỞNG TỪ AI</h4>
           <ul>
-            <li><strong>Tái định biên nhân sự:</strong> Tạm ngừng tuyển khối hỗ trợ gián tiếp; chuyển dịch 2 chuyên viên kinh doanh xuất sắc từ Miền Bắc vào chi viện Miền Nam.</li>
-            <li><strong>Chính sách thanh toán sớm:</strong> Áp dụng chiết khấu 3% cho đối tác thanh toán đủ 100% trong 5 ngày đầu kỳ.</li>
-            <li><strong>Chuẩn hóa tự động:</strong> Sử dụng hệ thống AI Agent này để giảm 80% thời gian tổng hợp thủ công của bộ phận Tài chính.</li>
+            <li><strong>Tập trung kênh B2B có biên lợi nhuận cao:</strong> Tăng 20% ngân sách tiếp thị cho tệp khách hàng doanh nghiệp và trường học có vòng đời giá trị lớn (LTV).</li>
+            <li><strong>Chính sách kích cầu & thanh toán sớm:</strong> Áp dụng chiết khấu 2.5% cho đơn hàng bán buôn thanh toán ngay bằng chuyển khoản.</li>
+            <li><strong>Tối ưu hóa phễu chuyển đổi:</strong> Khắc phục trải nghiệm thanh toán trên web để giảm tỷ lệ bỏ giỏ hàng vào buổi tối.</li>
           </ul>
         </div>
       </div>
@@ -958,7 +955,7 @@ YPE html>
   <!-- MODAL CHỈNH SỬA BÁO CÁO LỊCH SỬ -->
   <div id="editModal">
     <div class="edit-box">
-      <h3 style="font-size:1.15rem; font-weight:800; margin-bottom:12px; color:var(--text-main);">✏️ Chỉnh Sửa & Cập Nhật Báo Cáo Trong Lịch Sử</h3>
+      <h3 style="font-size:1.15rem; font-weight:800; margin-bottom:12px; color:var(--text-main);">✏️ Chỉnh Sửa & Cập Nhật Báo Cáo Kinh Doanh</h3>
       <div class="form-group">
         <label>Tiêu đề Báo Cáo</label>
         <input type="text" id="editReportTitle" class="form-control" />
@@ -968,7 +965,7 @@ YPE html>
         <input type="text" id="editReportRevenue" class="form-control" />
       </div>
       <div class="form-group">
-        <label>Ghi chú / Nhận xét của Nhân sự</label>
+        <label>Ghi chú / Nhận xét của Chuyên Viên</label>
         <textarea id="editReportNotes" class="form-control" style="min-height:80px;"></textarea>
       </div>
       <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:18px;">
@@ -982,12 +979,12 @@ YPE html>
     // ==========================================
     // AUTHENTICATION & SESSION
     // ==========================================
-    let currentUser = JSON.parse(localStorage.getItem('finhr_user')) || null;
+    let currentUser = JSON.parse(localStorage.getItem('biz_user')) || null;
 
-    let appHistory = JSON.parse(localStorage.getItem('finhr_history')) || [
-      { id: "BC-2026-1101", time: "18/11/2026 08:30", user: "Hoàng Linh Ngọc", title: "Báo cáo Doanh thu & Chi phí Nhân sự Tháng 11", revenue: "2,850,000,000 ₫", status: "Đã duyệt", notes: "Số liệu chuẩn đã đối soát bảng lương." },
-      { id: "BC-2026-1030", time: "10/11/2026 14:15", user: "Nguyễn Văn Tuấn", title: "Phân tích Hiệu suất Kinh doanh 3 Chi nhánh", revenue: "2,490,000,000 ₫", status: "Đã duyệt", notes: "Chi nhánh Miền Bắc dẫn đầu 48% doanh số." },
-      { id: "BC-2026-1015", time: "02/11/2026 09:00", user: "Trần Thị Mai", title: "Kiểm toán Chi phí Vận hành & Cloud Server", revenue: "2,310,000,000 ₫", status: "Cần chỉnh sửa", notes: "Đang yêu cầu giải trình hóa đơn GPU." }
+    let appHistory = JSON.parse(localStorage.getItem('biz_history')) || [
+      { id: "KD-2026-1101", time: "18/11/2026 08:30", user: "Hoàng Linh Ngọc", title: "Báo cáo Doanh số & Tăng trưởng Đơn hàng Tháng 11", revenue: "3,450,000,000 ₫", status: "Đã duyệt", notes: "Kênh B2B vượt 115% kế hoạch đề ra." },
+      { id: "KD-2026-1030", time: "10/11/2026 14:15", user: "Nguyễn Văn Tuấn", title: "Phân tích Hiệu suất Kênh Bán Hàng Trực Tuyến & Đại Lý", revenue: "2,980,000,000 ₫", status: "Đã duyệt", notes: "Chi phí Marketing trên doanh thu đạt 16.5%." },
+      { id: "KD-2026-1015", time: "02/11/2026 09:00", user: "Trần Thị Mai", title: "Đánh giá Tỷ lệ Chuyển đổi & Giữ chân Khách hàng", revenue: "2,810,000,000 ₫", status: "Cần rà soát", notes: "Tỷ lệ hủy đơn hàng cuối tuần cần cải thiện." }
     ];
 
     let currentSlideIndex = 0;
@@ -1015,7 +1012,7 @@ YPE html>
       }
 
       currentUser = { name, contact, dept };
-      localStorage.setItem('finhr_user', JSON.stringify(currentUser));
+      localStorage.setItem('biz_user', JSON.stringify(currentUser));
       document.getElementById('authOverlay').style.display = 'none';
       updateHeaderUserInfo();
       runAnalysisAndGenerateReport();
@@ -1023,7 +1020,7 @@ YPE html>
 
     function logoutAuth() {
       if (confirm("Bạn có muốn đổi nhân sự hoặc đăng nhập lại?")) {
-        localStorage.removeItem('finhr_user');
+        localStorage.removeItem('biz_user');
         currentUser = null;
         document.getElementById('authOverlay').style.display = 'flex';
       }
@@ -1035,11 +1032,11 @@ YPE html>
       document.getElementById('headerUserContact').innerText = `${currentUser.contact} • ${currentUser.dept}`;
       
       const initials = currentUser.name.split(' ').map(n => n[0]).slice(-2).join('').toUpperCase();
-      document.getElementById('headerAvatar').innerText = initials || "HR";
+      document.getElementById('headerAvatar').innerText = initials || "BZ";
       
       const meta = document.getElementById('reportHeaderMeta');
       if (meta) {
-        meta.innerHTML = `Người lập báo cáo: <strong>${currentUser.name}</strong> (${currentUser.contact}) | Phòng ban: <strong>${currentUser.dept}</strong> | Ngày lập: 18/11/2026`;
+        meta.innerHTML = `Người lập báo cáo: <strong>${currentUser.name}</strong> (${currentUser.contact}) | Khối: <strong>${currentUser.dept}</strong> | Ngày lập: 18/11/2026`;
       }
     }
 
@@ -1068,17 +1065,17 @@ YPE html>
       if (!file) return;
       const notice = document.getElementById('fileUploadNotice');
       notice.style.display = 'block';
-      notice.innerHTML = `✅ Đã tiếp nhận file: <strong>${file.name}</strong> (${(file.size/1024).toFixed(1)} KB) - Đang nạp vào hệ thống phân tích...`;
+      notice.innerHTML = `✅ Đã tiếp nhận tệp dữ liệu: <strong>${file.name}</strong> (${(file.size/1024).toFixed(1)} KB) - Đang nạp vào mô hình phân tích...`;
     }
 
     function setSamplePrompt(type) {
       const box = document.getElementById('promptInput');
       if (type === 1) {
-        box.value = "Lập báo cáo tổng hợp doanh thu và chi phí nhân sự tháng 11/2026, phân tích hiệu suất lao động theo phòng ban và đưa ra khuyến nghị tối ưu dòng tiền.";
+        box.value = "Phân tích tổng hợp doanh số bán hàng, tốc độ tăng trưởng đơn hàng và cơ cấu doanh thu theo các kênh phân phối chính; đề xuất chiến lược tối ưu chi phí tiếp thị.";
       } else if (type === 2) {
-        box.value = "Đánh giá chi tiết hiệu suất kinh doanh của 3 chi nhánh Miền Bắc, Miền Trung và Miền Nam. Xác định nguyên nhân chi nhánh miền Nam có chi phí nhân sự cao vượt định mức.";
+        box.value = "Đánh giá chi tiết hiệu suất kinh doanh của 3 kênh phân phối chính: Kênh Doanh nghiệp B2B, Kênh Trực tuyến E-Commerce và Hệ thống Đại lý phân phối.";
       } else if (type === 3) {
-        box.value = "Rà soát toàn bộ chi phí vận hành, chi phí server GPU AI và các khoản chi vượt ngân sách; đề xuất 3 biện pháp cắt giảm chi phí lãng phí cho Ban Giám Đốc.";
+        box.value = "Rà soát chi phí thu hút khách hàng mới (CAC), tỷ suất lợi nhuận trên chi phí tiếp thị (ROAS); đề xuất 3 giải pháp tăng trưởng doanh thu quý tới.";
       }
       runAnalysisAndGenerateReport();
     }
@@ -1089,46 +1086,47 @@ YPE html>
     function runAnalysisAndGenerateReport() {
       const prompt = document.getElementById('promptInput').value;
       const user = currentUser ? currentUser.name : "Hoàng Linh Ngọc";
-      const dept = currentUser ? currentUser.dept : "Phòng Tài Chính - Kế Toán";
+      const dept = currentUser ? currentUser.dept : "Khối Kinh Doanh & Bán Hàng";
 
       const reportHtml = `
         <h4 style="color:var(--gold-dark); font-size:1.05rem; font-weight:800; margin-bottom:10px;">I. BỐI CẢNH & KẾT QUẢ KINH DOANH CHUNG</h4>
         <p style="margin-bottom:12px;">
-          Theo số liệu đối soát doanh thu và bảng lương tháng 11/2026, doanh nghiệp đạt 
-          <strong>tổng doanh thu 2,850,000,000 VNĐ</strong>, hoàn thành 108.5% chỉ tiêu tháng (+14.2% so với tháng 10).
-          Khối Khách hàng Doanh nghiệp B2B tiếp tục là trụ cột đóng góp doanh thu lớn nhất (55%).
+          Theo số liệu đối soát doanh số bán hàng và đơn hàng toàn hệ thống, doanh nghiệp đạt 
+          <strong>tổng doanh thu 3,450,000,000 VNĐ</strong> (+18.5% so với tháng trước), hoàn thành 112.4% chỉ tiêu kinh doanh tháng 11/2026.
+          Tổng số lượng đơn hàng giao dịch thành công đạt <strong>4,820 đơn hàng</strong> với giá trị trung bình đơn (AOV) đạt 715,000 VNĐ.
         </p>
 
-        <h4 style="color:var(--gold-dark); font-size:1.05rem; font-weight:800; margin-bottom:10px;">II. TƯƠNG QUAN DOANH THU & CHI PHÍ NHÂN SỰ THEO CHI NHÁNH</h4>
+        <h4 style="color:var(--gold-dark); font-size:1.05rem; font-weight:800; margin-bottom:10px;">II. CƠ CẤU DOANH THU THEO KÊNH BÁN HÀNG & SẢN PHẨM</h4>
         <p style="margin-bottom:8px;">
-          • <strong>Tổng quỹ lương & chi phí nhân sự:</strong> 720,000,000 VNĐ (chiếm 25.2% tổng doanh thu - an toàn dưới ngưỡng 30%).<br/>
-          • <strong>Năng suất doanh thu bình quân:</strong> Đạt 57,000,000 VNĐ / nhân sự / tháng.<br/>
-          • <strong>Đánh giá chi nhánh:</strong> Chi nhánh Miền Bắc đạt hiệu suất cao nhất (chi phí lương chỉ chiếm 21%), Chi nhánh Miền Nam chi phí lương cao (36.5% - cần rà soát).
+          • <strong>Kênh Khách hàng Doanh nghiệp (B2B):</strong> Đóng góp 1.82 Tỷ VNĐ (chiếm 52.8% tổng doanh thu, biên lợi nhuận cao 48.5%).<br/>
+          • <strong>Kênh Trực tuyến & E-Commerce:</strong> Đạt 1.14 Tỷ VNĐ (chiếm 33.0% doanh thu, tăng trưởng đơn hàng +24.2%).<br/>
+          • <strong>Hệ thống Đại lý Phân phối:</strong> Đạt 490 Triệu VNĐ (chiếm 14.2% doanh thu, duy trì lượng khách quen ổn định).<br/>
+          • <strong>Biên lợi nhuận gộp toàn hệ thống:</strong> Đạt 45.2% (tương đương 1.56 Tỷ VNĐ lợi nhuận gộp).
         </p>
 
-        <h4 style="color:var(--gold-dark); font-size:1.05rem; font-weight:800; margin-bottom:10px;">III. KẾT LUẬN & ĐỀ XUẤT HÀNH ĐỘNG</h4>
+        <h4 style="color:var(--gold-dark); font-size:1.05rem; font-weight:800; margin-bottom:10px;">III. KẾT LUẬN & ĐỀ XUẤT CHIẾN LƯỢC KINH DOANH</h4>
         <p>
-          Báo cáo đã được thẩm định tự động qua quy trình làm sạch dữ liệu AI. 
-          Kính trình Ban Giám Đốc phê duyệt kế hoạch tái phân bổ nhân sự kinh doanh và chuẩn bị quỹ thưởng hiệu suất quý IV.
+          Dữ liệu kinh doanh đã được chuẩn hóa và kiểm duyệt qua quy trình Data Cleaning tự động. 
+          Khối Kinh doanh kính trình Ban Giám Đốc kế hoạch mở rộng tập khách hàng B2B và tối ưu chi phí tiếp thị số để hướng tới mốc doanh thu 4.0 Tỷ VNĐ trong tháng 12.
         </p>
       `;
       document.getElementById('fullReportContainer').innerHTML = reportHtml;
 
       // Lưu vào lịch sử
-      const newId = `BC-2026-${Math.floor(1000 + Math.random()*9000)}`;
+      const newId = `KD-2026-${Math.floor(1000 + Math.random()*9000)}`;
       appHistory.unshift({
         id: newId,
         time: "Vừa xong",
         user: user,
         title: prompt.slice(0, 50) + "...",
-        revenue: "2,850,000,000 ₫",
+        revenue: "3,450,000,000 ₫",
         status: "Đã tạo",
         notes: `Tạo bởi ${user} (${dept}).`
       });
-      localStorage.setItem('finhr_history', JSON.stringify(appHistory));
+      localStorage.setItem('biz_history', JSON.stringify(appHistory));
       renderHistoryTable();
 
-      // Nếu đã từng khởi tạo slide thì cập nhật lại slide
+      // Nếu đã từng mở slide thì cập nhật lại nội dung slide
       if(isSlideGenerated) {
         renderSlide(currentSlideIndex);
       }
@@ -1148,38 +1146,38 @@ YPE html>
     const SLIDES_CONTENT = [
       {
         type: "cover",
-        title: "BÁO CÁO DOANH THU & TÀI CHÍNH THÁNG 11/2026",
-        subtitle: "Phân Tích Tương Quan Doanh Thu & Hiệu Suất Nhân Sự Doanh Nghiệp"
+        title: "BÁO CÁO PHÂN TÍCH KẾT QUẢ KINH DOANH THÁNG 11/2026",
+        subtitle: "Đánh Giá Toàn Diện Tăng Trưởng Doanh Số, Kênh Bán Hàng & Chiến Lược Quý IV"
       },
       {
         type: "kpi",
-        title: "TỔNG QUAN CHỈ SỐ TÀI CHÍNH CỐT LÕI",
+        title: "TỔNG QUAN CHỈ SỐ KINH DOANH CỐT LÕI",
         items: [
-          { label: "TỔNG DOANH THU", val: "2.85 Tỷ ₫", note: "Đạt 108.5% chỉ tiêu tháng" },
-          { label: "LỢI NHUẬN GỘP", val: "1.21 Tỷ ₫", note: "Tỷ suất lợi nhuận đạt 42.4%" },
-          { label: "CHI PHÍ NHÂN SỰ", val: "720 Triệu ₫", note: "Chiếm 25.2% tổng doanh thu" },
-          { label: "DOANH THU / NHÂN SỰ", val: "57 Triệu ₫/người", note: "Tăng 8.5% so với tháng trước" }
+          { label: "TỔNG DOANH THU", val: "3.45 Tỷ ₫", note: "Tăng trưởng +18.5% so với tháng 10" },
+          { label: "LỢI NHUẬN GỘP", val: "1.56 Tỷ ₫", note: "Biên lợi nhuận gộp đạt 45.2%" },
+          { label: "TỔNG ĐƠN HÀNG", val: "4,820 Đơn", note: "Giá trị TB đạt 715,000 ₫/đơn" },
+          { label: "KHÁCH HÀNG MỚI", val: "1,280 Khách", note: "Tỷ lệ giữ chân đạt 42.6%" }
         ]
       },
       {
-        type: "branches",
-        title: "PHÂN TÍCH HIỆU SUẤT THEO CHI NHÁNH",
+        type: "channels",
+        title: "CƠ CẤU DOANH THU THEO KÊNH BÁN HÀNG",
         content: `
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:14px;">
             <div style="background:#faf8f5; border:1.5px solid #e9dcbe; border-radius:12px; padding:20px;">
-              <h4 style="color:#967417; font-weight:800; margin-bottom:8px;">🏙️ Chi Nhánh Miền Bắc (Dẫn Đầu)</h4>
+              <h4 style="color:#967417; font-weight:800; margin-bottom:8px;">🏢 Kênh Doanh Nghiệp B2B (Dẫn Đầu)</h4>
               <p style="font-size:0.9rem; line-height:1.6; color:#2b2823;">
-                • Doanh thu: <strong>1.48 Tỷ VNĐ (52%)</strong><br/>
-                • Tỷ lệ chi phí lương: 21.0% (Rất hiệu quả)<br/>
-                • Đánh giá: Đơn vị dẫn đầu tăng trưởng.
+                • Doanh thu: <strong>1.82 Tỷ VNĐ (52.8%)</strong><br/>
+                • Biên lợi nhuận: 48.5% (Tỷ suất cao nhất)<br/>
+                • Đánh giá: Trụ cột tăng trưởng vững chắc.
               </p>
             </div>
-            <div style="background:#fff1f2; border:1.5px solid #fecdd3; border-radius:12px; padding:20px;">
-              <h4 style="color:#be123c; font-weight:800; margin-bottom:8px;">🌴 Chi Nhánh Miền Nam (Cần Rà Soát)</h4>
-              <p style="font-size:0.9rem; line-height:1.6; color:#881337;">
-                • Doanh thu: <strong>969 Triệu VNĐ (34%)</strong><br/>
-                • Tỷ lệ chi phí lương: <strong>36.5% (Vượt mức 30%)</strong><br/>
-                • Đánh giá: Cần tái cấu trúc định biên.
+            <div style="background:#fffcf2; border:1.5px solid #fed7aa; border-radius:12px; padding:20px;">
+              <h4 style="color:#ea580c; font-weight:800; margin-bottom:8px;">🛒 Kênh Trực Tuyến & E-Commerce</h4>
+              <p style="font-size:0.9rem; line-height:1.6; color:#7c2d12;">
+                • Doanh thu: <strong>1.14 Tỷ VNĐ (33.0%)</strong><br/>
+                • Tăng trưởng đơn hàng: +24.2% MoM<br/>
+                • Đánh giá: Tiềm năng mở rộng quy mô lớn.
               </p>
             </div>
           </div>
@@ -1189,9 +1187,9 @@ YPE html>
         type: "conclusion",
         title: "ĐỀ XUẤT HÀNH ĐỘNG CHIẾN LƯỢC CHO BAN GIÁM ĐỐC",
         bullets: [
-          "Duy trì mục tiêu doanh thu 3.2 Tỷ VNĐ trong tháng 12 với sự bứt phá của Khối B2B.",
-          "Tái phân bổ nhân sự: Chuyển 2 chuyên viên kinh doanh xuất sắc từ Miền Bắc vào chi viện Miền Nam thay vì tuyển mới ồ ạt.",
-          "Ứng dụng tự động hóa báo cáo bằng AI để giảm tải 80% thời gian tổng hợp số liệu cho phòng Kế toán."
+          "Mở rộng tập khách hàng Doanh nghiệp B2B với mục tiêu doanh thu 4.0 Tỷ VNĐ trong tháng 12.",
+          "Tập trung ngân sách tiếp thị vào các kênh có tỷ suất hoàn vốn cao (ROAS > 4.5) thay vì chạy dàn trải.",
+          "Ứng dụng tự động hóa phân tích dữ liệu bán hàng hàng ngày để cảnh báo sớm nguy cơ tồn kho và đơn hủy."
         ]
       }
     ];
@@ -1200,22 +1198,22 @@ YPE html>
       const canvas = document.getElementById('slideCanvas');
       const s = SLIDES_CONTENT[index];
       const user = currentUser ? currentUser.name : "Hoàng Linh Ngọc";
-      const dept = currentUser ? currentUser.dept : "Phòng Tài Chính - Kế Toán";
+      const dept = currentUser ? currentUser.dept : "Khối Kinh Doanh & Bán Hàng";
 
       document.getElementById('slideIndicator').innerText = `Slide ${index + 1} / ${SLIDES_CONTENT.length}`;
 
       if (s.type === "cover") {
         canvas.innerHTML = `
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span style="font-size:0.85rem; font-weight:800; color:#c59b27; letter-spacing:1px;">FIN-HR PRESTIGE • EXECUTIVE PRESENTATION</span>
-            <span style="font-size:0.8rem; color:#878c94;">Mã BC: BC-2026-11</span>
+            <span style="font-size:0.85rem; font-weight:800; color:#c59b27; letter-spacing:1px;">BIZDATA PRESTIGE • EXECUTIVE PRESENTATION</span>
+            <span style="font-size:0.8rem; color:#878c94;">Mã Báo Cáo: KD-2026-11</span>
           </div>
           <div style="margin: auto 0;">
             <h1 style="font-size:2.1rem; font-weight:800; color:#18191b; line-height:1.25; margin-bottom:12px;">${s.title}</h1>
             <p style="font-size:1.05rem; color:#585c63;">${s.subtitle}</p>
           </div>
           <div style="border-top:2px solid #eae5db; padding-top:14px; display:flex; justify-content:space-between; align-items:center;">
-            <div style="font-size:0.9rem;">Nhân sự báo cáo: <strong>${user}</strong> • Đơn vị: <strong>${dept}</strong></div>
+            <div style="font-size:0.9rem;">Chuyên viên báo cáo: <strong>${user}</strong> • Bộ phận: <strong>${dept}</strong></div>
             <div style="font-size:0.85rem; color:#878c94;">Ngày trình bày: 18/11/2026</div>
           </div>
         `;
@@ -1231,26 +1229,26 @@ YPE html>
         canvas.innerHTML = `
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <h2 style="font-size:1.35rem; font-weight:800; color:#18191b;">${s.title}</h2>
-            <span style="font-size:0.8rem; color:#878c94;">Phần I: Số Liệu Cốt Lõi</span>
+            <span style="font-size:0.8rem; color:#878c94;">Phần I: Tổng Thể Kinh Doanh</span>
           </div>
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin: auto 0;">
             ${itemsHtml}
           </div>
           <div style="font-size:0.8rem; color:#878c94; border-top:1px solid #eee; padding-top:8px;">
-            *Nguồn: Dữ liệu đối soát tài chính và bảng lương tháng 11/2026.
+            *Nguồn: Dữ liệu đơn hàng CRM & phần mềm quản lý bán hàng tháng 11/2026.
           </div>
         `;
-      } else if (s.type === "branches") {
+      } else if (s.type === "channels") {
         canvas.innerHTML = `
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <h2 style="font-size:1.35rem; font-weight:800; color:#18191b;">${s.title}</h2>
-            <span style="font-size:0.8rem; color:#878c94;">Phần II: Tương Quan Chi Nhánh</span>
+            <span style="font-size:0.8rem; color:#878c94;">Phần II: Kênh Phân Phối</span>
           </div>
           <div style="margin: auto 0;">
             ${s.content}
           </div>
           <div style="font-size:0.8rem; color:#878c94; border-top:1px solid #eee; padding-top:8px;">
-            Đề xuất: Chuyển 2 nhân sự kinh doanh xuất sắc từ Miền Bắc vào hỗ trợ Miền Nam.
+            Khuyến nghị: Tăng cường chăm sóc khách hàng VIP để tối ưu hóa giá trị vòng đời (LTV).
           </div>
         `;
       } else if (s.type === "conclusion") {
@@ -1258,7 +1256,7 @@ YPE html>
         canvas.innerHTML = `
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <h2 style="font-size:1.35rem; font-weight:800; color:#18191b;">${s.title}</h2>
-            <span style="font-size:0.8rem; color:#878c94;">Phần III: Định Hướng Hành Động</span>
+            <span style="font-size:0.8rem; color:#878c94;">Phần III: Định Hướng Tăng Trưởng</span>
           </div>
           <div style="margin: auto 0;">
             <ul style="padding-left:24px; color:#2b2823;">
@@ -1288,14 +1286,14 @@ YPE html>
     }
 
     function downloadMockDocument(ext) {
-      const fileName = `BaoCao_TaiChinh_NhanSu.${ext}`;
-      const dummy = `BÁO CÁO DOANH THU & TÀI CHÍNH THÁNG 11/2026\nNgười lập: ${currentUser ? currentUser.name : "Hoàng Linh Ngọc"}\nDoanh thu: 2.85 Tỷ VNĐ\nChi phí nhân sự: 720 Triệu VNĐ`;
+      const fileName = `BaoCao_DuLieu_KinhDoanh.${ext}`;
+      const dummy = `BÁO CÁO XỬ LÝ & PHÂN TÍCH DỮ LIỆU KINH DOANH THÁNG 11/2026\nNgười lập: ${currentUser ? currentUser.name : "Hoàng Linh Ngọc"}\nDoanh thu: 3.45 Tỷ VNĐ\nĐơn hàng thành công: 4,820 đơn`;
       const blob = new Blob([dummy], { type: 'text/plain;charset=utf-8' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
       a.download = fileName;
       a.click();
-      alert(`✅ Đang tải xuống file ${fileName} hoàn chỉnh!`);
+      alert(`✅ Đang tải xuống tệp ${fileName} hoàn chỉnh!`);
     }
 
     // ==========================================
@@ -1326,7 +1324,7 @@ YPE html>
 
     function viewHistoryItem(idx) {
       const h = appHistory[idx];
-      alert(`📋 [BÁO CÁO ${h.id}]\n• Nhân sự: ${h.user}\n• Thời gian: ${h.time}\n• Nội dung: ${h.title}\n• Doanh thu: ${h.revenue}\n• Ghi chú: ${h.notes}`);
+      alert(`📋 [BÁO CÁO ${h.id}]\n• Người thực hiện: ${h.user}\n• Thời gian: ${h.time}\n• Nội dung: ${h.title}\n• Doanh thu: ${h.revenue}\n• Ghi chú: ${h.notes}`);
     }
 
     function openEditModal(idx) {
@@ -1350,10 +1348,10 @@ YPE html>
       appHistory[editingHistoryIndex].notes = document.getElementById('editReportNotes').value;
       appHistory[editingHistoryIndex].status = "Đã chỉnh sửa";
 
-      localStorage.setItem('finhr_history', JSON.stringify(appHistory));
+      localStorage.setItem('biz_history', JSON.stringify(appHistory));
       renderHistoryTable();
       closeEditModal();
-      alert("✅ Đã cập nhật chỉnh sửa báo cáo thành công!");
+      alert("✅ Đã cập nhật chỉnh sửa báo cáo kinh doanh thành công!");
     }
 
     // ==========================================
