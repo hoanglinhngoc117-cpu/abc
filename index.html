@@ -1,1367 +1,540 @@
-YPE html>
-<html lang="vi">
+<!DOCTYPE html>
+<html lang="vi" data-mode="light" data-accent="gold">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BIZDATA AI - Nền Tảng Xử Lý & Phân Tích Dữ Liệu Kinh Doanh Doanh Nghiệp</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --gold-primary: #c59b27;
-      --gold-light: #e5c158;
-      --gold-dark: #967417;
-      --gold-soft: #fcf9f0;
-      --gold-gradient: linear-gradient(135deg, #d4af37 0%, #aa8012 100%);
-      --gold-border: #e9dcbe;
-      --gold-shadow: rgba(197, 155, 39, 0.16);
-      
-      --bg-page: #faf8f5;
-      --surface-white: #ffffff;
-      --surface-subtle: #f5f2eb;
-      
-      --text-main: #18191b;
-      --text-secondary: #585c63;
-      --text-muted: #878c94;
-      --border-subtle: #eae5db;
-      
-      --danger: #be123c;
-      --danger-soft: #fff1f2;
-      --success: #047857;
-      --success-soft: #ecfdf5;
-      
-      --card-shadow: 0 10px 32px -8px var(--gold-shadow), 0 4px 16px -2px rgba(0, 0, 0, 0.02);
-      --radius-lg: 18px;
-      --radius-md: 12px;
-      --radius-sm: 8px;
-      --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; }
-    body { background-color: var(--bg-page); color: var(--text-main); min-height: 100vh; padding-bottom: 70px; line-height: 1.6; }
-
-    /* ================= AUTH GATE (CỔNG XÁC THỰC SANG TRỌNG) ================= */
-    #authOverlay {
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(circle at 50% 30%, rgba(30, 27, 22, 0.88) 0%, rgba(12, 13, 15, 0.96) 100%);
-      backdrop-filter: blur(10px);
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    .auth-modal {
-      background: var(--surface-white);
-      width: 100%;
-      max-width: 470px;
-      border-radius: 24px;
-      padding: 38px 34px;
-      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(212, 175, 55, 0.2);
-      animation: modalScale 0.35s ease;
-    }
-    @keyframes modalScale {
-      from { opacity: 0; transform: scale(0.94) translateY(12px); }
-      to { opacity: 1; transform: scale(1) translateY(0); }
-    }
-    .auth-crest {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      background: var(--gold-gradient);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      margin-bottom: 16px;
-      box-shadow: 0 8px 20px var(--gold-shadow);
-    }
-    .auth-badge {
-      display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 800;
-      color: var(--gold-dark);
-      background: var(--gold-soft);
-      border: 1px solid var(--gold-border);
-      padding: 4px 10px;
-      border-radius: 20px;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      margin-bottom: 8px;
-    }
-    .auth-title {
-      font-size: 1.35rem;
-      font-weight: 800;
-      color: var(--text-main);
-      margin-bottom: 6px;
-      letter-spacing: -0.3px;
-    }
-    .auth-desc {
-      font-size: 0.84rem;
-      color: var(--text-secondary);
-      margin-bottom: 22px;
-      line-height: 1.5;
-    }
-    .form-group {
-      margin-bottom: 16px;
-    }
-    .form-group label {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 6px;
-    }
-    .form-control {
-      width: 100%;
-      padding: 12px 14px;
-      border-radius: var(--radius-md);
-      border: 1.5px solid var(--border-subtle);
-      font-size: 0.9rem;
-      background: #faf9f6;
-      transition: var(--transition);
-      color: var(--text-main);
-    }
-    .form-control:focus {
-      outline: none;
-      border-color: var(--gold-primary);
-      background: #fff;
-      box-shadow: 0 0 0 4px var(--gold-shadow);
-    }
-    .btn-gold-action {
-      width: 100%;
-      background: var(--gold-gradient);
-      color: #fff;
-      border: none;
-      padding: 13px;
-      border-radius: var(--radius-md);
-      font-weight: 800;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: var(--transition);
-      box-shadow: 0 6px 18px var(--gold-shadow);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 8px;
-    }
-    .btn-gold-action:hover {
-      filter: brightness(1.06);
-      transform: translateY(-1px);
-    }
-
-    /* ================= MAIN EXECUTIVE HEADER ================= */
-    header {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border-subtle);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .header-container {
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 14px 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-    .brand-box {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-    }
-    .brand-crest {
-      width: 40px;
-      height: 40px;
-      background: var(--gold-gradient);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 1.15rem;
-      box-shadow: 0 4px 12px var(--gold-shadow);
-    }
-    .brand-name {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.15rem;
-      font-weight: 800;
-      letter-spacing: -0.4px;
-      color: var(--text-main);
-    }
-    .brand-name span { color: var(--gold-primary); }
-    .brand-tag {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    /* 3 Top Tabs: Rõ ràng, Tinh gọn */
-    .nav-tabs {
-      display: flex;
-      background: var(--surface-subtle);
-      border: 1px solid var(--border-subtle);
-      padding: 4px;
-      border-radius: 30px;
-      gap: 4px;
-    }
-    .nav-tab-btn {
-      border: none;
-      background: transparent;
-      padding: 8px 18px;
-      border-radius: 24px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--text-secondary);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: var(--transition);
-    }
-    .nav-tab-btn:hover { color: var(--gold-dark); }
-    .nav-tab-btn.active {
-      background: var(--surface-white);
-      color: var(--gold-dark);
-      box-shadow: 0 2px 10px rgba(197, 155, 39, 0.12);
-      border: 1px solid var(--gold-border);
-    }
-
-    /* Profile Badge */
-    .user-profile-badge {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--gold-soft);
-      border: 1px solid var(--gold-border);
-      padding: 6px 14px;
-      border-radius: 24px;
-    }
-    .user-avatar {
-      width: 30px;
-      height: 30px;
-      background: var(--gold-gradient);
-      color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.8rem;
-      font-weight: 800;
-    }
-    .user-text-name { font-size: 0.82rem; font-weight: 700; color: var(--text-main); line-height: 1.2; }
-    .user-text-role { font-size: 0.72rem; color: var(--gold-dark); font-weight: 600; }
-    .btn-switch-user {
-      border: none;
-      background: transparent;
-      color: var(--danger);
-      font-size: 0.75rem;
-      font-weight: 700;
-      cursor: pointer;
-      margin-left: 4px;
-    }
-    .btn-switch-user:hover { text-decoration: underline; }
-
-    /* ================= MAIN WRAPPER ================= */
-    .main-wrap {
-      max-width: 1240px;
-      margin: 28px auto 0;
-      padding: 0 24px;
-    }
-    .page-section { display: none; animation: fadeIn 0.3s ease; }
-    .page-section.active { display: block; }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .luxury-card {
-      background: var(--surface-white);
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border-subtle);
-      box-shadow: var(--card-shadow);
-      padding: 26px 28px;
-      margin-bottom: 24px;
-    }
-    .card-header-clean {
-      margin-bottom: 18px;
-    }
-    .card-header-clean h3 {
-      font-size: 1.12rem;
-      font-weight: 800;
-      color: var(--text-main);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      letter-spacing: -0.3px;
-    }
-    .card-header-clean p {
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      margin-top: 4px;
-    }
-
-    /* Executive Hero Banner */
-    .hero-executive {
-      background: linear-gradient(135deg, #18191b 0%, #28251e 60%, #1e1b14 100%);
-      color: white;
-      border-radius: var(--radius-lg);
-      padding: 34px 38px;
-      margin-bottom: 24px;
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      box-shadow: 0 16px 40px -10px rgba(0,0,0,0.4);
-    }
-    .hero-executive::before {
-      content: "";
-      position: absolute;
-      top: -60%;
-      right: -10%;
-      width: 450px;
-      height: 450px;
-      background: radial-gradient(circle, rgba(212, 175, 55, 0.22) 0%, transparent 65%);
-      pointer-events: none;
-    }
-    .hero-badge-gold {
-      display: inline-block;
-      background: rgba(212, 175, 55, 0.2);
-      border: 1px solid rgba(212, 175, 55, 0.5);
-      color: var(--gold-light);
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.72rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      margin-bottom: 12px;
-    }
-    .hero-headline {
-      font-size: 1.65rem;
-      font-weight: 800;
-      line-height: 1.3;
-      margin-bottom: 10px;
-      letter-spacing: -0.4px;
-    }
-    .hero-desc {
-      font-size: 0.92rem;
-      color: rgba(255, 255, 255, 0.85);
-      max-width: 840px;
-      margin-bottom: 20px;
-      line-height: 1.6;
-    }
-    .hero-stats-line {
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-      border-top: 1px solid rgba(255,255,255,0.12);
-      padding-top: 16px;
-    }
-    .hero-stat-pill {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.84rem;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.9);
-    }
-
-    /* KPI Deck: 4 Chỉ Số Kinh Doanh Toàn Diện */
-    .kpi-deck {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-    .kpi-tile {
-      background: var(--surface-white);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      padding: 20px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.02);
-      position: relative;
-      transition: var(--transition);
-    }
-    .kpi-tile:hover {
-      border-color: var(--gold-border);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px -5px var(--gold-shadow);
-    }
-    .kpi-tile::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 20px;
-      right: 20px;
-      height: 3px;
-      background: var(--gold-gradient);
-      border-radius: 0 0 4px 4px;
-      opacity: 0;
-      transition: var(--transition);
-    }
-    .kpi-tile:hover::before { opacity: 1; }
-    .kpi-tile-label { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-    .kpi-tile-val { font-family: 'Space Grotesk', sans-serif; font-size: 1.75rem; font-weight: 800; color: var(--text-main); margin: 6px 0; }
-    .kpi-tile-tag { font-size: 0.78rem; font-weight: 700; }
-    .tag-up { color: var(--success); }
-    .tag-neutral { color: var(--gold-dark); }
-
-    /* Ingestion Grid (Nạp dữ liệu kinh doanh đa dạng) */
-    .ingest-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.15fr;
-      gap: 22px;
-    }
-    @media (max-width: 860px) {
-      .ingest-grid { grid-template-columns: 1fr; }
-    }
-    .dropzone-gold {
-      border: 2px dashed var(--gold-border);
-      background: var(--gold-soft);
-      border-radius: var(--radius-md);
-      padding: 26px 20px;
-      text-align: center;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-    .dropzone-gold:hover {
-      border-color: var(--gold-primary);
-      background: #faf5e6;
-    }
-    .file-badges-row {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 14px;
-      flex-wrap: wrap;
-    }
-    .badge-fmt {
-      font-size: 0.74rem;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 6px;
-      background: white;
-      border: 1px solid var(--gold-border);
-      color: var(--text-main);
-    }
-    .prompt-presets {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: 10px;
-    }
-    .preset-chip {
-      background: var(--surface-white);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-sm);
-      padding: 8px 12px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      text-align: left;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-    .preset-chip:hover {
-      border-color: var(--gold-primary);
-      color: var(--gold-dark);
-      background: var(--gold-soft);
-    }
-
-    /* CTA Card to Generate Slides */
-    .slide-cta-banner {
-      background: linear-gradient(135deg, #fbf7ee 0%, #fff 100%);
-      border: 1.5px solid var(--gold-border);
-      border-radius: var(--radius-md);
-      padding: 22px 26px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
-      margin-top: 24px;
-    }
-    .slide-cta-info h4 { font-size: 1.05rem; font-weight: 800; color: var(--text-main); margin-bottom: 4px; }
-    .slide-cta-info p { font-size: 0.85rem; color: var(--text-secondary); }
-
-    /* ================= TRANG 2: SLIDE THUYẾT TRÌNH RIÊNG BIỆT ================= */
-    .slide-deck-container {
-      background: #151618;
-      border-radius: var(--radius-lg);
-      padding: 28px;
-      color: white;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.35);
-      border: 1px solid rgba(212, 175, 55, 0.25);
-    }
-    .slide-deck-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin-bottom: 20px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    .slide-canvas-screen {
-      background: #ffffff;
-      color: #111315;
-      border-radius: var(--radius-md);
-      aspect-ratio: 16 / 9;
-      max-height: 480px;
-      padding: 40px 48px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-      position: relative;
-    }
-    .btn-slide-ctrl {
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-    .btn-slide-ctrl:hover { background: rgba(212, 175, 55, 0.3); border-color: var(--gold-light); }
-
-    .slide-uninitialized-box {
-      text-align: center;
-      padding: 60px 20px;
-      background: white;
-      border-radius: var(--radius-lg);
-      border: 1.5px dashed var(--gold-border);
-    }
-
-    /* ================= TRANG 3: KIỂM DUYỆT, LỊCH SỬ & CHIẾN LƯỢC ================= */
-    .history-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 12px;
-    }
-    .history-table th, .history-table td {
-      padding: 12px 14px;
-      text-align: left;
-      border-bottom: 1px solid var(--border-subtle);
-      font-size: 0.85rem;
-    }
-    .history-table th { background: #faf8f5; font-weight: 700; color: var(--text-secondary); }
-    .btn-row-action {
-      padding: 5px 12px;
-      border-radius: 6px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      cursor: pointer;
-      border: 1px solid var(--border-subtle);
-      background: white;
-      margin-right: 4px;
-      transition: var(--transition);
-    }
-    .btn-row-action:hover { border-color: var(--gold-primary); color: var(--gold-dark); }
-
-    .risk-advice-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-top: 20px;
-    }
-    @media (max-width: 800px) {
-      .risk-advice-grid { grid-template-columns: 1fr; }
-    }
-    .notice-card {
-      border-radius: var(--radius-md);
-      padding: 20px 22px;
-      border-left: 4px solid;
-    }
-    .notice-card.danger {
-      background: var(--danger-soft);
-      border-color: var(--danger);
-      color: #881337;
-    }
-    .notice-card.gold-advice {
-      background: var(--gold-soft);
-      border-color: var(--gold-primary);
-      color: #634d0b;
-    }
-    .notice-card h4 { font-size: 0.95rem; font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
-    .notice-card ul { padding-left: 18px; font-size: 0.85rem; line-height: 1.6; }
-
-    /* Modal Sửa Báo Cáo */
-    #editModal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.65);
-      backdrop-filter: blur(6px);
-      z-index: 10000;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    .edit-box {
-      background: white;
-      width: 100%;
-      max-width: 560px;
-      border-radius: var(--radius-lg);
-      padding: 30px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-      border: 1px solid var(--gold-border);
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LANH THAI NGOC · Phân Tích Dữ Liệu Tự Động</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
+<style>
+:root{
+  --bg:#faf8f5; --card:#ffffff; --soft:#f4f1ea; --text:#17181a; --muted:#6b7078; --line:#e8e3d9;
+  --ac:#c59b27; --ac2:#aa8012; --acsoft:#fcf7e6; --good:#047857; --bad:#be123c;
+  --shadow:0 10px 30px -10px rgba(0,0,0,.12); --r:16px;
+}
+[data-mode=dark]{
+  --bg:#101114; --card:#1a1c21; --soft:#23262d; --text:#f1f2f4; --muted:#9ba0aa; --line:#2c3038;
+  --acsoft:#2a2518; --good:#34d399; --bad:#fb7185; --shadow:0 10px 30px -10px rgba(0,0,0,.6);
+}
+[data-accent=gold]{--ac:#c59b27;--ac2:#aa8012}
+[data-accent=blue]{--ac:#2563eb;--ac2:#1d4ed8;--acsoft:#eaf1ff}
+[data-accent=green]{--ac:#0d9488;--ac2:#0f766e;--acsoft:#e6f7f5}
+[data-accent=rose]{--ac:#e11d48;--ac2:#be123c;--acsoft:#ffe9ee}
+[data-accent=violet]{--ac:#7c3aed;--ac2:#6d28d9;--acsoft:#f1eaff}
+[data-mode=dark][data-accent=blue]{--acsoft:#16213d}
+[data-mode=dark][data-accent=green]{--acsoft:#10282a}
+[data-mode=dark][data-accent=rose]{--acsoft:#341822}
+[data-mode=dark][data-accent=violet]{--acsoft:#251a3d}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif}
+body{background:var(--bg);color:var(--text);min-height:100vh;line-height:1.55;transition:background .3s,color .3s}
+header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--card) 92%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.hd{max-width:1120px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;display:grid;place-items:center;font-weight:800}
+.brand b{font-family:'Space Grotesk';font-size:1.05rem;letter-spacing:.5px}
+.nav{display:flex;gap:4px;background:var(--soft);padding:4px;border-radius:30px;border:1px solid var(--line)}
+.nav button{border:0;background:none;color:var(--muted);font-weight:700;font-size:.85rem;padding:8px 16px;border-radius:24px;cursor:pointer}
+.nav button.on{background:var(--card);color:var(--ac);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.tools{display:flex;align-items:center;gap:8px}
+.dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--card);box-shadow:0 0 0 1px var(--line);cursor:pointer}
+.dot.on{box-shadow:0 0 0 2px var(--text)}
+.mode{border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:20px;padding:5px 12px;cursor:pointer;font-size:.8rem;font-weight:700}
+main{max-width:1120px;margin:0 auto;padding:26px 20px 60px}
+.page{display:none;animation:in .3s ease}.page.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:24px;margin-bottom:20px}
+h1{font-size:1.9rem;letter-spacing:-.5px;line-height:1.25}
+h2{font-size:1.1rem;font-weight:800;margin-bottom:4px}
+.sub{color:var(--muted);font-size:.9rem}
+.hero{text-align:center;padding:10px 0 22px}
+.hero h1 span{color:var(--ac)}
+.steps{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:16px}
+.chip{background:var(--acsoft);color:var(--ac);border:1px solid color-mix(in srgb,var(--ac) 30%,transparent);padding:6px 14px;border-radius:20px;font-size:.8rem;font-weight:700}
+.tabs{display:flex;gap:8px;margin:14px 0}
+.tabs button{flex:1;border:1.5px solid var(--line);background:var(--soft);color:var(--muted);padding:9px;border-radius:12px;font-weight:700;cursor:pointer}
+.tabs button.on{border-color:var(--ac);color:var(--ac);background:var(--acsoft)}
+.drop{border:2px dashed color-mix(in srgb,var(--ac) 50%,var(--line));background:var(--acsoft);border-radius:var(--r);padding:34px 16px;text-align:center;cursor:pointer;transition:.2s}
+.drop:hover,.drop.over{border-color:var(--ac);transform:translateY(-1px)}
+.drop .ic{font-size:2.2rem}
+.fmts{display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap}
+.fmts span{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:3px 10px;font-size:.75rem;font-weight:700}
+.fname{margin-top:10px;font-weight:700;color:var(--good);font-size:.88rem}
+input,textarea,select{width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);color:var(--text);font-size:.92rem}
+input:focus,textarea:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 4px color-mix(in srgb,var(--ac) 18%,transparent)}
+label.l{display:block;font-size:.8rem;font-weight:700;margin:12px 0 6px}
+.svc{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:8px}
+.svc label{display:flex;align-items:center;gap:10px;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;cursor:pointer;font-weight:700;font-size:.9rem;background:var(--soft)}
+.svc label:has(input:checked){border-color:var(--ac);background:var(--acsoft);color:var(--ac)}
+.svc input{width:auto;accent-color:var(--ac)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;border:0;border-radius:12px;padding:13px 22px;font-weight:800;font-size:.95rem;cursor:pointer;transition:.2s;box-shadow:0 6px 16px color-mix(in srgb,var(--ac) 35%,transparent)}
+.btn:hover{filter:brightness(1.07);transform:translateY(-1px)}
+.btn.block{width:100%;margin-top:18px}
+.btn.ghost{background:var(--card);color:var(--text);border:1.5px solid var(--line);box-shadow:none}
+.btn.sm{padding:9px 15px;font-size:.85rem}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.msg{margin-top:10px;font-size:.85rem;font-weight:600}
+.msg.err{color:var(--bad)}.msg.ok{color:var(--good)}
+.about{display:grid;grid-template-columns:1.3fr 1fr;gap:20px}
+@media(max-width:760px){.about{grid-template-columns:1fr}h1{font-size:1.5rem}}
+.info p{margin:6px 0;font-size:.92rem}
+.soc{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.soc a{text-decoration:none;color:var(--text);border:1.5px solid var(--line);background:var(--soft);padding:8px 16px;border-radius:24px;font-weight:700;font-size:.85rem}
+.soc a:hover{border-color:var(--ac);color:var(--ac)}
+.thanks{text-align:center;color:var(--muted);font-size:.9rem;margin-top:26px}
+.pipe{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.pipe .chip::before{content:"✓ "}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:20px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow);border-top:3px solid var(--ac)}
+.kpi small{color:var(--muted);font-weight:700;font-size:.72rem;text-transform:uppercase;letter-spacing:.5px}
+.kpi div{font-family:'Space Grotesk';font-size:1.6rem;font-weight:700;margin:4px 0}
+.kpi em{font-style:normal;font-size:.8rem;font-weight:700}
+.up{color:var(--good)}.down{color:var(--bad)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:820px){.grid2{grid-template-columns:1fr}}
+.bar{display:grid;grid-template-columns:110px 1fr 90px;gap:10px;align-items:center;margin:9px 0;font-size:.84rem}
+.bar .t{height:12px;background:var(--soft);border-radius:8px;overflow:hidden}
+.bar .t i{display:block;height:100%;background:linear-gradient(90deg,var(--ac),var(--ac2));border-radius:8px}
+.bar b{text-align:right}
+.cols{display:flex;align-items:flex-end;gap:8px;height:190px;border-bottom:2px solid var(--line);padding-top:10px}
+.col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;font-size:.68rem;color:var(--muted)}
+.col i{width:100%;max-width:34px;background:linear-gradient(180deg,var(--ac),var(--ac2));border-radius:6px 6px 0 0;min-height:3px}
+.col span{margin-top:6px;white-space:nowrap}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--muted);font-size:.75rem;text-transform:uppercase}
+.ins{list-style:none}
+.ins li{padding:10px 14px;border-radius:12px;margin:8px 0;font-size:.88rem;font-weight:600}
+.ins .g{background:color-mix(in srgb,var(--good) 12%,transparent)}
+.ins .w{background:color-mix(in srgb,var(--bad) 12%,transparent)}
+.slide{background:#fff;color:#17181a;border-radius:14px;aspect-ratio:16/9;padding:6% 7%;display:flex;flex-direction:column;justify-content:space-between;box-shadow:var(--shadow);border-top:8px solid var(--ac)}
+.slide h3{font-size:clamp(1.1rem,3vw,1.9rem);line-height:1.25}
+.slide p,.slide li{font-size:clamp(.8rem,1.6vw,1.05rem);color:#444}
+.slide .big{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.slide .big div{background:#f6f3ea;border-radius:10px;padding:12px}
+.slide .big b{display:block;font-size:clamp(1rem,2.4vw,1.6rem);color:var(--ac)}
+.empty{text-align:center;padding:50px 10px;color:var(--muted)}
+.prog{height:6px;background:var(--soft);border-radius:6px;overflow:hidden;margin-top:14px;display:none}
+.prog i{display:block;height:100%;width:0;background:var(--ac);transition:width .4s}
+</style>
 </head>
 <body>
+<header><div class="hd">
+  <div class="brand"><div class="logo">L</div><b>LANH THAI NGOC</b></div>
+  <nav class="nav">
+    <button class="on" onclick="go(1,this)">① Gửi dữ liệu</button>
+    <button onclick="go(2,this)">② Kết quả</button>
+    <button onclick="go(3,this)">③ Tư vấn</button>
+  </nav>
+  <div class="tools">
+    <span class="dot" data-a="gold" style="background:#c59b27" onclick="setAccent('gold')"></span>
+    <span class="dot" data-a="blue" style="background:#2563eb" onclick="setAccent('blue')"></span>
+    <span class="dot" data-a="green" style="background:#0d9488" onclick="setAccent('green')"></span>
+    <span class="dot" data-a="rose" style="background:#e11d48" onclick="setAccent('rose')"></span>
+    <span class="dot" data-a="violet" style="background:#7c3aed" onclick="setAccent('violet')"></span>
+    <button class="mode" id="modeBtn" onclick="toggleMode()">🌙 Tối</button>
+  </div>
+</div></header>
 
-  <!-- ============================================================== -->
-  <!-- MODAL XÁC THỰC BẮT BUỘC: HỌ TÊN + SĐT/GMAIL DOANH NGHIỆP        -->
-  <!-- ============================================================== -->
-  <div id="authOverlay">
-    <div class="auth-modal">
-      <div class="auth-crest">👑</div>
-      <div class="auth-badge">Cổng Xác Thực An Toàn</div>
-      <h2 class="auth-title">BIZDATA PRESTIGE INTELLIGENCE</h2>
-      <p class="auth-desc">Vui lòng nhập định danh nhân sự để khởi tạo phiên phân tích và cá nhân hóa người lập báo cáo kinh doanh.</p>
-
-      <form id="authForm" onsubmit="handleAuthSubmit(event)">
-        <div class="form-group">
-          <label>Họ và Tên Nhân Sự / Chuyên Viên (*)</label>
-          <input type="text" id="inputAuthName" class="form-control" placeholder="Ví dụ: Hoàng Linh Ngọc" required />
-        </div>
-
-        <div class="form-group">
-          <label>Số Điện Thoại HOẶC Gmail Doanh Nghiệp (*)</label>
-          <input type="text" id="inputAuthContact" class="form-control" placeholder="Ví dụ: ngoc.biz@corp.com hoặc 0988123456" required />
-        </div>
-
-        <div class="form-group">
-          <label>Khối / Phòng Ban Quản Trị</label>
-          <select id="inputAuthDept" class="form-control">
-            <option value="Khối Kinh Doanh & Bán Hàng (Sales)" selected>Khối Kinh Doanh & Bán Hàng (Sales)</option>
-            <option value="Khối Marketing & Tăng Trưởng (Growth)">Khối Marketing & Tăng Trưởng (Growth)</option>
-            <option value="Khối Kế Hoạch - Tài Chính (Finance)">Khối Kế Hoạch - Tài Chính (Finance)</option>
-            <option value="Khối Vận Hành & Chuỗi Cung Ứng (Ops)">Khối Vận Hành & Chuỗi Cung Ứng (Ops)</option>
-            <option value="Ban Giám Đốc Điều Hành (C-Level)">Ban Giám Đốc Điều Hành (C-Level)</option>
-          </select>
-        </div>
-
-        <button type="submit" class="btn-gold-action">
-          <span>👑</span> Xác Thực & Vào Nền Tảng Dữ Liệu
-        </button>
-      </form>
-    </div>
+<main>
+<!-- ============ TRANG 1 ============ -->
+<section id="p1" class="page on">
+  <div class="hero">
+    <h1>Biến dữ liệu thô thành <span>báo cáo rõ ràng</span></h1>
+    <p class="sub" style="margin-top:8px">Gửi file · Tự làm sạch · Phân tích KPI · Xuất Dashboard & báo cáo</p>
+    <div class="steps"><span class="chip">1 Gửi file</span><span class="chip">2 Làm sạch</span><span class="chip">3 Phân tích</span><span class="chip">4 Xuất báo cáo</span></div>
   </div>
 
-  <!-- ============================================================== -->
-  <!-- EXECUTIVE HEADER (MÀU TRẮNG & VÀNG GOLF SANG TRỌNG)           -->
-  <!-- ============================================================== -->
-  <header>
-    <div class="header-container">
-      <div class="brand-box">
-        <div class="brand-crest">✦</div>
-        <div>
-          <div class="brand-name">BIZDATA <span>PRESTIGE</span></div>
-          <div class="brand-tag">Enterprise Business Intelligence</div>
-        </div>
-      </div>
-
-      <!-- 3 Navigation Tabs -->
-      <nav class="nav-tabs">
-        <button class="nav-tab-btn active" onclick="switchPage('page1', this)">
-          <span>📊</span> Trang 1: Báo Cáo Kinh Doanh
-        </button>
-        <button class="nav-tab-btn" onclick="switchPage('pageSlide', this)">
-          <span>📽️</span> Trang 2: Khởi Tạo Slide
-        </button>
-        <button class="nav-tab-btn" onclick="switchPage('page2', this)">
-          <span>🛡️</span> Trang 3: Kiểm Duyệt & Chiến Lược
-        </button>
-      </nav>
-
-      <!-- Active User Profile -->
-      <div class="user-profile-badge">
-        <div class="user-avatar" id="headerAvatar">HN</div>
-        <div>
-          <div class="user-text-name" id="headerUserName">Hoàng Linh Ngọc</div>
-          <div class="user-text-role" id="headerUserContact">ngoc.biz@corp.com</div>
-        </div>
-        <button class="btn-switch-user" onclick="logoutAuth()" title="Đổi người dùng">Đổi</button>
-      </div>
+  <div class="card">
+    <h2>Gửi dữ liệu của bạn</h2>
+    <div class="tabs">
+      <button class="on" id="tabFile" onclick="srcTab('file')">📁 Tải tệp</button>
+      <button id="tabLink" onclick="srcTab('link')">🔗 Dán liên kết</button>
     </div>
-  </header>
-
-  <div class="main-wrap">
-
-    <!-- ============================================================== -->
-    <!-- TRANG 1: XỬ LÝ & BÁO CÁO DỮ LIỆU KINH DOANH TỔNG THỂ           -->
-    <!-- ============================================================== -->
-    <section id="page1" class="page-section active">
-
-      <!-- Executive Hero Banner -->
-      <div class="hero-executive">
-        <div class="hero-badge-gold">✦ Nền Tảng Phân Tích & Xử Lý Dữ Liệu Doanh Nghiệp</div>
-        <h2 class="hero-headline">Hệ Thống Xử Lý & Báo Cáo Dữ Liệu Kinh Doanh Tổng Hợp</h2>
-        <p class="hero-desc">
-          Tự động hóa hoàn toàn chuỗi xử lý dữ liệu từ file Excel đơn hàng, bảng tính doanh số, dữ liệu khách hàng CRM đến báo cáo chiến lược Word. 
-          Giúp doanh nghiệp chuyển hóa các tập dữ liệu vận hành thô thành báo cáo điều hành sắc nét và bộ slide trình chiếu trong vài giây.
-        </p>
-        <div class="hero-stats-line">
-          <div class="hero-stat-pill"><span>⚡</span> Xử lý tự động: &lt; 3 giây</div>
-          <div class="hero-stat-pill"><span>🛡️</span> Chuẩn an toàn: AST Sanitizer & Che PII</div>
-          <div class="hero-stat-pill"><span>📑</span> Đa định dạng: Excel (.xlsx, .csv), Word (.docx)</div>
-          <div class="hero-stat-pill"><span>📽️</span> Tích hợp bộ Slide kinh doanh riêng biệt</div>
-        </div>
+    <div id="srcFile">
+      <div class="drop" id="drop" onclick="fileIn.click()">
+        <div class="ic">📤</div>
+        <b>Kéo thả hoặc bấm để chọn tệp</b>
+        <div class="fmts"><span>Excel</span><span>CSV</span><span>Word</span><span>PDF</span></div>
+        <input type="file" id="fileIn" accept=".xlsx,.xls,.csv,.docx,.pdf" hidden />
       </div>
+      <div class="fname" id="fname"></div>
+    </div>
+    <div id="srcLink" style="display:none">
+      <input id="linkIn" placeholder="Dán link Google Sheet hoặc Lark Base" />
+      <p class="sub" style="margin-top:6px;font-size:.8rem">Google Sheet cần chia sẻ “Bất kỳ ai có liên kết”.</p>
+    </div>
 
-      <!-- KPI Deck: 4 Chỉ Số Kinh Doanh Cốt Lõi (Doanh số, Đơn hàng, Khách hàng, Biên LN) -->
-      <div class="kpi-deck">
-        <div class="kpi-tile">
-          <div class="kpi-tile-label">Tổng Doanh Thu Kinh Doanh</div>
-          <div class="kpi-tile-val" id="kpiRevenue">3,450,000,000 ₫</div>
-          <div class="kpi-tile-tag tag-up">↑ +18.5% so với tháng trước</div>
-        </div>
-        <div class="kpi-tile">
-          <div class="kpi-tile-label">Tổng Đơn Hàng Thành Công</div>
-          <div class="kpi-tile-val" id="kpiOrders">4,820 Đơn</div>
-          <div class="kpi-tile-tag tag-up">Giá trị TB: 715,000 ₫ / đơn</div>
-        </div>
-        <div class="kpi-tile">
-          <div class="kpi-tile-label">Biên Lợi Nhuận Gộp (Margin)</div>
-          <div class="kpi-tile-val" id="kpiProfit">1,560,000,000 ₫</div>
-          <div class="kpi-tile-tag tag-neutral">Tỷ suất LN gộp: 45.2%</div>
-        </div>
-        <div class="kpi-tile">
-          <div class="kpi-tile-label">Khách Hàng Mới & Quay Lại</div>
-          <div class="kpi-tile-val" id="kpiCustomers">1,280 Khách</div>
-          <div class="kpi-tile-tag tag-up">Tỷ lệ quay lại (Retention): 42.6%</div>
-        </div>
-      </div>
+    <label class="l">Chọn dịch vụ</label>
+    <div class="svc">
+      <label><input type="checkbox" id="sClean" checked> 🧹 Làm sạch</label>
+      <label><input type="checkbox" id="sKpi" checked> 📐 Tính toán KPI</label>
+      <label><input type="checkbox" id="sDash" checked> 📊 Tạo Dashboard</label>
+    </div>
 
-      <!-- Ingestion & Analysis Section (Nạp Dữ Liệu Kinh Doanh Đa Dạng) -->
-      <div class="luxury-card">
-        <div class="card-header-clean">
-          <h3><span>📥</span> Nạp Dữ Liệu Kinh Doanh & Khởi Tạo Phân Tích</h3>
-          <p>Kéo thả tệp dữ liệu kinh doanh hoặc chọn nhanh các kịch bản mẫu dưới đây:</p>
-        </div>
-
-        <div class="ingest-grid">
-          <div>
-            <div class="dropzone-gold" onclick="document.getElementById('fileUploadInput').click()">
-              <div style="font-size: 2.2rem; color: var(--gold-primary);">📁</div>
-              <div style="font-size: 0.95rem; font-weight: 700; margin-top: 6px; color: var(--text-main);">Kéo Thả Hoặc Bấm Để Chọn Tệp Dữ Liệu</div>
-              <div style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 4px;">Hỗ trợ Excel Đơn hàng (.xlsx, .csv), Word Báo cáo (.docx)</div>
-              <div class="file-badges-row">
-                <span class="badge-fmt">📊 Excel Doanh Số / Đơn Hàng</span>
-                <span class="badge-fmt">📑 Word Báo Cáo Kế Hoạch</span>
-                <span class="badge-fmt">👥 Dữ Liệu Khách Hàng CRM</span>
-              </div>
-              <input type="file" id="fileUploadInput" accept=".xlsx,.csv,.docx,.doc" style="display: none;" onchange="handleFileSelect(event)" />
-            </div>
-            <div id="fileUploadNotice" style="margin-top: 8px; font-size: 0.82rem; font-weight: 700; color: var(--success); display: none;"></div>
-          </div>
-
-          <div>
-            <div class="form-group">
-              <label>Yêu Cầu Phân Tích Kinh Doanh Của Doanh Nghiệp:</label>
-              <textarea id="promptInput" class="form-control" style="min-height: 95px; resize: vertical;" placeholder="Nhập yêu cầu phân tích...">Phân tích tổng hợp doanh số bán hàng, tốc độ tăng trưởng đơn hàng và cơ cấu doanh thu theo các kênh phân phối chính; đề xuất chiến lược tối ưu chi phí tiếp thị.</textarea>
-            </div>
-            <div class="prompt-presets">
-              <div class="preset-chip" onclick="setSamplePrompt(1)">📌 Kịch bản 1: Phân tích Doanh thu & Tốc độ tăng trưởng Đơn hàng tháng</div>
-              <div class="preset-chip" onclick="setSamplePrompt(2)">📌 Kịch bản 2: Hiệu suất Kinh doanh theo Kênh bán & Khu vực (B2B, Online, Đại lý)</div>
-              <div class="preset-chip" onclick="setSamplePrompt(3)">📌 Kịch bản 3: Tối ưu hóa Chi phí Bán hàng (CAC, ROI Marketing, Chuyển đổi)</div>
-            </div>
-          </div>
-        </div>
-
-        <button class="btn-gold-action" style="margin-top: 18px;" onclick="runAnalysisAndGenerateReport()">
-          <span>⚡</span> Khởi Tạo & Cập Nhật Báo Cáo Kinh Doanh
-        </button>
-      </div>
-
-      <!-- Báo Cáo Điều Hành Kinh Doanh Hoàn Chỉnh -->
-      <div class="luxury-card">
-        <div class="card-header-clean">
-          <h3><span>📑</span> Văn Bản Báo Cáo Kinh Doanh Tổng Thể Hoàn Chỉnh</h3>
-          <p id="reportHeaderMeta">Người lập báo cáo: <strong>Hoàng Linh Ngọc</strong> | Khối: <strong>Khối Kinh Doanh & Bán Hàng</strong> | Ngày lập: 18/11/2026</p>
-        </div>
-        <div id="fullReportContainer" style="background: var(--surface-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 24px; font-size: 0.9rem; line-height: 1.7;">
-          <!-- Dynamically filled report content -->
-        </div>
-        <div style="margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap;">
-          <button class="btn-row-action" style="background: var(--gold-soft); border-color: var(--gold-border); color: var(--gold-dark);" onclick="downloadMockDocument('docx')">📥 Tải Báo Cáo Word (.docx)</button>
-          <button class="btn-row-action" onclick="downloadMockDocument('xlsx')">📊 Tải Bảng Tính Excel (.xlsx)</button>
-        </div>
-      </div>
-
-      <!-- Banner Dẫn Sang Trang Slide Riêng Biệt -->
-      <div class="slide-cta-banner">
-        <div class="slide-cta-info">
-          <h4>📽️ Bạn Có Nhu Cầu Trình Chiếu Cho Ban Giám Đốc?</h4>
-          <p>Hệ thống tự động chuyển đổi toàn bộ báo cáo kinh doanh trên thành bộ Slide PowerPoint chuyên nghiệp 4 trang chuẩn doanh nghiệp.</p>
-        </div>
-        <button class="btn-gold-action" style="width: auto; padding: 10px 22px; margin: 0;" onclick="triggerSlidePageFromHome()">
-          <span>✨</span> Mở & Khởi Tạo Bộ Slide Ngay ▶
-        </button>
-      </div>
-
-    </section>
-
-    <!-- ============================================================== -->
-    <!-- TRANG 2: BỘ SLIDE THUYẾT TRÌNH KINH DOANH (TRANG RIÊNG)        -->
-    <!-- ============================================================== -->
-    <section id="pageSlide" class="page-section">
-
-      <!-- Trạng thái chưa tạo slide -->
-      <div id="slideUninitialized" class="slide-uninitialized-box">
-        <div style="font-size: 3rem; margin-bottom: 12px; color: var(--gold-primary);">📽️</div>
-        <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--text-main); margin-bottom: 8px;">Khởi Tạo Bộ Slide Báo Cáo Kinh Doanh</h3>
-        <p style="font-size: 0.9rem; color: var(--text-secondary); max-width: 620px; margin: 0 auto 22px;">
-          Để giao diện luôn gọn gàng, bộ slide sẽ được khởi tạo khi bạn có nhu cầu. 
-          AI sẽ tổng hợp doanh số, kênh bán hàng, biên lợi nhuận và kế hoạch hành động thành bản trình chiếu 16:9 sắc nét.
-        </p>
-        <button class="btn-gold-action" style="width: auto; padding: 13px 28px; margin: 0 auto;" onclick="initSlideDeck()">
-          <span>✨</span> Nhấn Vào Đây Để Khởi Tạo Slide Thuyết Trình
-        </button>
-      </div>
-
-      <!-- Khung Trình Chiếu Slide (Chỉ hiện khi bấm tạo) -->
-      <div id="slideDeckBox" style="display: none;" class="slide-deck-container">
-        <div class="slide-deck-bar">
-          <div>
-            <span style="font-weight: 800; font-size: 1.05rem; color: var(--gold-light);">✦ BỘ SLIDE BÁO CÁO KẾT QUẢ KINH DOANH DOANH NGHIỆP</span>
-            <div style="font-size: 0.78rem; opacity: 0.8; margin-top: 2px;">Trình bày số liệu kinh doanh, tăng trưởng doanh số và chiến lược quý mới</div>
-          </div>
-          <div style="display: flex; gap: 10px; align-items: center;">
-            <button class="btn-slide-ctrl" onclick="prevSlide()">◀ Slide Trước</button>
-            <span id="slideIndicator" style="font-weight: 800; font-size: 0.88rem; color: var(--gold-light);">Slide 1 / 4</span>
-            <button class="btn-slide-ctrl" onclick="nextSlide()">Slide Kế ▶</button>
-            <button class="btn-slide-ctrl" style="background: var(--gold-gradient); color: #fff; border: none;" onclick="downloadMockDocument('pptx')">📥 Tải Slide (.pptx)</button>
-          </div>
-        </div>
-
-        <!-- Màn hình Slide 16:9 Cao Cấp -->
-        <div class="slide-canvas-screen" id="slideCanvas">
-          <!-- Dynamic slide content -->
-        </div>
-      </div>
-
-    </section>
-
-    <!-- ============================================================== -->
-    <!-- TRANG 3: KIỂM DUYỆT, LÀM SẠCH, LỊCH SỬ & CHIẾN LƯỢC             -->
-    <!-- ============================================================== -->
-    <section id="page2" class="page-section">
-
-      <!-- Lịch Sử Báo Cáo & Tùy Chỉnh Số Liệu -->
-      <div class="luxury-card">
-        <div class="card-header-clean">
-          <h3><span>⏳</span> Lịch Sử Báo Cáo Kinh Doanh & Tùy Chỉnh</h3>
-          <p>Xem lại các phiên xử lý dữ liệu trước đây. Bạn có thể <strong>chỉnh sửa trực tiếp</strong> tiêu đề, doanh thu và ghi chú chiến lược.</p>
-        </div>
-
-        <div style="overflow-x: auto;">
-          <table class="history-table">
-            <thead>
-              <tr>
-                <th>Mã Báo Cáo</th>
-                <th>Thời Gian</th>
-                <th>Người Thực Hiện</th>
-                <th>Chủ Đề Kinh Doanh</th>
-                <th>Doanh Thu Ghi Nhận</th>
-                <th>Trạng Thái</th>
-                <th>Thao Tác</th>
-              </tr>
-            </thead>
-            <tbody id="historyTableBody">
-              <!-- Rendered via JS -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Làm Sạch & Kiểm Duyệt Dữ Liệu Kinh Doanh -->
-      <div class="luxury-card">
-        <div class="card-header-clean">
-          <h3><span>🧹</span> Kiểm Duyệt & Làm Sạch Dữ Liệu Kinh Doanh (Data Cleaning Pipeline)</h3>
-          <p>Trước khi đưa vào báo cáo, hệ thống tự động lọc bản ghi lỗi, che mờ thông tin cá nhân khách hàng (PII) và kiểm duyệt AST:</p>
-        </div>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 18px;">
-          <div style="background: var(--surface-subtle); padding: 14px 18px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">TỔNG DÒNG DỮ LIỆU NẠP</div>
-            <div style="font-family:'Space Grotesk',sans-serif; font-size:1.4rem; font-weight:800;">2,450 dòng</div>
-          </div>
-          <div style="background: var(--danger-soft); padding: 14px 18px; border-radius: var(--radius-md); border: 1px solid #fecdd3;">
-            <div style="font-size: 0.75rem; color: var(--danger); font-weight: 700;">ĐƠN HÀNG LỖI ĐÃ LÀM SẠCH</div>
-            <div style="font-family:'Space Grotesk',sans-serif; font-size:1.4rem; font-weight:800; color:var(--danger);">36 đơn (1.5%)</div>
-          </div>
-          <div style="background: var(--success-soft); padding: 14px 18px; border-radius: var(--radius-md); border: 1px solid #a7f3d0;">
-            <div style="font-size: 0.75rem; color: var(--success); font-weight: 700;">DỮ LIỆU ĐẠT CHUẨN</div>
-            <div style="font-family:'Space Grotesk',sans-serif; font-size:1.4rem; font-weight:800; color:var(--success);">2,414 đơn (98.5%)</div>
-          </div>
-          <div style="background: var(--gold-soft); padding: 14px 18px; border-radius: var(--radius-md); border: 1px solid var(--gold-border);">
-            <div style="font-size: 0.75rem; color: var(--gold-dark); font-weight: 700;">BẢO MẬT PII MASKING</div>
-            <div style="font-family:'Space Grotesk',sans-serif; font-size:1.4rem; font-weight:800; color:var(--gold-dark);">100% Đã che mờ</div>
-          </div>
-        </div>
-
-        <div style="font-size: 0.85rem; color: var(--text-secondary); background: #faf9f6; padding: 14px 18px; border-radius: 10px; border: 1px solid var(--border-subtle);">
-          • <strong>Lọc trùng lặp đơn hàng:</strong> Loại bỏ 36 bản ghi trùng lặp mã đơn và sai mã SKU sản phẩm.<br/>
-          • <strong>Bổ khuyết giá trị thiếu:</strong> Bổ sung 14 ô trống về cước phí vận chuyển theo trung vị kênh bán.<br/>
-          • <strong>Che mờ bảo mật thông tin khách hàng (PII):</strong> Số điện thoại <code>098****456</code>, Địa chỉ giao hàng cá nhân, Số thẻ thanh toán.
-        </div>
-      </div>
-
-      <!-- Cảnh Báo Rủi Ro Kinh Doanh & Lời Khuyên Chiến Lược -->
-      <div class="risk-advice-grid">
-        <!-- Hộp Cảnh Báo Đỏ -->
-        <div class="notice-card danger">
-          <h4><span>🚨</span> CẢNH BÁO RỦI RO KINH DOANH & VẬN HÀNH</h4>
-          <ul>
-            <li><strong>Tỷ lệ hủy đơn hàng Kênh E-commerce:</strong> Đạt <strong>14.2%</strong> vào khung giờ cuối tuần (vượt ngưỡng kiểm soát tối đa 10%).</li>
-            <li><strong>Công nợ khách hàng B2B:</strong> Khoản thanh toán quá hạn 30 ngày của nhóm khách hàng đại lý tăng 15% so với tháng trước.</li>
-            <li><strong>Tồn kho sản phẩm chậm luân chuyển:</strong> Nhóm hàng combo phụ trợ có thời gian lưu kho trung bình vượt quá 45 ngày.</li>
-          </ul>
-        </div>
-
-        <!-- Hộp Lời Khuyên Vàng Golf -->
-        <div class="notice-card gold-advice">
-          <h4><span>💡</span> LỜI KHUYÊN & CHIẾN LƯỢC TĂNG TRƯỞNG TỪ AI</h4>
-          <ul>
-            <li><strong>Tập trung kênh B2B có biên lợi nhuận cao:</strong> Tăng 20% ngân sách tiếp thị cho tệp khách hàng doanh nghiệp và trường học có vòng đời giá trị lớn (LTV).</li>
-            <li><strong>Chính sách kích cầu & thanh toán sớm:</strong> Áp dụng chiết khấu 2.5% cho đơn hàng bán buôn thanh toán ngay bằng chuyển khoản.</li>
-            <li><strong>Tối ưu hóa phễu chuyển đổi:</strong> Khắc phục trải nghiệm thanh toán trên web để giảm tỷ lệ bỏ giỏ hàng vào buổi tối.</li>
-          </ul>
-        </div>
-      </div>
-
-    </section>
-
+    <div class="prog" id="prog"><i id="progBar"></i></div>
+    <button class="btn block" onclick="runPipeline()">⚡ Bắt đầu phân tích</button>
+    <div class="row" style="margin-top:12px;justify-content:center">
+      <button class="btn ghost sm" onclick="runSample()">Dùng dữ liệu mẫu</button>
+    </div>
+    <div class="msg" id="msg1"></div>
   </div>
 
-  <!-- MODAL CHỈNH SỬA BÁO CÁO LỊCH SỬ -->
-  <div id="editModal">
-    <div class="edit-box">
-      <h3 style="font-size:1.15rem; font-weight:800; margin-bottom:12px; color:var(--text-main);">✏️ Chỉnh Sửa & Cập Nhật Báo Cáo Kinh Doanh</h3>
-      <div class="form-group">
-        <label>Tiêu đề Báo Cáo</label>
-        <input type="text" id="editReportTitle" class="form-control" />
-      </div>
-      <div class="form-group">
-        <label>Doanh thu ghi nhận</label>
-        <input type="text" id="editReportRevenue" class="form-control" />
-      </div>
-      <div class="form-group">
-        <label>Ghi chú / Nhận xét của Chuyên Viên</label>
-        <textarea id="editReportNotes" class="form-control" style="min-height:80px;"></textarea>
-      </div>
-      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:18px;">
-        <button class="btn-row-action" onclick="closeEditModal()">Hủy Bỏ</button>
-        <button class="btn-gold-action" style="width:auto; padding:8px 22px; margin:0;" onclick="saveEditedReport()">Lưu Cập Nhật</button>
+  <div class="card about">
+    <div class="info">
+      <h2>Công ty cổ phần Rekkei edu</h2>
+      <p>📍 Địa chỉ: Hà Nội</p>
+      <p>📞 Số điện thoại: <a href="tel:0799776936" style="color:var(--ac);font-weight:700">0799776936</a></p>
+      <p>✉️ Gmail: <a href="mailto:rekei@gmail.com" style="color:var(--ac);font-weight:700">rekei@gmail.com</a></p>
+      <div class="soc">
+        <a href="https://www.facebook.com" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://zalo.me/0799776936" target="_blank" rel="noopener">Zalo</a>
+        <a href="mailto:rekei@gmail.com">Gmail</a>
       </div>
     </div>
+    <div style="background:var(--acsoft);border-radius:14px;padding:18px;display:flex;flex-direction:column;justify-content:center">
+      <b style="color:var(--ac)">Cần hỗ trợ?</b>
+      <p class="sub" style="margin:4px 0 12px">Để lại tên và số điện thoại hoặc Gmail, chúng tôi sẽ liên hệ.</p>
+      <button class="btn sm" onclick="go(3)">Nhận tư vấn →</button>
+    </div>
   </div>
+  <p class="thanks">Cảm ơn quý khách đã tin tưởng. Mọi thắc mắc vui lòng liên hệ theo địa chỉ trên.</p>
+</section>
 
-  <script>
-    // ==========================================
-    // AUTHENTICATION & SESSION
-    // ==========================================
-    let currentUser = JSON.parse(localStorage.getItem('biz_user')) || null;
+<!-- ============ TRANG 2 ============ -->
+<section id="p2" class="page">
+  <div id="resEmpty" class="card empty">
+    <div style="font-size:2.4rem">📭</div>
+    <p style="margin:8px 0 14px">Chưa có dữ liệu. Hãy gửi tệp ở bước ①.</p>
+    <button class="btn sm" onclick="go(1)">← Gửi dữ liệu</button>
+  </div>
+  <div id="resBox" style="display:none">
+    <div class="row" style="justify-content:space-between;margin-bottom:16px">
+      <div><h2 style="font-size:1.3rem">Kết quả phân tích</h2><span class="sub" id="resMeta"></span></div>
+      <div class="row">
+        <button class="btn sm" onclick="downloadReport()">⬇ Báo cáo HTML</button>
+        <button class="btn ghost sm" onclick="window.print()">🖨 In / PDF</button>
+        <button class="btn ghost sm" onclick="makeSlides()">🎞 Tạo slide</button>
+      </div>
+    </div>
+    <div class="pipe" id="pipe"></div>
+    <div id="dash"></div>
 
-    let appHistory = JSON.parse(localStorage.getItem('biz_history')) || [
-      { id: "KD-2026-1101", time: "18/11/2026 08:30", user: "Hoàng Linh Ngọc", title: "Báo cáo Doanh số & Tăng trưởng Đơn hàng Tháng 11", revenue: "3,450,000,000 ₫", status: "Đã duyệt", notes: "Kênh B2B vượt 115% kế hoạch đề ra." },
-      { id: "KD-2026-1030", time: "10/11/2026 14:15", user: "Nguyễn Văn Tuấn", title: "Phân tích Hiệu suất Kênh Bán Hàng Trực Tuyến & Đại Lý", revenue: "2,980,000,000 ₫", status: "Đã duyệt", notes: "Chi phí Marketing trên doanh thu đạt 16.5%." },
-      { id: "KD-2026-1015", time: "02/11/2026 09:00", user: "Trần Thị Mai", title: "Đánh giá Tỷ lệ Chuyển đổi & Giữ chân Khách hàng", revenue: "2,810,000,000 ₫", status: "Cần rà soát", notes: "Tỷ lệ hủy đơn hàng cuối tuần cần cải thiện." }
-    ];
+    <div id="slideBox" class="card" style="display:none">
+      <div class="row" style="justify-content:space-between;margin-bottom:12px">
+        <h2>Slide thuyết trình</h2>
+        <div class="row">
+          <button class="btn ghost sm" onclick="slideNav(-1)">◀</button>
+          <b id="slideNo" style="font-size:.85rem"></b>
+          <button class="btn ghost sm" onclick="slideNav(1)">▶</button>
+          <button class="btn sm" onclick="downloadSlides()">⬇ Tải slide</button>
+        </div>
+      </div>
+      <div id="slideView"></div>
+    </div>
+  </div>
+</section>
 
-    let currentSlideIndex = 0;
-    let editingHistoryIndex = null;
-    let isSlideGenerated = false;
+<!-- ============ TRANG 3 ============ -->
+<section id="p3" class="page">
+  <div class="card" style="max-width:640px;margin:0 auto">
+    <h2 style="font-size:1.3rem">Tư vấn cho bạn</h2>
+    <p class="sub">Chỉ cần vài thông tin, chúng tôi sẽ liên hệ sớm.</p>
+    <label class="l">Họ và tên</label>
+    <input id="cName" placeholder="Nguyễn Văn A" />
+    <label class="l">Số điện thoại hoặc Gmail</label>
+    <input id="cContact" placeholder="0799 xxx xxx hoặc ten@gmail.com" />
+    <label class="l">Nội dung thắc mắc</label>
+    <textarea id="cMsg" rows="4" placeholder="Bạn cần hỗ trợ điều gì?"></textarea>
+    <button class="btn block" onclick="sendConsult()">📨 Gửi yêu cầu tư vấn</button>
+    <div class="msg" id="msg3"></div>
+    <div id="mailBtn"></div>
+  </div>
+  <p class="thanks">Cảm ơn quý khách đã tin tưởng.</p>
+</section>
+</main>
 
-    function checkAuth() {
-      if (currentUser && currentUser.name && currentUser.contact) {
-        document.getElementById('authOverlay').style.display = 'none';
-        updateHeaderUserInfo();
-      } else {
-        document.getElementById('authOverlay').style.display = 'flex';
-      }
-    }
+<script>
+/* ================= GIAO DIỆN ================= */
+const root=document.documentElement;
+function setAccent(a){root.dataset.accent=a;localStorage.setItem('ltn_acc',a);document.querySelectorAll('.dot').forEach(d=>d.classList.toggle('on',d.dataset.a===a))}
+function toggleMode(){const m=root.dataset.mode==='light'?'dark':'light';root.dataset.mode=m;localStorage.setItem('ltn_mode',m);modeBtn.textContent=m==='light'?'🌙 Tối':'☀️ Sáng'}
+function go(n,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.getElementById('p'+n).classList.add('on');
+  document.querySelectorAll('.nav button').forEach((b,i)=>b.classList.toggle('on',i===n-1));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function srcTab(t){
+  srcFile.style.display=t==='file'?'block':'none';srcLink.style.display=t==='link'?'block':'none';
+  tabFile.classList.toggle('on',t==='file');tabLink.classList.toggle('on',t==='link');
+}
+(function init(){
+  setAccent(localStorage.getItem('ltn_acc')||'gold');
+  const m=localStorage.getItem('ltn_mode');if(m&&m!==root.dataset.mode)toggleMode();
+})();
 
-    function handleAuthSubmit(e) {
-      e.preventDefault();
-      const name = document.getElementById('inputAuthName').value.trim();
-      const contact = document.getElementById('inputAuthContact').value.trim();
-      const dept = document.getElementById('inputAuthDept').value;
+/* ================= NHẬN DỮ LIỆU ================= */
+let pendingRows=null,pendingName='';
+fileIn.addEventListener('change',e=>e.target.files[0]&&loadFile(e.target.files[0]));
+['dragover','dragenter'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('over')}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('over')}));
+drop.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];f&&loadFile(f)});
 
-      if (!name || !contact) {
-        alert("Vui lòng điền đầy đủ Họ tên và Số điện thoại hoặc Gmail!");
-        return;
-      }
+function say(id,t,cls){const el=document.getElementById(id);el.className='msg '+(cls||'');el.textContent=t}
 
-      currentUser = { name, contact, dept };
-      localStorage.setItem('biz_user', JSON.stringify(currentUser));
-      document.getElementById('authOverlay').style.display = 'none';
-      updateHeaderUserInfo();
-      runAnalysisAndGenerateReport();
-    }
+async function loadFile(f){
+  pendingRows=null;pendingName=f.name;fname.textContent='📄 '+f.name+' ('+(f.size/1024).toFixed(1)+' KB)';
+  const ext=f.name.split('.').pop().toLowerCase();
+  try{
+    const buf=await f.arrayBuffer();
+    if(['xlsx','xls','csv'].includes(ext)){
+      const wb=XLSX.read(buf,{type:'array',cellDates:true});
+      pendingRows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:'',raw:true});
+    }else if(ext==='docx'){
+      const r=await mammoth.convertToHtml({arrayBuffer:buf});
+      const doc=new DOMParser().parseFromString(r.value,'text/html');
+      const t=doc.querySelector('table');
+      if(!t)throw new Error('Không tìm thấy bảng trong tệp Word.');
+      const trs=[...t.querySelectorAll('tr')].map(tr=>[...tr.children].map(c=>c.textContent.trim()));
+      const head=trs.shift();
+      pendingRows=trs.map(r=>Object.fromEntries(head.map((h,i)=>[h||('Cột '+(i+1)),r[i]??''])));
+    }else if(ext==='pdf'){
+      throw new Error('PDF chưa đọc được bảng tự động. Vui lòng xuất sang Excel/CSV rồi gửi lại.');
+    }else throw new Error('Định dạng chưa hỗ trợ.');
+    if(!pendingRows.length)throw new Error('Tệp không có dữ liệu.');
+    say('msg1','✓ Đã nhận '+pendingRows.length+' dòng. Bấm “Bắt đầu phân tích”.','ok');
+  }catch(e){say('msg1',e.message,'err')}
+}
 
-    function logoutAuth() {
-      if (confirm("Bạn có muốn đổi nhân sự hoặc đăng nhập lại?")) {
-        localStorage.removeItem('biz_user');
-        currentUser = null;
-        document.getElementById('authOverlay').style.display = 'flex';
-      }
-    }
+async function loadLink(){
+  const url=linkIn.value.trim();
+  if(!url)throw new Error('Hãy dán liên kết Google Sheet.');
+  if(/lark|feishu/i.test(url))throw new Error('Lark Base chưa đọc trực tiếp được. Hãy xuất CSV/Excel rồi tải tệp lên.');
+  const m=url.match(/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+  if(!m)throw new Error('Liên kết không hợp lệ.');
+  let res;
+  try{res=await fetch('https://docs.google.com/spreadsheets/d/'+m[1]+'/export?format=csv')}
+  catch(e){throw new Error('Không truy cập được. Hãy chia sẻ “Bất kỳ ai có liên kết” hoặc tải tệp lên.')}
+  if(!res.ok)throw new Error('Không đọc được Google Sheet (cần chia sẻ công khai).');
+  const wb=XLSX.read(await res.text(),{type:'string',cellDates:true});
+  pendingName='Google Sheet';
+  return XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:'',raw:true});
+}
 
-    function updateHeaderUserInfo() {
-      if (!currentUser) return;
-      document.getElementById('headerUserName').innerText = currentUser.name;
-      document.getElementById('headerUserContact').innerText = `${currentUser.contact} • ${currentUser.dept}`;
-      
-      const initials = currentUser.name.split(' ').map(n => n[0]).slice(-2).join('').toUpperCase();
-      document.getElementById('headerAvatar').innerText = initials || "BZ";
-      
-      const meta = document.getElementById('reportHeaderMeta');
-      if (meta) {
-        meta.innerHTML = `Người lập báo cáo: <strong>${currentUser.name}</strong> (${currentUser.contact}) | Khối: <strong>${currentUser.dept}</strong> | Ngày lập: 18/11/2026`;
-      }
-    }
+function sampleData(){
+  const ch=['Online','Đại lý','Doanh nghiệp','Cửa hàng'],pr=['Gói Cơ bản','Gói Pro','Gói Campus'];
+  const rows=[];let s=7;const rnd=()=>(s=(s*9301+49297)%233280)/233280;
+  for(let i=0;i<240;i++){
+    const m=1+Math.floor(i/22),d=1+Math.floor(rnd()*27);
+    const sl=1+Math.floor(rnd()*9),gia=[490000,790000,1990000][Math.floor(rnd()*3)];
+    rows.push({'Ngày':`2026-${String(Math.min(m,11)).padStart(2,'0')}-${String(d).padStart(2,'0')}`,'Kênh':ch[Math.floor(rnd()*4)],'Sản phẩm':pr[Math.floor(rnd()*3)],'Số lượng':sl,'Doanh thu':sl*gia*(0.9+rnd()*0.2)|0});
+  }
+  rows[3]['Doanh thu']='1,250,000';rows[8]['Doanh thu']='';rows[15]['Kênh']='';rows[20]['Doanh thu']=-500000;rows[30]['Doanh thu']='2.100.000';
+  rows.push({...rows[1]},{...rows[5]},{...rows[9]},{'Ngày':'','Kênh':'','Sản phẩm':'','Số lượng':'','Doanh thu':''});
+  return rows;
+}
 
-    // ==========================================
-    // NAVIGATION TABS
-    // ==========================================
-    function switchPage(pageId, btn) {
-      document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById(pageId).classList.add('active');
-      if(btn) btn.classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+/* ================= LÀM SẠCH & PHÂN TÍCH ================= */
+const isEmpty=v=>v===''||v===null||v===undefined||(typeof v==='string'&&!v.trim());
+function toNum(v){
+  if(typeof v==='number')return v;
+  if(v instanceof Date||isEmpty(v))return NaN;
+  let s=String(v).replace(/[^\d.,\-]/g,'');
+  if(!/\d/.test(s))return NaN;
+  if(/^-?\d{1,3}([.,]\d{3})+$/.test(s))s=s.replace(/[.,]/g,'');
+  else s=s.replace(/,/g,'.');
+  const n=parseFloat(s);return isNaN(n)?NaN:n;
+}
+function toDate(v){
+  if(v instanceof Date)return isNaN(v)?null:v;
+  if(isEmpty(v)||typeof v==='number')return null;
+  const s=String(v).trim();let m;
+  if(m=s.match(/^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})/))return new Date(+m[1],m[2]-1,+m[3]);
+  if(m=s.match(/^(\d{1,2})[-\/](\d{1,2})[-\/](\d{4})/))return new Date(+m[3],m[2]-1,+m[1]);
+  return null;
+}
+const median=a=>{const b=[...a].sort((x,y)=>x-y);return b.length?(b.length%2?b[(b.length-1)/2]:(b[b.length/2-1]+b[b.length/2])/2):0};
+const fmt=n=>Math.round(n).toLocaleString('vi-VN');
+const short=n=>n>=1e9?(n/1e9).toFixed(2)+' tỷ':n>=1e6?(n/1e6).toFixed(1)+' tr':fmt(n);
 
-    function triggerSlidePageFromHome() {
-      const slideTabBtn = document.querySelectorAll('.nav-tab-btn')[1];
-      switchPage('pageSlide', slideTabBtn);
-      initSlideDeck();
-    }
+function analyze(raw,opt){
+  const log={total:raw.length,empty:0,dup:0,neg:0,filled:0,fixedText:0};
+  const headers=[...new Set(raw.flatMap(r=>Object.keys(r)))];
+  let rows=raw.map(r=>{const o={};headers.forEach(h=>{let v=r[h];if(typeof v==='string')v=v.trim();o[h]=v??''});return o});
 
-    // ==========================================
-    // FILE UPLOAD & PRESETS
-    // ==========================================
-    function handleFileSelect(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const notice = document.getElementById('fileUploadNotice');
-      notice.style.display = 'block';
-      notice.innerHTML = `✅ Đã tiếp nhận tệp dữ liệu: <strong>${file.name}</strong> (${(file.size/1024).toFixed(1)} KB) - Đang nạp vào mô hình phân tích...`;
-    }
+  // phân loại cột
+  const info={};
+  headers.forEach(h=>{
+    const vals=rows.map(r=>r[h]).filter(v=>!isEmpty(v));
+    const nNum=vals.filter(v=>!isNaN(toNum(v))&&!(v instanceof Date)).length;
+    const nDate=vals.filter(v=>toDate(v)).length;
+    info[h]={type:vals.length&&nDate/vals.length>.7?'date':vals.length&&nNum/vals.length>.7?'num':'text'};
+  });
 
-    function setSamplePrompt(type) {
-      const box = document.getElementById('promptInput');
-      if (type === 1) {
-        box.value = "Phân tích tổng hợp doanh số bán hàng, tốc độ tăng trưởng đơn hàng và cơ cấu doanh thu theo các kênh phân phối chính; đề xuất chiến lược tối ưu chi phí tiếp thị.";
-      } else if (type === 2) {
-        box.value = "Đánh giá chi tiết hiệu suất kinh doanh của 3 kênh phân phối chính: Kênh Doanh nghiệp B2B, Kênh Trực tuyến E-Commerce và Hệ thống Đại lý phân phối.";
-      } else if (type === 3) {
-        box.value = "Rà soát chi phí thu hút khách hàng mới (CAC), tỷ suất lợi nhuận trên chi phí tiếp thị (ROAS); đề xuất 3 giải pháp tăng trưởng doanh thu quý tới.";
-      }
-      runAnalysisAndGenerateReport();
-    }
+  if(opt.clean){
+    const before=rows.length;
+    rows=rows.filter(r=>headers.some(h=>!isEmpty(r[h])));log.empty=before-rows.length;
+    const seen=new Set(),b2=rows.length;
+    rows=rows.filter(r=>{const k=JSON.stringify(headers.map(h=>r[h]instanceof Date?+r[h]:r[h]));if(seen.has(k))return false;seen.add(k);return true});
+    log.dup=b2-rows.length;
+  }
+  const numCols=headers.filter(h=>info[h].type==='num');
+  const dateCol=headers.find(h=>info[h].type==='date');
+  const textCols=headers.filter(h=>info[h].type==='text');
+  const revCol=numCols.find(h=>/doanh thu|revenue|thành tiền|amount|total|tổng|giá trị|sales/i.test(h))||numCols[numCols.length-1]||null;
 
-    // ==========================================
-    // REPORT GENERATION
-    // ==========================================
-    function runAnalysisAndGenerateReport() {
-      const prompt = document.getElementById('promptInput').value;
-      const user = currentUser ? currentUser.name : "Hoàng Linh Ngọc";
-      const dept = currentUser ? currentUser.dept : "Khối Kinh Doanh & Bán Hàng";
+  rows.forEach(r=>numCols.forEach(h=>{
+    if(typeof r[h]==='string'&&!isEmpty(r[h])){log.fixedText++}
+    r[h]=toNum(r[h]);
+  }));
+  if(opt.clean){
+    const b3=rows.length;
+    if(revCol)rows=rows.filter(r=>isNaN(r[revCol])||r[revCol]>=0);
+    log.neg=b3-rows.length;
+    numCols.forEach(h=>{
+      const med=median(rows.map(r=>r[h]).filter(v=>!isNaN(v)));
+      rows.forEach(r=>{if(isNaN(r[h])){r[h]=med;log.filled++}});
+    });
+    textCols.forEach(h=>rows.forEach(r=>{if(isEmpty(r[h])){r[h]='Không rõ';log.filled++}}));
+  }else{
+    numCols.forEach(h=>rows.forEach(r=>{if(isNaN(r[h]))r[h]=0}));
+  }
+  log.clean=rows.length;
+  log.removed=log.total-rows.length;
 
-      const reportHtml = `
-        <h4 style="color:var(--gold-dark); font-size:1.05rem; font-weight:800; margin-bottom:10px;">I. BỐI CẢNH & KẾT QUẢ KINH DOANH CHUNG</h4>
-        <p style="margin-bottom:12px;">
-          Theo số liệu đối soát doanh số bán hàng và đơn hàng toàn hệ thống, doanh nghiệp đạt 
-          <strong>tổng doanh thu 3,450,000,000 VNĐ</strong> (+18.5% so với tháng trước), hoàn thành 112.4% chỉ tiêu kinh doanh tháng 11/2026.
-          Tổng số lượng đơn hàng giao dịch thành công đạt <strong>4,820 đơn hàng</strong> với giá trị trung bình đơn (AOV) đạt 715,000 VNĐ.
-        </p>
+  // KPI
+  const k={rows:rows.length,rev:0,avg:0,max:0,growth:null,revCol,dateCol,catCol:null,byCat:[],byTime:[]};
+  if(revCol&&rows.length){
+    const v=rows.map(r=>r[revCol]);
+    k.rev=v.reduce((a,b)=>a+b,0);k.avg=k.rev/v.length;k.max=Math.max(...v);
+  }
+  const catCol=textCols.find(h=>{const u=new Set(rows.map(r=>r[h])).size;return u>=2&&u<=20});
+  k.catCol=catCol||null;
+  if(catCol&&revCol){
+    const g={};rows.forEach(r=>g[r[catCol]]=(g[r[catCol]]||0)+r[revCol]);
+    k.byCat=Object.entries(g).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  }
+  if(dateCol&&revCol){
+    const g={};rows.forEach(r=>{const d=toDate(r[dateCol]);if(!d)return;const key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');g[key]=(g[key]||0)+r[revCol]});
+    k.byTime=Object.entries(g).sort((a,b)=>a[0].localeCompare(b[0])).slice(-12);
+    if(k.byTime.length>=2){const a=k.byTime.at(-2)[1],b=k.byTime.at(-1)[1];k.growth=a?((b-a)/a*100):null}
+  }
+  // gợi ý
+  k.tips=[];
+  if(k.byCat.length&&k.rev){
+    const share=k.byCat[0][1]/k.rev*100;
+    k.tips.push([share>60?'w':'g',`“${k.byCat[0][0]}” chiếm ${share.toFixed(0)}% doanh thu${share>60?' – nên đa dạng hoá nguồn thu':' – cơ cấu khá cân bằng'}.`]);
+  }
+  if(k.growth!==null)k.tips.push([k.growth<0?'w':'g',`Kỳ gần nhất ${k.growth<0?'giảm':'tăng'} ${Math.abs(k.growth).toFixed(1)}% so với kỳ trước${k.growth<0?' – cần rà soát nguyên nhân':''}.`]);
+  const bad=log.total?log.removed/log.total*100:0;
+  k.tips.push([bad>5?'w':'g',bad>5?`Có ${bad.toFixed(1)}% dòng lỗi đã loại bỏ – nên chuẩn hoá nhập liệu từ nguồn.`:`Chất lượng dữ liệu tốt (lỗi ${bad.toFixed(1)}%).`]);
+  return{log,k,opt,headers,name:pendingName,time:new Date().toLocaleString('vi-VN')};
+}
 
-        <h4 style="color:var(--gold-dark); font-size:1.05rem; font-weight:800; margin-bottom:10px;">II. CƠ CẤU DOANH THU THEO KÊNH BÁN HÀNG & SẢN PHẨM</h4>
-        <p style="margin-bottom:8px;">
-          • <strong>Kênh Khách hàng Doanh nghiệp (B2B):</strong> Đóng góp 1.82 Tỷ VNĐ (chiếm 52.8% tổng doanh thu, biên lợi nhuận cao 48.5%).<br/>
-          • <strong>Kênh Trực tuyến & E-Commerce:</strong> Đạt 1.14 Tỷ VNĐ (chiếm 33.0% doanh thu, tăng trưởng đơn hàng +24.2%).<br/>
-          • <strong>Hệ thống Đại lý Phân phối:</strong> Đạt 490 Triệu VNĐ (chiếm 14.2% doanh thu, duy trì lượng khách quen ổn định).<br/>
-          • <strong>Biên lợi nhuận gộp toàn hệ thống:</strong> Đạt 45.2% (tương đương 1.56 Tỷ VNĐ lợi nhuận gộp).
-        </p>
+/* ================= HIỂN THỊ ================= */
+let RES=null,slideIdx=0,slideList=[];
+function dashHTML(R){
+  const{k,log,opt}=R;let h='';
+  if(opt.kpi){
+    h+=`<div class="kpis">
+      <div class="kpi"><small>Tổng doanh thu</small><div>${short(k.rev)}</div><em class="${k.growth===null?'':k.growth>=0?'up':'down'}">${k.growth===null?k.revCol||'—':(k.growth>=0?'↑ ':'↓ ')+Math.abs(k.growth).toFixed(1)+'% so kỳ trước'}</em></div>
+      <div class="kpi"><small>Số dòng sạch</small><div>${fmt(k.rows)}</div><em class="up">trên ${fmt(log.total)} dòng gốc</em></div>
+      <div class="kpi"><small>Trung bình / dòng</small><div>${short(k.avg)}</div><em>Cao nhất ${short(k.max)}</em></div>
+      <div class="kpi"><small>Nhóm dẫn đầu</small><div style="font-size:1.25rem">${k.byCat[0]?k.byCat[0][0]:'—'}</div><em>${k.byCat[0]?short(k.byCat[0][1]):''}</em></div>
+    </div>`;
+  }
+  if(opt.dash){
+    const mx=k.byCat[0]?k.byCat[0][1]:1,mt=k.byTime.length?Math.max(...k.byTime.map(t=>t[1])):1;
+    h+=`<div class="grid2">
+      <div class="card"><h2>Theo ${k.catCol||'nhóm'}</h2><p class="sub" style="margin-bottom:8px">Doanh thu từng nhóm</p>
+      ${k.byCat.length?k.byCat.map(([n,v])=>`<div class="bar"><span>${n}</span><div class="t"><i style="width:${v/mx*100}%"></i></div><b>${short(v)}</b></div>`).join(''):'<p class="sub">Không có cột phân nhóm.</p>'}</div>
+      <div class="card"><h2>Theo thời gian</h2><p class="sub" style="margin-bottom:8px">Doanh thu theo tháng</p>
+      ${k.byTime.length?`<div class="cols">${k.byTime.map(([n,v])=>`<div class="col"><i style="height:${v/mt*85}%" title="${fmt(v)}"></i><span>${n.slice(5)}/${n.slice(2,4)}</span></div>`).join('')}</div>`:'<p class="sub">Không có cột ngày.</p>'}</div>
+    </div>`;
+  }
+  if(opt.clean){
+    h+=`<div class="card"><h2>Nhật ký làm sạch</h2><table>
+      <tr><th>Hạng mục</th><th>Số lượng</th></tr>
+      <tr><td>Dòng gốc</td><td>${fmt(log.total)}</td></tr>
+      <tr><td>Dòng trống đã xoá</td><td>${log.empty}</td></tr>
+      <tr><td>Dòng trùng lặp đã xoá</td><td>${log.dup}</td></tr>
+      <tr><td>Giá trị âm bất thường đã loại</td><td>${log.neg}</td></tr>
+      <tr><td>Ô trống đã bổ sung (trung vị / “Không rõ”)</td><td>${log.filled}</td></tr>
+      <tr><td>Ô số dạng chữ đã chuẩn hoá</td><td>${log.fixedText}</td></tr>
+      <tr><td><b>Dòng sạch cuối cùng</b></td><td><b>${fmt(log.clean)}</b></td></tr></table></div>`;
+  }
+  h+=`<div class="card"><h2>Nhận xét & lưu ý</h2><ul class="ins">${k.tips.map(t=>`<li class="${t[0]}">${t[0]==='g'?'✅':'⚠️'} ${t[1]}</li>`).join('')}</ul></div>`;
+  return h;
+}
+function showResult(R){
+  RES=R;resEmpty.style.display='none';resBox.style.display='block';slideBox.style.display='none';
+  resMeta.textContent=`${R.name||'Dữ liệu'} · ${R.time}`;
+  pipe.innerHTML=['Đã nhận dữ liệu',R.opt.clean?'Đã làm sạch':null,R.opt.kpi?'Đã tính KPI':null,R.opt.dash?'Đã tạo Dashboard':null].filter(Boolean).map(t=>`<span class="chip">${t}</span>`).join('');
+  dash.innerHTML=dashHTML(R);
+  document.querySelectorAll('.nav button')[1].click?go(2):0;
+}
 
-        <h4 style="color:var(--gold-dark); font-size:1.05rem; font-weight:800; margin-bottom:10px;">III. KẾT LUẬN & ĐỀ XUẤT CHIẾN LƯỢC KINH DOANH</h4>
-        <p>
-          Dữ liệu kinh doanh đã được chuẩn hóa và kiểm duyệt qua quy trình Data Cleaning tự động. 
-          Khối Kinh doanh kính trình Ban Giám Đốc kế hoạch mở rộng tập khách hàng B2B và tối ưu chi phí tiếp thị số để hướng tới mốc doanh thu 4.0 Tỷ VNĐ trong tháng 12.
-        </p>
-      `;
-      document.getElementById('fullReportContainer').innerHTML = reportHtml;
+async function runPipeline(){
+  const opt={clean:sClean.checked,kpi:sKpi.checked,dash:sDash.checked};
+  if(!opt.clean&&!opt.kpi&&!opt.dash){say('msg1','Hãy chọn ít nhất 1 dịch vụ.','err');return}
+  let raw=pendingRows;
+  try{
+    if(srcLink.style.display!=='none'){say('msg1','Đang tải liên kết…');raw=await loadLink()}
+    if(!raw||!raw.length)throw new Error('Chưa có dữ liệu. Hãy gửi tệp hoặc dùng dữ liệu mẫu.');
+  }catch(e){say('msg1',e.message,'err');return}
+  prog.style.display='block';progBar.style.width='15%';
+  await new Promise(r=>setTimeout(r,250));progBar.style.width='55%';
+  const R=analyze(raw,opt);
+  await new Promise(r=>setTimeout(r,250));progBar.style.width='100%';
+  await new Promise(r=>setTimeout(r,200));
+  prog.style.display='none';progBar.style.width='0';say('msg1','');
+  showResult(R);
+}
+function runSample(){pendingRows=sampleData();pendingName='Dữ liệu mẫu';fname.textContent='📄 Dữ liệu mẫu (240 dòng, có lỗi cố ý)';srcTab('file');runPipeline()}
 
-      // Lưu vào lịch sử
-      const newId = `KD-2026-${Math.floor(1000 + Math.random()*9000)}`;
-      appHistory.unshift({
-        id: newId,
-        time: "Vừa xong",
-        user: user,
-        title: prompt.slice(0, 50) + "...",
-        revenue: "3,450,000,000 ₫",
-        status: "Đã tạo",
-        notes: `Tạo bởi ${user} (${dept}).`
-      });
-      localStorage.setItem('biz_history', JSON.stringify(appHistory));
-      renderHistoryTable();
+/* ================= XUẤT BÁO CÁO ================= */
+function download(name,content,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click()}
+function downloadReport(){
+  if(!RES)return;
+  const css=document.querySelector('style').textContent;
+  const html=`<!DOCTYPE html><html lang="vi" data-mode="${root.dataset.mode}" data-accent="${root.dataset.accent}"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Báo cáo phân tích dữ liệu</title><style>${css}</style></head><body><main><div class="hero"><h1>Báo cáo <span>phân tích dữ liệu</span></h1><p class="sub">${RES.name||''} · ${RES.time} · Thực hiện bởi LANH THAI NGOC – Công ty cổ phần Rekkei edu</p></div>${dashHTML(RES)}<p class="thanks">Cảm ơn quý khách đã tin tưởng · 0799776936 · rekei@gmail.com</p></main></body></html>`;
+  download('bao-cao-phan-tich.html',html,'text/html;charset=utf-8');
+}
 
-      // Nếu đã từng mở slide thì cập nhật lại nội dung slide
-      if(isSlideGenerated) {
-        renderSlide(currentSlideIndex);
-      }
-    }
+/* ================= SLIDE (TẠO KHI KHÁCH BẤM) ================= */
+function makeSlides(){
+  if(!RES)return;const k=RES.k;
+  slideList=[
+    `<h3>Báo cáo phân tích dữ liệu</h3><p>${RES.name||''}<br>${RES.time}</p><p><b>LANH THAI NGOC</b> · Công ty cổ phần Rekkei edu</p>`,
+    `<h3>Chỉ số chính</h3><div class="big"><div>Tổng doanh thu<b>${short(k.rev)}</b></div><div>Số dòng sạch<b>${fmt(k.rows)}</b></div><div>Trung bình / dòng<b>${short(k.avg)}</b></div><div>Tăng trưởng<b>${k.growth===null?'—':(k.growth>=0?'+':'')+k.growth.toFixed(1)+'%'}</b></div></div>`,
+    `<h3>Nhóm dẫn đầu</h3><ul>${k.byCat.slice(0,5).map(([n,v])=>`<li>${n}: <b>${short(v)}</b></li>`).join('')||'<li>Không có dữ liệu phân nhóm</li>'}</ul>`,
+    `<h3>Nhận xét & hành động</h3><ul>${k.tips.map(t=>`<li>${t[1]}</li>`).join('')}</ul>`
+  ];
+  slideIdx=0;slideBox.style.display='block';renderSlide();slideBox.scrollIntoView({behavior:'smooth'});
+}
+function renderSlide(){slideView.innerHTML=`<div class="slide">${slideList[slideIdx]}<p style="font-size:.7rem">LANH THAI NGOC · Rekkei edu</p></div>`;slideNo.textContent=(slideIdx+1)+' / '+slideList.length}
+function slideNav(d){slideIdx=(slideIdx+d+slideList.length)%slideList.length;renderSlide()}
+function downloadSlides(){
+  const css=document.querySelector('style').textContent+'@media print{.slide{break-after:page}}';
+  download('slide-bao-cao.html',`<!DOCTYPE html><html lang="vi" data-mode="light" data-accent="${root.dataset.accent}"><head><meta charset="UTF-8"><title>Slide</title><style>${css}body{padding:20px}.slide{max-width:960px;margin:0 auto 24px}</style></head><body>${slideList.map(s=>`<div class="slide">${s}</div>`).join('')}</body></html>`,'text/html;charset=utf-8');
+}
 
-    // ==========================================
-    // TRANG SLIDE RIÊNG BIỆT (KHỞI TẠO THEO YÊU CẦU)
-    // ==========================================
-    function initSlideDeck() {
-      isSlideGenerated = true;
-      document.getElementById('slideUninitialized').style.display = 'none';
-      document.getElementById('slideDeckBox').style.display = 'block';
-      currentSlideIndex = 0;
-      renderSlide(0);
-    }
-
-    const SLIDES_CONTENT = [
-      {
-        type: "cover",
-        title: "BÁO CÁO PHÂN TÍCH KẾT QUẢ KINH DOANH THÁNG 11/2026",
-        subtitle: "Đánh Giá Toàn Diện Tăng Trưởng Doanh Số, Kênh Bán Hàng & Chiến Lược Quý IV"
-      },
-      {
-        type: "kpi",
-        title: "TỔNG QUAN CHỈ SỐ KINH DOANH CỐT LÕI",
-        items: [
-          { label: "TỔNG DOANH THU", val: "3.45 Tỷ ₫", note: "Tăng trưởng +18.5% so với tháng 10" },
-          { label: "LỢI NHUẬN GỘP", val: "1.56 Tỷ ₫", note: "Biên lợi nhuận gộp đạt 45.2%" },
-          { label: "TỔNG ĐƠN HÀNG", val: "4,820 Đơn", note: "Giá trị TB đạt 715,000 ₫/đơn" },
-          { label: "KHÁCH HÀNG MỚI", val: "1,280 Khách", note: "Tỷ lệ giữ chân đạt 42.6%" }
-        ]
-      },
-      {
-        type: "channels",
-        title: "CƠ CẤU DOANH THU THEO KÊNH BÁN HÀNG",
-        content: `
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:14px;">
-            <div style="background:#faf8f5; border:1.5px solid #e9dcbe; border-radius:12px; padding:20px;">
-              <h4 style="color:#967417; font-weight:800; margin-bottom:8px;">🏢 Kênh Doanh Nghiệp B2B (Dẫn Đầu)</h4>
-              <p style="font-size:0.9rem; line-height:1.6; color:#2b2823;">
-                • Doanh thu: <strong>1.82 Tỷ VNĐ (52.8%)</strong><br/>
-                • Biên lợi nhuận: 48.5% (Tỷ suất cao nhất)<br/>
-                • Đánh giá: Trụ cột tăng trưởng vững chắc.
-              </p>
-            </div>
-            <div style="background:#fffcf2; border:1.5px solid #fed7aa; border-radius:12px; padding:20px;">
-              <h4 style="color:#ea580c; font-weight:800; margin-bottom:8px;">🛒 Kênh Trực Tuyến & E-Commerce</h4>
-              <p style="font-size:0.9rem; line-height:1.6; color:#7c2d12;">
-                • Doanh thu: <strong>1.14 Tỷ VNĐ (33.0%)</strong><br/>
-                • Tăng trưởng đơn hàng: +24.2% MoM<br/>
-                • Đánh giá: Tiềm năng mở rộng quy mô lớn.
-              </p>
-            </div>
-          </div>
-        `
-      },
-      {
-        type: "conclusion",
-        title: "ĐỀ XUẤT HÀNH ĐỘNG CHIẾN LƯỢC CHO BAN GIÁM ĐỐC",
-        bullets: [
-          "Mở rộng tập khách hàng Doanh nghiệp B2B với mục tiêu doanh thu 4.0 Tỷ VNĐ trong tháng 12.",
-          "Tập trung ngân sách tiếp thị vào các kênh có tỷ suất hoàn vốn cao (ROAS > 4.5) thay vì chạy dàn trải.",
-          "Ứng dụng tự động hóa phân tích dữ liệu bán hàng hàng ngày để cảnh báo sớm nguy cơ tồn kho và đơn hủy."
-        ]
-      }
-    ];
-
-    function renderSlide(index) {
-      const canvas = document.getElementById('slideCanvas');
-      const s = SLIDES_CONTENT[index];
-      const user = currentUser ? currentUser.name : "Hoàng Linh Ngọc";
-      const dept = currentUser ? currentUser.dept : "Khối Kinh Doanh & Bán Hàng";
-
-      document.getElementById('slideIndicator').innerText = `Slide ${index + 1} / ${SLIDES_CONTENT.length}`;
-
-      if (s.type === "cover") {
-        canvas.innerHTML = `
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span style="font-size:0.85rem; font-weight:800; color:#c59b27; letter-spacing:1px;">BIZDATA PRESTIGE • EXECUTIVE PRESENTATION</span>
-            <span style="font-size:0.8rem; color:#878c94;">Mã Báo Cáo: KD-2026-11</span>
-          </div>
-          <div style="margin: auto 0;">
-            <h1 style="font-size:2.1rem; font-weight:800; color:#18191b; line-height:1.25; margin-bottom:12px;">${s.title}</h1>
-            <p style="font-size:1.05rem; color:#585c63;">${s.subtitle}</p>
-          </div>
-          <div style="border-top:2px solid #eae5db; padding-top:14px; display:flex; justify-content:space-between; align-items:center;">
-            <div style="font-size:0.9rem;">Chuyên viên báo cáo: <strong>${user}</strong> • Bộ phận: <strong>${dept}</strong></div>
-            <div style="font-size:0.85rem; color:#878c94;">Ngày trình bày: 18/11/2026</div>
-          </div>
-        `;
-      } else if (s.type === "kpi") {
-        let itemsHtml = s.items.map(it => `
-          <div style="background:#faf8f5; border:1px solid #e9dcbe; border-radius:10px; padding:18px;">
-            <div style="font-size:0.75rem; color:#878c94; font-weight:700;">${it.label}</div>
-            <div style="font-size:1.85rem; font-weight:800; color:#18191b; font-family:'Space Grotesk',sans-serif; margin:4px 0;">${it.val}</div>
-            <div style="font-size:0.82rem; color:#047857; font-weight:700;">${it.note}</div>
-          </div>
-        `).join('');
-
-        canvas.innerHTML = `
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <h2 style="font-size:1.35rem; font-weight:800; color:#18191b;">${s.title}</h2>
-            <span style="font-size:0.8rem; color:#878c94;">Phần I: Tổng Thể Kinh Doanh</span>
-          </div>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin: auto 0;">
-            ${itemsHtml}
-          </div>
-          <div style="font-size:0.8rem; color:#878c94; border-top:1px solid #eee; padding-top:8px;">
-            *Nguồn: Dữ liệu đơn hàng CRM & phần mềm quản lý bán hàng tháng 11/2026.
-          </div>
-        `;
-      } else if (s.type === "channels") {
-        canvas.innerHTML = `
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <h2 style="font-size:1.35rem; font-weight:800; color:#18191b;">${s.title}</h2>
-            <span style="font-size:0.8rem; color:#878c94;">Phần II: Kênh Phân Phối</span>
-          </div>
-          <div style="margin: auto 0;">
-            ${s.content}
-          </div>
-          <div style="font-size:0.8rem; color:#878c94; border-top:1px solid #eee; padding-top:8px;">
-            Khuyến nghị: Tăng cường chăm sóc khách hàng VIP để tối ưu hóa giá trị vòng đời (LTV).
-          </div>
-        `;
-      } else if (s.type === "conclusion") {
-        let bulletsHtml = s.bullets.map(b => `<li style="margin-bottom:12px; font-size:0.95rem; line-height:1.6;">${b}</li>`).join('');
-        canvas.innerHTML = `
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <h2 style="font-size:1.35rem; font-weight:800; color:#18191b;">${s.title}</h2>
-            <span style="font-size:0.8rem; color:#878c94;">Phần III: Định Hướng Tăng Trưởng</span>
-          </div>
-          <div style="margin: auto 0;">
-            <ul style="padding-left:24px; color:#2b2823;">
-              ${bulletsHtml}
-            </ul>
-          </div>
-          <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #eee; padding-top:8px; font-size:0.85rem;">
-            <span>Trân trọng cảm ơn Ban Giám Đốc đã theo dõi!</span>
-            <span style="color:#c59b27; font-weight:800;">Hỏi & Đáp (Q&A)</span>
-          </div>
-        `;
-      }
-    }
-
-    function prevSlide() {
-      if (currentSlideIndex > 0) {
-        currentSlideIndex--;
-        renderSlide(currentSlideIndex);
-      }
-    }
-
-    function nextSlide() {
-      if (currentSlideIndex < SLIDES_CONTENT.length - 1) {
-        currentSlideIndex++;
-        renderSlide(currentSlideIndex);
-      }
-    }
-
-    function downloadMockDocument(ext) {
-      const fileName = `BaoCao_DuLieu_KinhDoanh.${ext}`;
-      const dummy = `BÁO CÁO XỬ LÝ & PHÂN TÍCH DỮ LIỆU KINH DOANH THÁNG 11/2026\nNgười lập: ${currentUser ? currentUser.name : "Hoàng Linh Ngọc"}\nDoanh thu: 3.45 Tỷ VNĐ\nĐơn hàng thành công: 4,820 đơn`;
-      const blob = new Blob([dummy], { type: 'text/plain;charset=utf-8' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = fileName;
-      a.click();
-      alert(`✅ Đang tải xuống tệp ${fileName} hoàn chỉnh!`);
-    }
-
-    // ==========================================
-    // HISTORY & EDIT MODAL
-    // ==========================================
-    function renderHistoryTable() {
-      const tbody = document.getElementById('historyTableBody');
-      if (!tbody) return;
-      tbody.innerHTML = '';
-
-      appHistory.forEach((h, idx) => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td><strong>${h.id}</strong></td>
-          <td>${h.time}</td>
-          <td>${h.user}</td>
-          <td>${h.title}</td>
-          <td style="font-weight:800; color:var(--gold-dark);">${h.revenue}</td>
-          <td><span style="background:var(--gold-soft); color:var(--gold-dark); font-weight:700; padding:3px 8px; border-radius:6px; font-size:0.75rem;">${h.status}</span></td>
-          <td>
-            <button class="btn-row-action" onclick="viewHistoryItem(${idx})">👁️ Xem</button>
-            <button class="btn-row-action" onclick="openEditModal(${idx})">✏️ Sửa</button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    function viewHistoryItem(idx) {
-      const h = appHistory[idx];
-      alert(`📋 [BÁO CÁO ${h.id}]\n• Người thực hiện: ${h.user}\n• Thời gian: ${h.time}\n• Nội dung: ${h.title}\n• Doanh thu: ${h.revenue}\n• Ghi chú: ${h.notes}`);
-    }
-
-    function openEditModal(idx) {
-      editingHistoryIndex = idx;
-      const h = appHistory[idx];
-      document.getElementById('editReportTitle').value = h.title;
-      document.getElementById('editReportRevenue').value = h.revenue;
-      document.getElementById('editReportNotes').value = h.notes;
-      document.getElementById('editModal').style.display = 'flex';
-    }
-
-    function closeEditModal() {
-      document.getElementById('editModal').style.display = 'none';
-      editingHistoryIndex = null;
-    }
-
-    function saveEditedReport() {
-      if (editingHistoryIndex === null) return;
-      appHistory[editingHistoryIndex].title = document.getElementById('editReportTitle').value;
-      appHistory[editingHistoryIndex].revenue = document.getElementById('editReportRevenue').value;
-      appHistory[editingHistoryIndex].notes = document.getElementById('editReportNotes').value;
-      appHistory[editingHistoryIndex].status = "Đã chỉnh sửa";
-
-      localStorage.setItem('biz_history', JSON.stringify(appHistory));
-      renderHistoryTable();
-      closeEditModal();
-      alert("✅ Đã cập nhật chỉnh sửa báo cáo kinh doanh thành công!");
-    }
-
-    // ==========================================
-    // INITIALIZATION
-    // ==========================================
-    window.onload = () => {
-      checkAuth();
-      renderHistoryTable();
-      runAnalysisAndGenerateReport();
-    };
-  </script>
+/* ================= TƯ VẤN ================= */
+function sendConsult(){
+  const n=cName.value.trim(),c=cContact.value.trim(),m=cMsg.value.trim();
+  const okC=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(c)||/^(\+?84|0)\d{9,10}$/.test(c.replace(/[\s.\-]/g,''));
+  if(!n||!c||!m)return say('msg3','Vui lòng điền đủ 3 ô.','err');
+  if(!okC)return say('msg3','Số điện thoại hoặc Gmail chưa hợp lệ.','err');
+  const list=JSON.parse(localStorage.getItem('ltn_consult')||'[]');
+  list.unshift({n,c,m,t:new Date().toLocaleString('vi-VN')});localStorage.setItem('ltn_consult',JSON.stringify(list));
+  say('msg3','✓ Đã ghi nhận yêu cầu. Cảm ơn '+n+'!','ok');
+  const body=encodeURIComponent(`Họ tên: ${n}\nLiên hệ: ${c}\nNội dung: ${m}`);
+  mailBtn.innerHTML=`<a class="btn ghost sm" style="margin-top:12px;text-decoration:none" href="mailto:rekei@gmail.com?subject=${encodeURIComponent('Yêu cầu tư vấn từ '+n)}&body=${body}">✉️ Gửi thêm qua Gmail</a>`;
+  cName.value=cContact.value=cMsg.value='';
+}
+</script>
 </body>
 </html>
