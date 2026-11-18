@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NUTRICARE AI - Đếm Ngày Ăn Calo & Kế Hoạch Thâm Hụt Khoa Học</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #f5efe6;
+      --bg-card: #ffffff;
+      --bg-subtle: #fcfaf7;
+      --primary: #e76f51;
+      --primary-hover: #d65a3b;
+      --primary-soft: #fdeee9;
+      --secondary: #2a9d8f;
+      --secondary-soft: #e8f6f4;
+      --dark: #1f2421;
+      --muted: #6c757d;
+      --light-border: #e9ecef;
+      --accent-gold: #e9c46a;
+      --card-shadow: 0 10px 30px -10px rgba(42, 50, 45, 0.08), 0 4px 12px -2px rgba(42, 50, 45, 0.04);
+      --radius: 16px;
+      --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; }
+    body { background-color: var(--bg-main); color: var(--dark); min-height: 100vh; padding-bottom: 60px; line-height: 1.5; }
+
+    /* Top Header */
+    header {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(14px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--dark);
+    }
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary), #f4a261);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.25rem;
+      box-shadow: 0 4px 12px rgba(231, 111, 81, 0.3);
+    }
+    .brand-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: -0.5px;
+    }
+    .brand-title span { color: var(--primary); }
+
+    /* Navigation Tabs */
+    .nav-tabs {
+      display: flex;
+      background: #ede6dc;
+      padding: 4px;
+      border-radius: 30px;
+      gap: 4px;
+    }
+    .nav-tab-btn {
+      border: none;
+      background: transparent;
+      padding: 8px 18px;
+      border-radius: 24px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #555;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+    .nav-tab-btn:hover { color: var(--dark); }
+    .nav-tab-btn.active {
+      background: white;
+      color: var(--primary);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+    }
+    .btn-reset {
+      border: 1px solid #d8cfc4;
+      background: transparent;
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--muted);
+      transition: var(--transition);
+    }
+    .btn-reset:hover { background: white; color: var(--dark); }
+
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 28px auto 0;
+      padding: 0 20px;
+    }
+
+    /* Page Visibility */
+    .page-view { display: none; animation: fadeIn 0.35s ease; }
+    .page-view.active { display: block; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Common Card Styles */
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      box-shadow: var(--card-shadow);
+      padding: 24px;
+      border: 1px solid rgba(0,0,0,0.04);
+      margin-bottom: 24px;
+    }
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card-subtitle {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    /* ---------------- PAGE 1 STYLES ---------------- */
+    .streak-banner {
+      background: linear-gradient(135deg, #2a9d8f, #264653);
+      color: white;
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      box-shadow: 0 12px 30px -8px rgba(42, 157, 143, 0.35);
+    }
+    .streak-stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .streak-stat-label {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      opacity: 0.85;
+      font-weight: 600;
+    }
+    .streak-stat-val {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+    .streak-stat-sub { font-size: 0.85rem; opacity: 0.85; font-weight: 400; }
+
+    /* Weekly Days Table / Cards */
+    .week-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .day-card {
+      background: var(--bg-card);
+      border: 2px solid #eee5d8;
+      border-radius: 14px;
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: var(--transition);
+      position: relative;
+    }
+    .day-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    }
+    .day-card.checked {
+      background: #fdfaf6;
+      border-color: var(--secondary);
+    }
+    .day-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .day-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--dark);
+    }
+    .day-date-str {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .check-toggle {
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      border: 2px solid #cbd5e1;
+      background: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      font-size: 0.9rem;
+      color: transparent;
+    }
+    .day-card.checked .check-toggle {
+      background: var(--secondary);
+      border-color: var(--secondary);
+      color: white;
+    }
+    .day-input-group label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .day-calorie-input {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--dark);
+      background: #fff;
+    }
+    .day-status-pill {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+      text-align: center;
+    }
+    .pill-on-track { background: var(--secondary-soft); color: var(--secondary); }
+    .pill-over { background: #fee2e2; color: #dc2626; }
+    .pill-unfilled { background: #f1f5f9; color: #64748b; }
+
+    /* Month 30-Day Check-in Grid */
+    .month-calendar-box {
+      margin-top: 24px;
+    }
+    .calendar-tiles {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(42px, 1fr));
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .cal-tile {
+      aspect-ratio: 1;
+      border-radius: 10px;
+      border: 1px solid #e2d9cd;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: var(--transition);
+      user-select: none;
+    }
+    .cal-tile:hover {
+      border-color: var(--primary);
+      transform: scale(1.05);
+    }
+    .cal-tile.active-check {
+      background: var(--secondary);
+      border-color: var(--secondary);
+      color: white;
+      box-shadow: 0 4px 10px rgba(42, 157, 143, 0.25);
+    }
+
+    /* ---------------- PAGE 2 STYLES ---------------- */
+    .selector-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .option-card {
+      background: white;
+      border: 2px solid #e9e0d4;
+      border-radius: 14px;
+      padding: 20px;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+    }
+    .option-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    }
+    .option-card.selected {
+      border-color: var(--primary);
+      background: #fffcf9;
+    }
+    .option-card.selected::after {
+      content: "✓";
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 22px;
+      height: 22px;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+    .option-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--dark);
+    }
+    .option-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.45;
+      margin-bottom: 12px;
+    }
+    .option-meta {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: #f1f5f9;
+      color: #475569;
+    }
+
+    /* Meal Split Visualizer */
+    .meal-breakdown-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+    }
+    .meal-breakdown-table th, .meal-breakdown-table td {
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+      font-size: 0.88rem;
+    }
+    .meal-breakdown-table th {
+      background: #faf7f2;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    /* ---------------- PAGE 3 STYLES (CALCULATOR) ---------------- */
+    .calc-layout {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 900px) {
+      .calc-layout { grid-template-columns: 1fr; }
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--dark);
+    }
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    input[type="number"], select {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #dcd3c8;
+      font-size: 0.92rem;
+      background: white;
+      color: var(--dark);
+    }
+    input[type="number"]:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(231, 111, 81, 0.15);
+    }
+    .btn-calc {
+      width: 100%;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 13px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 4px 14px rgba(231, 111, 81, 0.3);
+    }
+    .btn-calc:hover { background: var(--primary-hover); }
+
+    /* Results Timeline */
+    .result-hero {
+      background: linear-gradient(135deg, #fff, #fdf8f4);
+      border: 2px solid var(--primary-soft);
+      border-radius: var(--radius);
+      padding: 22px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .result-kpi-block {
+      display: flex;
+      flex-direction: column;
+    }
+    .result-kpi-label { font-size: 0.8rem; font-weight: 600; color: var(--muted); text-transform: uppercase; }
+    .result-kpi-val { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; color: var(--primary); }
+
+    .milestone-timeline {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .milestone-box {
+      background: white;
+      border: 1px solid #e7ded2;
+      border-radius: 12px;
+      padding: 14px;
+      text-align: center;
+    }
+    .milestone-week { font-size: 0.78rem; font-weight: 700; color: var(--muted); }
+    .milestone-lost { font-family: 'Space Grotesk', sans-serif; font-size: 1.35rem; font-weight: 700; color: var(--secondary); margin: 4px 0; }
+    .milestone-weight { font-size: 0.82rem; font-weight: 600; color: var(--dark); }
+
+    /* SVG Chart */
+    .chart-container {
+      width: 100%;
+      height: 240px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Sticky Navigation Bar -->
+  <header>
+    <div class="header-inner">
+      <a href="#" class="brand">
+        <div class="brand-icon">🥗</div>
+        <div class="brand-title">NUTRICARE <span>AI</span></div>
+      </a>
+
+      <!-- Page Switcher Tabs -->
+      <nav class="nav-tabs">
+        <button class="nav-tab-btn active" onclick="switchPage('page1', this)">
+          <span>📅</span> Đếm Ngày & Calo Tuần
+        </button>
+        <button class="nav-tab-btn" onclick="switchPage('page2', this)">
+          <span>🍽️</span> Chế Độ & Dạng Thâm Hụt
+        </button>
+        <button class="nav-tab-btn" onclick="switchPage('page3', this)">
+          <span>⚖️</span> Dự Báo Số Cân Giảm
+        </button>
+      </nav>
+
+      <div class="header-actions">
+        <button class="btn-reset" onclick="loadSampleData()" title="Khôi phục số liệu mẫu để chấm điểm / kiểm tra">
+          ↺ Nạp Dữ Liệu Mẫu
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- ============================================================== -->
+    <!-- TRANG 1: ĐẾM NGÀY ĂN THEO CALO & THEO DÕI TUẦN                 -->
+    <!-- ============================================================== -->
+    <section id="page1" class="page-view active">
+      <!-- Streak & Metric Banner -->
+      <div class="streak-banner">
+        <div class="streak-stat-item">
+          <div class="streak-stat-label">🔥 Chuỗi Kỷ Luật Ăn Chuẩn</div>
+          <div class="streak-stat-val" id="streakCountDisplay">12 <span class="streak-stat-sub">ngày liên tiếp</span></div>
+        </div>
+        <div class="streak-stat-item">
+          <div class="streak-stat-label">🎯 Mục Tiêu Calo / Ngày</div>
+          <div class="streak-stat-val">
+            <span id="bannerDailyTarget">1,500</span> <span class="streak-stat-sub">kcal</span>
+          </div>
+        </div>
+        <div class="streak-stat-item">
+          <div class="streak-stat-label">📊 Đã Nạp Trong Tuần</div>
+          <div class="streak-stat-val">
+            <span id="bannerWeeklyTotal">10,240</span> <span class="streak-stat-sub">/ 10,500 kcal</span>
+          </div>
+        </div>
+        <div class="streak-stat-item">
+          <div class="streak-stat-label">⚖️ Trung Bình Thực Tế</div>
+          <div class="streak-stat-val">
+            <span id="bannerDailyAvg">1,462</span> <span class="streak-stat-sub">kcal / ngày</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nhật Ký 7 Ngày Trong Tuần (Có thể chỉnh sửa số calo & tích dấu) -->
+      <div class="card">
+        <div class="card-title">
+          <span>📋</span> Nhật Ký 7 Ngày Ăn Uống Trong Tuần
+        </div>
+        <div class="card-subtitle">
+          Bạn có thể đánh dấu tích (✓) khi hoàn thành ngày ăn, và chỉnh sửa số Calo nạp vào từng ngày để tính tổng cả tuần.
+        </div>
+
+        <div class="week-grid" id="weekGridContainer">
+          <!-- 7 ngày sẽ được JavaScript tự động tạo động ở đây -->
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 14px; border-top: 1px solid #eee;">
+          <span style="font-size: 0.88rem; color: var(--muted);">
+            💡 Mẹo: Nhấp vào ô tròn góc trên của mỗi ngày để đánh dấu tích hoàn thành.
+          </span>
+          <button class="btn-calc" style="width: auto; padding: 8px 18px;" onclick="calculateWeeklySummary()">
+            💾 Cập Nhật & Lưu Số Liệu
+          </button>
+        </div>
+      </div>
+
+      <!-- Biểu Đồ Cột Calo 7 Ngày So Với Mục Tiêu -->
+      <div class="card">
+        <div class="card-title">
+          <span>📊</span> Biểu Đồ Cột So Sánh Calo 7 Ngày
+        </div>
+        <div class="card-subtitle">
+          Đường nét đứt màu đỏ là Calo mục tiêu. Cột xanh là ăn chuẩn, cột đỏ là vượt mức.
+        </div>
+        <div id="weeklyChartSvg" style="width: 100%; height: 200px; display: flex; align-items: flex-end; gap: 16px; padding: 20px 10px 30px; border-bottom: 2px solid #ddd; position: relative;">
+          <!-- SVG Bar items inserted here -->
+        </div>
+      </div>
+
+      <!-- Lịch 30 Ngày Check-in Thói Quen (Monthly Habit Grid) -->
+      <div class="card month-calendar-box">
+        <div class="card-title">
+          <span>🗓️</span> Đánh Dấu Tích 30 Ngày Ăn Đúng Mục Tiêu
+        </div>
+        <div class="card-subtitle">
+          Bấm vào từng ô số ngày để bật/tắt dấu tích. Bạn đã ăn chuẩn được <strong id="monthCheckedCount" style="color:var(--secondary)">12</strong> / 30 ngày trong tháng.
+        </div>
+        <div class="calendar-tiles" id="monthCalendarContainer">
+          <!-- 30 ô ngày sẽ được render ở đây -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- TRANG 2: CÁC CHẾ ĐỘ DINH DƯỠNG & DẠNG THÂM HỤT                  -->
+    <!-- ============================================================== -->
+    <section id="page2" class="page-view">
+      <!-- Dạng Phân Bổ Bữa Ăn (3 bữa, 2 bữa, 4-5 bữa, OMAD) -->
+      <div class="card">
+        <div class="card-title">
+          <span>🍽️</span> Lựa Chọn Dạng Phân Bổ Bữa Ăn Trong Ngày
+        </div>
+        <div class="card-subtitle">
+          Tùy vào lịch làm việc, học tập và thói quen sinh hoạt, bạn có thể chọn cách chia lượng Calo theo các bữa:
+        </div>
+
+        <div class="selector-grid">
+          <div class="option-card selected" onclick="selectMealPattern('3meals', this)">
+            <div class="option-title">Ăn trong 3 Bữa Chính (Truyền Thống)</div>
+            <div class="option-desc">Chia đều năng lượng giúp ổn định đường huyết suốt ngày dài, không bị mệt hay hạ đường huyết.</div>
+            <div class="option-meta">
+              <span class="tag">Sáng 30%</span>
+              <span class="tag">Trưa 40%</span>
+              <span class="tag">Tối 30%</span>
+            </div>
+          </div>
+
+          <div class="option-card" onclick="selectMealPattern('2meals', this)">
+            <div class="option-title">Ăn trong 2 Bữa (Nhịn Ăn Gián Đoạn 16:8)</div>
+            <div class="option-desc">Bỏ bữa sáng, ăn bữa đầu lúc 12:00 và bữa cuối lúc 20:00. Mỗi bữa ăn no, dễ tạo thâm hụt calo.</div>
+            <div class="option-meta">
+              <span class="tag">Bữa 1 (12h): 50%</span>
+              <span class="tag">Bữa 2 (19h30): 50%</span>
+              <span class="tag">IF 16:8</span>
+            </div>
+          </div>
+
+          <div class="option-card" onclick="selectMealPattern('4meals', this)">
+            <div class="option-title">Ăn trong 4 - 5 Bữa (Tập Luyện / Gymmer)</div>
+            <div class="option-desc">Chia nhỏ bữa ăn kèm 1 bữa xế chiều phụ để nạp năng lượng tập luyện và hấp thụ protein tối đa.</div>
+            <div class="option-meta">
+              <span class="tag">Sáng 25%</span>
+              <span class="tag">Trưa 35%</span>
+              <span class="tag">Xế 15%</span>
+              <span class="tag">Tối 25%</span>
+            </div>
+          </div>
+
+          <div class="option-card" onclick="selectMealPattern('omad', this)">
+            <div class="option-title">Ăn 1 Bữa Duy Nhất (OMAD - One Meal A Day)</div>
+            <div class="option-desc">Dồn toàn bộ calo trong ngày vào 1 bữa ăn lớn trong 1-2 tiếng. Phù hợp người bận rộn kỷ luật cao.</div>
+            <div class="option-meta">
+              <span class="tag">Bữa Duy Nhất: 100%</span>
+              <span class="tag">Fasting 23h</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bảng Phân Bổ Calo Chi Tiết Theo Dạng Đã Chọn -->
+        <div style="background: #faf7f2; border-radius: 12px; padding: 18px; border: 1px solid #ebd9c8;">
+          <h4 style="font-size: 0.95rem; margin-bottom: 8px;" id="mealPatternHeading">
+            Chi Tiết Phân Bổ Calo Cho Mục Tiêu: <strong>1,500 kcal / ngày</strong>
+          </h4>
+          <table class="meal-breakdown-table" id="mealBreakdownTable">
+            <!-- Dynamic meal rows -->
+          </table>
+        </div>
+      </div>
+
+      <!-- Các Mức Thâm Hụt Calo (Deficit Tiers) -->
+      <div class="card">
+        <div class="card-title">
+          <span>⚡</span> Lựa Chọn Mức Thâm Hụt Calo (Deficit Level)
+        </div>
+        <div class="card-subtitle">
+          Quyết định tốc độ giảm mỡ và khả năng duy trì bền vững của bạn:
+        </div>
+
+        <div class="selector-grid">
+          <div class="option-card" onclick="selectDeficitLevel(300, this)">
+            <div class="option-title">Thâm Hụt Nhẹ (-300 kcal/ngày)</div>
+            <div class="option-desc">Giảm ~0.3 kg mỡ/tuần. Dễ dàng nhất, hầu như không cảm thấy đói, giữ cơ bắp tối đa.</div>
+            <div class="option-meta">
+              <span class="tag" style="background:#e8f6f4;color:#2a9d8f;">Rất Bền Vững</span>
+            </div>
+          </div>
+
+          <div class="option-card selected" onclick="selectDeficitLevel(500, this)">
+            <div class="option-title">Thâm Hụt Chuẩn (-500 kcal/ngày) ⭐</div>
+            <div class="option-desc">Giảm ~0.5 kg mỡ/tuần (3,500 kcal/tuần). Tiêu chuẩn vàng được các chuyên gia dinh dưỡng khuyến nghị.</div>
+            <div class="option-meta">
+              <span class="tag" style="background:#fdeee9;color:#e76f51;">Khuyên Dùng</span>
+            </div>
+          </div>
+
+          <div class="option-card" onclick="selectDeficitLevel(750, this)">
+            <div class="option-title">Thâm Hụt Sâu (-750 kcal/ngày)</div>
+            <div class="option-desc">Giảm ~0.75 - 0.8 kg/tuần. Giảm mỡ nhanh nhưng cần kỷ luật cao và uống đủ nước.</div>
+            <div class="option-meta">
+              <span class="tag" style="background:#fee2e2;color:#dc2626;">Giảm Nhanh</span>
+            </div>
+          </div>
+
+          <div class="option-card" onclick="selectDeficitLevel(0, this)">
+            <div class="option-title">Giữ Cân / Tái Cấu Trúc (0 kcal)</div>
+            <div class="option-desc">Ăn bằng mức TDEE. Phù hợp với người đã đạt cân nặng mục tiêu hoặc muốn tăng cơ giảm mỡ đồng thời.</div>
+            <div class="option-meta">
+              <span class="tag">Maintenance</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chế Độ Ăn Mẫu (Diet Styles) -->
+      <div class="card">
+        <div class="card-title">
+          <span>🥗</span> Các Chế Độ Dinh Dưỡng Khoa Học
+        </div>
+        <div class="card-subtitle">
+          Lựa chọn trường phái dinh dưỡng yêu thích để tối ưu năng lượng:
+        </div>
+        <div class="selector-grid">
+          <div class="option-card selected" onclick="selectDietStyle('eatclean', this)">
+            <div class="option-title">🌿 Eat Clean & Thực Phẩm Tự Nhiên</div>
+            <div class="option-desc">Ưu tiên đồ tươi sống, ngũ cốc nguyên cám (gạo lứt, yến mạch), hạn chế dầu mỡ và đồ chế biến sẵn.</div>
+            <div class="option-meta"><span class="tag">Carb 45%</span><span class="tag">Protein 30%</span><span class="tag">Fat 25%</span></div>
+          </div>
+          <div class="option-card" onclick="selectDietStyle('highprotein', this)">
+            <div class="option-title">💪 High Protein (Giàu Đạm Cho Gymmer)</div>
+            <div class="option-desc">Tập trung ức gà, cá ngừ, trứng, whey protein để bảo vệ cơ bắp tối đa trong khi đốt mỡ.</div>
+            <div class="option-meta"><span class="tag">Carb 30%</span><span class="tag">Protein 45%</span><span class="tag">Fat 25%</span></div>
+          </div>
+          <div class="option-card" onclick="selectDietStyle('mediterranean', this)">
+            <div class="option-title">🥑 Chế Độ Địa Trung Hải (Mediterranean)</div>
+            <div class="option-desc">Giàu chất béo tốt (dầu ô liu, quả bơ, các loại hạt, cá hồi), tốt cho tim mạch và làn da.</div>
+            <div class="option-meta"><span class="tag">Carb 40%</span><span class="tag">Protein 25%</span><span class="tag">Fat 35%</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- TRANG 3: NHẬP SỐ CÂN & DỰ BÁO SỐ KG GIẢM THEO THÂM HỤT          -->
+    <!-- ============================================================== -->
+    <section id="page3" class="page-view">
+      <div class="calc-layout">
+        <!-- Input Form -->
+        <div class="card">
+          <div class="card-title">
+            <span>⚙️</span> Thông Số Cá Nhân Của Bạn
+          </div>
+          <div class="card-subtitle">
+            Nhập thông số của bạn để tính chính xác mức Calo tiêu thụ tự nhiên (TDEE).
+          </div>
+
+          <div class="form-group">
+            <label>Giới tính</label>
+            <select id="userGender" onchange="runWeightLossForecast()">
+              <option value="male">Nam giới</option>
+              <option value="female" selected>Nữ giới</option>
+            </select>
+          </div>
+
+          <div class="input-row">
+            <div class="form-group">
+              <label>Tuổi</label>
+              <input type="number" id="userAge" value="22" min="15" max="80" oninput="runWeightLossForecast()" />
+            </div>
+            <div class="form-group">
+              <label>Chiều cao (cm)</label>
+              <input type="number" id="userHeight" value="162" min="130" max="220" oninput="runWeightLossForecast()" />
+            </div>
+          </div>
+
+          <div class="input-row">
+            <div class="form-group">
+              <label>Cân nặng hiện tại (kg)</label>
+              <input type="number" id="currentWeight" value="65.0" step="0.5" min="35" max="200" oninput="runWeightLossForecast()" />
+            </div>
+            <div class="form-group">
+              <label>Cân nặng mục tiêu (kg)</label>
+              <input type="number" id="targetWeight" value="58.0" step="0.5" min="35" max="200" oninput="runWeightLossForecast()" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Mức độ vận động hàng ngày</label>
+            <select id="activityLevel" onchange="runWeightLossForecast()">
+              <option value="1.2">Ít vận động (Ngồi văn phòng, ít đi lại)</option>
+              <option value="1.375" selected>Vận động nhẹ (Tập nhẹ 1 - 3 buổi/tuần)</option>
+              <option value="1.55">Vừa phải (Tập thể dục 3 - 5 buổi/tuần)</option>
+              <option value="1.725">Vận động nhiều (Tập nặng 6 - 7 buổi/tuần)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Mức thâm hụt calo mỗi ngày (kcal)</label>
+            <input type="number" id="manualDeficit" value="500" step="50" min="100" max="1200" oninput="runWeightLossForecast()" />
+          </div>
+
+          <button class="btn-calc" onclick="runWeightLossForecast()">
+            🚀 Tính Toán Lộ Trình Giảm Cân
+          </button>
+        </div>
+
+        <!-- Output Forecast & Milestones -->
+        <div>
+          <!-- Hero KPI Block -->
+          <div class="result-hero">
+            <div class="result-kpi-block">
+              <div class="result-kpi-label">Tiêu Hao Hàng Ngày (TDEE)</div>
+              <div class="result-kpi-val" id="resTdee">1,980 <span style="font-size:0.9rem;font-weight:400;color:var(--dark);">kcal</span></div>
+            </div>
+            <div class="result-kpi-block">
+              <div class="result-kpi-label">Calo Nạp Để Giảm Cân</div>
+              <div class="result-kpi-val" id="resTargetCalo">1,480 <span style="font-size:0.9rem;font-weight:400;color:var(--dark);">kcal</span></div>
+            </div>
+            <div class="result-kpi-block">
+              <div class="result-kpi-label">Tốc Độ Giảm / Tuần</div>
+              <div class="result-kpi-val" id="resWeeklyLoss" style="color:var(--secondary);">-0.45 <span style="font-size:0.9rem;font-weight:400;color:var(--dark);">kg</span></div>
+            </div>
+          </div>
+
+          <!-- Milestones Forecast Cards -->
+          <div class="card">
+            <div class="card-title">
+              <span>🎯</span> Dự Báo Số Cân Nặng Giảm Theo Thời Gian
+            </div>
+            <div class="card-subtitle">
+              Tính toán dựa trên định luật nhiệt động lực học ($7,700 \text{ kcal thâm hụt} \approx 1\text{ kg mỡ thuần}$).
+            </div>
+
+            <div class="milestone-timeline" id="milestonesContainer">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Interactive SVG Trajectory Chart -->
+          <div class="card">
+            <div class="card-title">
+              <span>📉</span> Biểu Đồ Mô Phỏng Lộ Trình Giảm Cân (12 Tuần)
+            </div>
+            <div class="card-subtitle">
+              Đường đi xuống thể hiện cân nặng của bạn qua từng tuần nếu tuân thủ mức thâm hụt calo.
+            </div>
+            <div class="chart-container" id="forecastChartSvg">
+              <!-- SVG Polyline Graph rendered here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    // ==========================================
+    // STATE & DEFAULT DATA
+    // ==========================================
+    const DEFAULT_APP_STATE = {
+      dailyTarget: 1500,
+      weekDays: [
+        { id: 1, name: "Thứ 2", date: "16/11", calories: 1480, checked: true, note: "Ăn ức gà, salad" },
+        { id: 2, name: "Thứ 3", date: "17/11", calories: 1520, checked: true, note: "Cơm gạo lứt" },
+        { id: 3, name: "Thứ 4", date: "18/11", calories: 1460, checked: true, note: "Hấp, luộc" },
+        { id: 4, name: "Thứ 5", date: "19/11", calories: 1500, checked: true, note: "Bún bò ít bánh" },
+        { id: 5, name: "Thứ 6", date: "20/11", calories: 1650, checked: false, note: "Ăn ngoài hơi thừa" },
+        { id: 6, name: "Thứ 7", date: "21/11", calories: 1420, checked: true, note: "Bù calo thứ 6" },
+        { id: 7, name: "Chủ Nhật", date: "22/11", calories: 1510, checked: true, note: "Ăn gia đình" }
+      ],
+      monthChecks: [1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 14],
+      mealPattern: "3meals",
+      deficitLevel: 500,
+      dietStyle: "eatclean"
+    };
+
+    let appState = JSON.parse(localStorage.getItem('nutricare_state')) || DEFAULT_APP_STATE;
+
+    function saveState() {
+      localStorage.setItem('nutricare_state', JSON.stringify(appState));
+    }
+
+    // ==========================================
+    // NAVIGATION LOGIC
+    // ==========================================
+    function switchPage(pageId, btn) {
+      document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+      btn.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function loadSampleData() {
+      localStorage.removeItem('nutricare_state');
+      appState = JSON.parse(JSON.stringify(DEFAULT_APP_STATE));
+      saveState();
+      renderAllViews();
+      alert("✅ Đã nạp lại dữ liệu mẫu đầy đủ cho 3 trang!");
+    }
+
+    // ==========================================
+    // TRANG 1: RENDER WEEK & MONTH
+    // ==========================================
+    function renderWeekDays() {
+      const container = document.getElementById('weekGridContainer');
+      container.innerHTML = '';
+
+      appState.weekDays.forEach((day, idx) => {
+        const isChecked = day.checked;
+        const diff = day.calories - appState.dailyTarget;
+        let pillClass = "pill-on-track";
+        let pillText = `Đạt (${day.calories} kcal)`;
+
+        if (!day.calories) {
+          pillClass = "pill-unfilled";
+          pillText = "Chưa nhập";
+        } else if (diff > 50) {
+          pillClass = "pill-over";
+          pillText = `Vượt +${diff} kcal`;
+        }
+
+        const card = document.createElement('div');
+        card.className = `day-card ${isChecked ? 'checked' : ''}`;
+        card.innerHTML = `
+          <div class="day-header">
+            <div>
+              <div class="day-name">${day.name}</div>
+              <div class="day-date-str">${day.date}</div>
+            </div>
+            <div class="check-toggle" onclick="toggleDayCheck(${idx})">${isChecked ? '✓' : ''}</div>
+          </div>
+          <div class="day-input-group">
+            <label>Nạp vào (kcal):</label>
+            <input type="number" class="day-calorie-input" value="${day.calories}" 
+              onchange="updateDayCalorie(${idx}, this.value)" step="10" />
+          </div>
+          <div class="day-status-pill ${pillClass}">${pillText}</div>
+        `;
+        container.appendChild(card);
+      });
+
+      renderWeeklyChart();
+      updateBannerStats();
+    }
+
+    function toggleDayCheck(idx) {
+      appState.weekDays[idx].checked = !appState.weekDays[idx].checked;
+      saveState();
+      renderWeekDays();
+    }
+
+    function updateDayCalorie(idx, val) {
+      appState.weekDays[idx].calories = parseInt(val) || 0;
+      saveState();
+      renderWeekDays();
+    }
+
+    function calculateWeeklySummary() {
+      saveState();
+      renderWeekDays();
+      alert("✅ Đã lưu số liệu tuần thành công!");
+    }
+
+    function updateBannerStats() {
+      const checkedCount = appState.weekDays.filter(d => d.checked).length;
+      document.getElementById('streakCountDisplay').innerHTML = `${checkedCount} <span class="streak-stat-sub">ngày ăn chuẩn</span>`;
+      
+      const totalWeekly = appState.weekDays.reduce((acc, d) => acc + (d.calories || 0), 0);
+      const targetWeekly = appState.dailyTarget * 7;
+      document.getElementById('bannerDailyTarget').innerText = appState.dailyTarget.toLocaleString();
+      document.getElementById('bannerWeeklyTotal').innerText = totalWeekly.toLocaleString();
+      document.getElementById('bannerDailyAvg').innerText = Math.round(totalWeekly / 7).toLocaleString();
+    }
+
+    function renderWeeklyChart() {
+      const container = document.getElementById('weeklyChartSvg');
+      container.innerHTML = '';
+      
+      const target = appState.dailyTarget;
+      const maxVal = Math.max(...appState.weekDays.map(d => d.calories), target + 200, 2000);
+
+      appState.weekDays.forEach(day => {
+        const heightPct = Math.min((day.calories / maxVal) * 100, 100);
+        const isOver = day.calories > target + 50;
+        const barColor = isOver ? '#ef4444' : '#2a9d8f';
+
+        const barWrapper = document.createElement('div');
+        barWrapper.style.flex = "1";
+        barWrapper.style.height = "100%";
+        barWrapper.style.display = "flex";
+        barWrapper.style.flexDirection = "column";
+        barWrapper.style.justifyContent = "flex-end";
+        barWrapper.style.alignItems = "center";
+        barWrapper.style.position = "relative";
+
+        barWrapper.innerHTML = `
+          <div style="font-size:0.75rem;font-weight:700;margin-bottom:6px;color:${barColor};">${day.calories}</div>
+          <div style="width:100%;max-width:38px;height:${heightPct}%;background:${barColor};border-radius:6px 6px 0 0;transition:0.3s;"></div>
+          <div style="font-size:0.75rem;font-weight:600;margin-top:8px;color:#666;">${day.name.replace('Thứ ', 'T')}</div>
+        `;
+        container.appendChild(barWrapper);
+      });
+    }
+
+    function renderMonthCalendar() {
+      const container = document.getElementById('monthCalendarContainer');
+      container.innerHTML = '';
+
+      for (let day = 1; day <= 30; day++) {
+        const isChecked = appState.monthChecks.includes(day);
+        const tile = document.createElement('div');
+        tile.className = `cal-tile ${isChecked ? 'active-check' : ''}`;
+        tile.innerText = isChecked ? `✓ ${day}` : day;
+        tile.onclick = () => toggleMonthCheck(day);
+        container.appendChild(tile);
+      }
+      document.getElementById('monthCheckedCount').innerText = appState.monthChecks.length;
+    }
+
+    function toggleMonthCheck(day) {
+      if (appState.monthChecks.includes(day)) {
+        appState.monthChecks = appState.monthChecks.filter(d => d !== day);
+      } else {
+        appState.monthChecks.push(day);
+      }
+      saveState();
+      renderMonthCalendar();
+    }
+
+    // ==========================================
+    // TRANG 2: BỮA ĂN & DẠNG THÂM HỤT
+    // ==========================================
+    const MEAL_SPLITS = {
+      '3meals': [
+        { name: "Bữa Sáng (Breakfast)", time: "07:00 - 08:30", pct: 30, foods: "Trứng ốp la, 2 lát bánh mì đen, chuối, cà phê đen ít đường" },
+        { name: "Bữa Trưa (Lunch)", time: "11:30 - 13:00", pct: 40, foods: "1 chén cơm gạo lứt, 150g ức gà áp chảo, đĩa bông cải xanh luộc" },
+        { name: "Bữa Tối (Dinner)", time: "18:30 - 20:00", pct: 30, foods: "Cá hồi nướng măng tây, canh rong biển thịt bằm, thanh long" }
+      ],
+      '2meals': [
+        { name: "Bữa 1 - Phá Nhịn (First Meal)", time: "12:00 trưa", pct: 50, foods: "Bát bún bò nạc nhiều thịt, 1 quả trứng luộc, salad cà chua dưa leo" },
+        { name: "Bữa 2 - Bữa Tối (Final Meal)", time: "19:30 tối", pct: 50, foods: "200g thăn bò nướng, khoai lang hấp, canh bí đao tôm, hạt óc chó" }
+      ],
+      '4meals': [
+        { name: "Bữa Sáng", time: "07:00", pct: 25, foods: "Yến mạch ngâm sữa chua Hy Lạp, việt quất, bơ đậu phộng" },
+        { name: "Bữa Trưa", time: "12:00", pct: 35, foods: "Cơm trắng, cá thu sốt cà chua, canh rau ngót thịt băm" },
+        { name: "Bữa Phụ Xế (Pre-workout)", time: "16:30", pct: 15, foods: "1 muỗng Whey Protein hoặc 1 quả táo kèm 1 nắm hạnh nhân" },
+        { name: "Bữa Tối", time: "19:30", pct: 25, foods: "Salad ức gà xé, trứng luộc, dầu ô liu và dấm táo" }
+      ],
+      'omad': [
+        { name: "Bữa Duy Nhất (Single Feast)", time: "18:00 - 19:30", pct: 100, foods: "Đại tiệc giàu đạm: Bít tết bò 250g, 2 quả trứng, cơm gạo lứt, đĩa lớn rau xanh, bơ sáp và tráng miệng hoa quả" }
+      ]
+    };
+
+    function selectMealPattern(pattern, el) {
+      appState.mealPattern = pattern;
+      document.querySelectorAll('#page2 .selector-grid:first-of-type .option-card').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      saveState();
+      renderMealBreakdown();
+    }
+
+    function selectDeficitLevel(val, el) {
+      appState.deficitLevel = val;
+      document.getElementById('manualDeficit').value = val;
+      document.querySelectorAll('#page2 .selector-grid:nth-of-type(2) .option-card').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      saveState();
+      runWeightLossForecast();
+    }
+
+    function selectDietStyle(style, el) {
+      appState.dietStyle = style;
+      document.querySelectorAll('#page2 .selector-grid:nth-of-type(3) .option-card').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      saveState();
+    }
+
+    function renderMealBreakdown() {
+      const pattern = appState.mealPattern || '3meals';
+      const meals = MEAL_SPLITS[pattern];
+      const target = appState.dailyTarget || 1500;
+      
+      const table = document.getElementById('mealBreakdownTable');
+      let html = `<tr><th>Bữa Ăn</th><th>Khung Giờ</th><th>Tỉ Lệ</th><th>Lượng Calo</th><th>Gợi Ý Thực Đơn Mẫu</th></tr>`;
+
+      meals.forEach(m => {
+        const cal = Math.round(target * (m.pct / 100));
+        html += `
+          <tr>
+            <td style="font-weight:700;color:var(--dark);">${m.name}</td>
+            <td style="color:var(--muted);">${m.time}</td>
+            <td><span class="tag">${m.pct}%</span></td>
+            <td style="font-weight:700;color:var(--primary);">${cal} kcal</td>
+            <td style="font-size:0.83rem;color:#475569;">${m.foods}</td>
+          </tr>
+        `;
+      });
+      table.innerHTML = html;
+    }
+
+    // ==========================================
+    // TRANG 3: DỰ BÁO GIẢM CÂN TỪ CALO THÂM HỤT
+    // ==========================================
+    function runWeightLossForecast() {
+      const gender = document.getElementById('userGender').value;
+      const age = parseFloat(document.getElementById('userAge').value) || 25;
+      const height = parseFloat(document.getElementById('userHeight').value) || 165;
+      const curWeight = parseFloat(document.getElementById('currentWeight').value) || 65;
+      const tgtWeight = parseFloat(document.getElementById('targetWeight').value) || 58;
+      const act = parseFloat(document.getElementById('activityLevel').value) || 1.375;
+      const deficit = parseFloat(document.getElementById('manualDeficit').value) || 500;
+
+      // Công thức Mifflin-St Jeor chuẩn y khoa
+      let bmr = (10 * curWeight) + (6.25 * height) - (5 * age);
+      bmr += (gender === 'male' ? 5 : -161);
+
+      const tdee = Math.round(bmr * act);
+      const intakeTarget = Math.max(Math.round(tdee - deficit), 1100);
+      const weeklyLoss = (deficit * 7) / 7700; // 7700 kcal = 1 kg mỡ
+
+      // Cập nhật lên UI
+      document.getElementById('resTdee').innerHTML = `${tdee.toLocaleString()} <span style="font-size:0.9rem;font-weight:400;color:var(--dark);">kcal</span>`;
+      document.getElementById('resTargetCalo').innerHTML = `${intakeTarget.toLocaleString()} <span style="font-size:0.9rem;font-weight:400;color:var(--dark);">kcal</span>`;
+      document.getElementById('resWeeklyLoss').innerHTML = `-${weeklyLoss.toFixed(2)} <span style="font-size:0.9rem;font-weight:400;color:var(--dark);">kg</span>`;
+
+      // Cập nhật lại target calo của Trang 1
+      appState.dailyTarget = intakeTarget;
+      saveState();
+      updateBannerStats();
+      renderMealBreakdown();
+
+      // Render Milestones (1w, 2w, 4w, 8w, 12w)
+      const weeks = [1, 2, 4, 8, 12];
+      const milestonesBox = document.getElementById('milestonesContainer');
+      milestonesBox.innerHTML = '';
+
+      const totalNeedToLose = Math.max(curWeight - tgtWeight, 0);
+
+      weeks.forEach(w => {
+        const lost = Math.min(weeklyLoss * w, totalNeedToLose);
+        const remWeight = Math.max(curWeight - (weeklyLoss * w), tgtWeight);
+
+        const card = document.createElement('div');
+        card.className = 'milestone-box';
+        card.innerHTML = `
+          <div class="milestone-week">Sau ${w} Tuần</div>
+          <div class="milestone-lost">-${(weeklyLoss * w).toFixed(1)} kg</div>
+          <div class="milestone-weight">Còn <strong>${remWeight.toFixed(1)}</strong> kg</div>
+        `;
+        milestonesBox.appendChild(card);
+      });
+
+      renderForecastChart(curWeight, weeklyLoss, tgtWeight);
+    }
+
+    function renderForecastChart(startWeight, weeklyLoss, tgtWeight) {
+      const container = document.getElementById('forecastChartSvg');
+      container.innerHTML = '';
+
+      const width = 600;
+      const height = 200;
+      const padding = 35;
+
+      const weeks = [0, 1, 2, 3, 4, 6, 8, 10, 12];
+      const points = [];
+
+      const minW = Math.max(startWeight - (weeklyLoss * 12) - 2, tgtWeight - 2);
+      const maxW = startWeight + 1;
+
+      weeks.forEach(w => {
+        const weightAtW = Math.max(startWeight - (weeklyLoss * w), tgtWeight);
+        const x = padding + (w / 12) * (width - 2 * padding);
+        const y = height - padding - ((weightAtW - minW) / (maxW - minW)) * (height - 2 * padding);
+        points.push({ x, y, w, weight: weightAtW });
+      });
+
+      const polyPoints = points.map(p => `${p.x},${p.y}`).join(' ');
+
+      let svg = `
+        <svg viewBox="0 0 ${width} ${height}" style="width:100%;height:100%;">
+          <!-- Grid Lines -->
+          <line x1="${padding}" y1="${height - padding}" x2="${width - padding}" y2="${height - padding}" stroke="#ddd" stroke-width="1.5" />
+          <line x1="${padding}" y1="${padding}" x2="${padding}" y2="${height - padding}" stroke="#ddd" stroke-width="1.5" />
+          
+          <!-- Target Weight Dashed Line -->
+          <line x1="${padding}" y1="${points[points.length-1].y}" x2="${width - padding}" y2="${points[points.length-1].y}" stroke="#e76f51" stroke-dasharray="4" stroke-width="1.2" opacity="0.6" />
+          <text x="${width - padding - 80}" y="${points[points.length-1].y - 6}" font-size="11" fill="#e76f51" font-weight="600">Mục tiêu: ${tgtWeight} kg</text>
+
+          <!-- Trajectory Line -->
+          <polyline fill="none" stroke="#2a9d8f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" points="${polyPoints}" />
+      `;
+
+      // Plot points & Labels
+      points.forEach((p, idx) => {
+        if (idx === 0 || idx === 2 || idx === 4 || idx === points.length - 1) {
+          svg += `
+            <circle cx="${p.x}" cy="${p.y}" r="5" fill="#2a9d8f" stroke="#ffffff" stroke-width="2" />
+            <text x="${p.x}" y="${p.y - 10}" font-size="11" font-weight="700" fill="#1f2421" text-anchor="middle">${p.weight.toFixed(1)}kg</text>
+            <text x="${p.x}" y="${height - 12}" font-size="10" fill="#6c757d" text-anchor="middle">T${p.w}</text>
+          `;
+        }
+      });
+
+      svg += `</svg>`;
+      container.innerHTML = svg;
+    }
+
+    // ==========================================
+    // INITIALIZATION
+    // ==========================================
+    function renderAllViews() {
+      renderWeekDays();
+      renderMonthCalendar();
+      renderMealBreakdown();
+      runWeightLossForecast();
+    }
+
+    window.onload = () => {
+      renderAllViews();
+    };
+  </script>
+</body>
+</html>
