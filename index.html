@@ -3,82 +3,185 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NUTRICARE AI - Đếm Ngày Ăn Calo & Kế Hoạch Thâm Hụt Khoa Học</title>
+  <title>Hệ Thống Phân Tích & Xử Lý Dữ Liệu Doanh Thu Tài Chính Doanh Nghiệp</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-main: #f5efe6;
-      --bg-card: #ffffff;
-      --bg-subtle: #fcfaf7;
-      --primary: #e76f51;
-      --primary-hover: #d65a3b;
-      --primary-soft: #fdeee9;
-      --secondary: #2a9d8f;
-      --secondary-soft: #e8f6f4;
-      --dark: #1f2421;
-      --muted: #6c757d;
-      --light-border: #e9ecef;
-      --accent-gold: #e9c46a;
-      --card-shadow: 0 10px 30px -10px rgba(42, 50, 45, 0.08), 0 4px 12px -2px rgba(42, 50, 45, 0.04);
-      --radius: 16px;
+      --navy-dark: #0f172a;
+      --navy-card: #1e293b;
+      --primary: #2563eb;
+      --primary-light: #3b82f6;
+      --primary-soft: #eff6ff;
+      --teal: #0d9488;
+      --teal-soft: #f0fdfa;
+      --amber: #d97706;
+      --amber-soft: #fffbeb;
+      --rose: #e11d48;
+      --rose-soft: #fff1f2;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --card-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+      --radius: 14px;
       --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; }
-    body { background-color: var(--bg-main); color: var(--dark); min-height: 100vh; padding-bottom: 60px; line-height: 1.5; }
+    body { background-color: var(--bg); color: var(--text-main); min-height: 100vh; padding-bottom: 60px; line-height: 1.55; }
 
-    /* Top Header */
+    /* ================= AUTH GATE OVERLAY ================= */
+    #authOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .auth-card {
+      background: white;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 20px;
+      padding: 36px 32px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255,255,255,0.2);
+      animation: modalFadeIn 0.35s ease;
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.95) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .auth-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+    .auth-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--navy-dark);
+      margin-bottom: 8px;
+    }
+    .auth-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+    .form-group {
+      margin-bottom: 18px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--navy-dark);
+      margin-bottom: 6px;
+    }
+    .form-control {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1.5px solid var(--border);
+      font-size: 0.92rem;
+      background: #fdfdfd;
+      transition: var(--transition);
+    }
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: white;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+    }
+    .btn-auth-submit {
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary), #1d4ed8);
+      color: white;
+      border: none;
+      padding: 13px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.98rem;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+      margin-top: 8px;
+    }
+    .btn-auth-submit:hover {
+      background: #1e40af;
+      transform: translateY(-1px);
+    }
+
+    /* ================= MAIN TOP HEADER ================= */
     header {
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(14px);
+      background: white;
+      border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
       z-index: 100;
-      border-bottom: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
     }
     .header-inner {
-      max-width: 1200px;
+      max-width: 1280px;
       margin: 0 auto;
-      padding: 16px 24px;
+      padding: 14px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       gap: 16px;
     }
-    .brand {
+    .brand-group {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       text-decoration: none;
-      color: var(--dark);
+      color: var(--navy-dark);
     }
-    .brand-icon {
-      width: 40px;
-      height: 40px;
-      background: linear-gradient(135deg, var(--primary), #f4a261);
+    .brand-logo-icon {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, var(--navy-dark), var(--primary));
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
-      font-size: 1.25rem;
-      box-shadow: 0 4px 12px rgba(231, 111, 81, 0.3);
+      font-size: 1.3rem;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
     }
-    .brand-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 700;
-      font-size: 1.25rem;
-      letter-spacing: -0.5px;
+    .brand-text h1 {
+      font-size: 1.12rem;
+      font-weight: 800;
+      letter-spacing: -0.3px;
     }
-    .brand-title span { color: var(--primary); }
+    .brand-text p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
 
-    /* Navigation Tabs */
+    /* Tabs Switcher */
     .nav-tabs {
       display: flex;
-      background: #ede6dc;
+      background: #f1f5f9;
       padding: 4px;
       border-radius: 30px;
       gap: 4px;
@@ -88,446 +191,539 @@
       background: transparent;
       padding: 8px 18px;
       border-radius: 24px;
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: #555;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #64748b;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 8px;
       transition: var(--transition);
     }
-    .nav-tab-btn:hover { color: var(--dark); }
+    .nav-tab-btn:hover { color: var(--navy-dark); }
     .nav-tab-btn.active {
       background: white;
       color: var(--primary);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
 
-    .header-actions {
+    /* User Profile Chip */
+    .user-chip {
       display: flex;
-      gap: 8px;
+      align-items: center;
+      gap: 10px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 30px;
     }
-    .btn-reset {
-      border: 1px solid #d8cfc4;
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 800;
+    }
+    .user-info-text {
+      line-height: 1.25;
+    }
+    .user-name { font-size: 0.82rem; font-weight: 700; color: var(--navy-dark); }
+    .user-role { font-size: 0.72rem; color: var(--text-muted); }
+    .btn-logout {
+      border: none;
       background: transparent;
-      padding: 7px 14px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 600;
+      color: var(--rose);
+      font-size: 0.78rem;
       cursor: pointer;
-      color: var(--muted);
-      transition: var(--transition);
+      font-weight: 600;
+      margin-left: 6px;
     }
-    .btn-reset:hover { background: white; color: var(--dark); }
+    .btn-logout:hover { text-decoration: underline; }
 
-    /* Main Container */
+    /* Container */
     .container {
-      max-width: 1200px;
+      max-width: 1280px;
       margin: 28px auto 0;
-      padding: 0 20px;
+      padding: 0 24px;
     }
-
-    /* Page Visibility */
-    .page-view { display: none; animation: fadeIn 0.35s ease; }
+    .page-view { display: none; animation: fadeIn 0.3s ease; }
     .page-view.active { display: block; }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Common Card Styles */
+    /* Common Card */
     .card {
-      background: var(--bg-card);
+      background: white;
       border-radius: var(--radius);
+      border: 1px solid var(--border);
       box-shadow: var(--card-shadow);
       padding: 24px;
-      border: 1px solid rgba(0,0,0,0.04);
       margin-bottom: 24px;
     }
     .card-title {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--dark);
-      margin-bottom: 6px;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--navy-dark);
       display: flex;
       align-items: center;
       gap: 10px;
+      margin-bottom: 6px;
     }
     .card-subtitle {
       font-size: 0.85rem;
-      color: var(--muted);
-      margin-bottom: 20px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
     }
 
-    /* ---------------- PAGE 1 STYLES ---------------- */
-    .streak-banner {
-      background: linear-gradient(135deg, #2a9d8f, #264653);
+    /* ================= TRANG 1 SPECIFIC ================= */
+    /* Hero Banner */
+    .hero-banner {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
       color: white;
-      border-radius: var(--radius);
-      padding: 28px;
+      border-radius: 18px;
+      padding: 32px 36px;
       margin-bottom: 24px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      box-shadow: 0 12px 30px -8px rgba(42, 157, 143, 0.35);
-    }
-    .streak-stat-item {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .streak-stat-label {
-      font-size: 0.82rem;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      opacity: 0.85;
-      font-weight: 600;
-    }
-    .streak-stat-val {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 2.1rem;
-      font-weight: 700;
-      display: flex;
-      align-items: baseline;
-      gap: 6px;
-    }
-    .streak-stat-sub { font-size: 0.85rem; opacity: 0.85; font-weight: 400; }
-
-    /* Weekly Days Table / Cards */
-    .week-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 14px;
-      margin-bottom: 24px;
-    }
-    .day-card {
-      background: var(--bg-card);
-      border: 2px solid #eee5d8;
-      border-radius: 14px;
-      padding: 16px 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      transition: var(--transition);
       position: relative;
+      overflow: hidden;
+      box-shadow: 0 15px 35px -10px rgba(15, 23, 42, 0.4);
     }
-    .day-card:hover {
-      border-color: var(--primary);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
-    }
-    .day-card.checked {
-      background: #fdfaf6;
-      border-color: var(--secondary);
-    }
-    .day-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .day-name {
-      font-weight: 700;
-      font-size: 0.95rem;
-      color: var(--dark);
-    }
-    .day-date-str {
-      font-size: 0.75rem;
-      color: var(--muted);
-    }
-    .check-toggle {
-      width: 26px;
-      height: 26px;
-      border-radius: 8px;
-      border: 2px solid #cbd5e1;
-      background: white;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: var(--transition);
-      font-size: 0.9rem;
-      color: transparent;
-    }
-    .day-card.checked .check-toggle {
-      background: var(--secondary);
-      border-color: var(--secondary);
-      color: white;
-    }
-    .day-input-group label {
-      font-size: 0.72rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      color: var(--muted);
-      display: block;
-      margin-bottom: 4px;
-    }
-    .day-calorie-input {
-      width: 100%;
-      padding: 8px 10px;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--dark);
-      background: #fff;
-    }
-    .day-status-pill {
-      font-size: 0.72rem;
-      font-weight: 600;
-      padding: 3px 8px;
-      border-radius: 6px;
-      text-align: center;
-    }
-    .pill-on-track { background: var(--secondary-soft); color: var(--secondary); }
-    .pill-over { background: #fee2e2; color: #dc2626; }
-    .pill-unfilled { background: #f1f5f9; color: #64748b; }
-
-    /* Month 30-Day Check-in Grid */
-    .month-calendar-box {
-      margin-top: 24px;
-    }
-    .calendar-tiles {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(42px, 1fr));
-      gap: 8px;
-      margin-top: 14px;
-    }
-    .cal-tile {
-      aspect-ratio: 1;
-      border-radius: 10px;
-      border: 1px solid #e2d9cd;
-      background: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 0.8rem;
-      font-weight: 600;
-      transition: var(--transition);
-      user-select: none;
-    }
-    .cal-tile:hover {
-      border-color: var(--primary);
-      transform: scale(1.05);
-    }
-    .cal-tile.active-check {
-      background: var(--secondary);
-      border-color: var(--secondary);
-      color: white;
-      box-shadow: 0 4px 10px rgba(42, 157, 143, 0.25);
-    }
-
-    /* ---------------- PAGE 2 STYLES ---------------- */
-    .selector-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-    .option-card {
-      background: white;
-      border: 2px solid #e9e0d4;
-      border-radius: 14px;
-      padding: 20px;
-      cursor: pointer;
-      transition: var(--transition);
-      position: relative;
-    }
-    .option-card:hover {
-      border-color: var(--primary);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-    }
-    .option-card.selected {
-      border-color: var(--primary);
-      background: #fffcf9;
-    }
-    .option-card.selected::after {
-      content: "✓";
+    .hero-banner::after {
+      content: "";
       position: absolute;
-      top: 14px;
-      right: 14px;
-      width: 22px;
-      height: 22px;
-      background: var(--primary);
-      color: white;
-      border-radius: 50%;
-      font-size: 0.8rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
+      top: -50%;
+      right: -10%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.25) 0%, transparent 70%);
+      pointer-events: none;
     }
-    .option-title {
-      font-size: 1rem;
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(4px);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
       font-weight: 700;
-      margin-bottom: 6px;
-      color: var(--dark);
-    }
-    .option-desc {
-      font-size: 0.82rem;
-      color: var(--muted);
-      line-height: 1.45;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
       margin-bottom: 12px;
     }
-    .option-meta {
+    .hero-heading {
+      font-size: 1.7rem;
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 10px;
+    }
+    .hero-desc {
+      font-size: 0.92rem;
+      opacity: 0.85;
+      max-width: 820px;
+      margin-bottom: 20px;
+    }
+    .hero-features-bar {
       display: flex;
-      gap: 6px;
       flex-wrap: wrap;
+      gap: 20px;
+      border-top: 1px solid rgba(255,255,255,0.15);
+      padding-top: 16px;
     }
-    .tag {
-      font-size: 0.72rem;
+    .hero-feature-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
       font-weight: 600;
-      padding: 3px 8px;
-      border-radius: 6px;
-      background: #f1f5f9;
-      color: #475569;
     }
 
-    /* Meal Split Visualizer */
-    .meal-breakdown-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 14px;
-    }
-    .meal-breakdown-table th, .meal-breakdown-table td {
-      padding: 12px 14px;
-      text-align: left;
-      border-bottom: 1px solid #eee;
-      font-size: 0.88rem;
-    }
-    .meal-breakdown-table th {
-      background: #faf7f2;
-      font-weight: 700;
-      color: var(--dark);
-    }
-
-    /* ---------------- PAGE 3 STYLES (CALCULATOR) ---------------- */
-    .calc-layout {
+    /* 4-Step Process Bar */
+    .process-grid {
       display: grid;
-      grid-template-columns: 380px 1fr;
-      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
     }
-    @media (max-width: 900px) {
-      .calc-layout { grid-template-columns: 1fr; }
+    .step-card {
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      position: relative;
+      transition: var(--transition);
     }
-    .form-group {
-      margin-bottom: 16px;
+    .step-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.05);
     }
-    .form-group label {
-      display: block;
-      font-size: 0.82rem;
-      font-weight: 600;
+    .step-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-size: 0.85rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+    .step-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--navy-dark);
       margin-bottom: 6px;
-      color: var(--dark);
     }
-    .input-row {
+    .step-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    /* Upload & Input Section */
+    .input-section-layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 24px;
     }
-    input[type="number"], select {
-      width: 100%;
-      padding: 10px 12px;
-      border-radius: 8px;
-      border: 1px solid #dcd3c8;
-      font-size: 0.92rem;
-      background: white;
-      color: var(--dark);
+    @media(max-width: 900px) {
+      .input-section-layout { grid-template-columns: 1fr; }
     }
-    input[type="number"]:focus, select:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(231, 111, 81, 0.15);
-    }
-    .btn-calc {
-      width: 100%;
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 13px;
-      border-radius: 10px;
-      font-weight: 700;
-      font-size: 0.95rem;
+    .dropzone-box {
+      border: 2px dashed #cbd5e1;
+      border-radius: 12px;
+      padding: 24px 16px;
+      text-align: center;
+      background: #f8fafc;
       cursor: pointer;
       transition: var(--transition);
-      box-shadow: 0 4px 14px rgba(231, 111, 81, 0.3);
     }
-    .btn-calc:hover { background: var(--primary-hover); }
+    .dropzone-box:hover {
+      border-color: var(--primary);
+      background: #eff6ff;
+    }
+    .file-badges-grid {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .file-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: white;
+      border: 1px solid #cbd5e1;
+    }
 
-    /* Results Timeline */
-    .result-hero {
-      background: linear-gradient(135deg, #fff, #fdf8f4);
-      border: 2px solid var(--primary-soft);
-      border-radius: var(--radius);
-      padding: 22px;
-      margin-bottom: 20px;
+    .quick-sample-prompts {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .btn-sample {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      color: #334155;
+      transition: var(--transition);
+    }
+    .btn-sample:hover {
+      background: #e2e8f0;
+      border-color: #94a3b8;
+    }
+
+    .btn-generate {
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary), #1d4ed8);
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.3);
+      margin-top: 16px;
+    }
+    .btn-generate:hover {
+      background: #1e40af;
+      transform: translateY(-1px);
+    }
+
+    /* KPI Highlights */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .kpi-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+    .kpi-label { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
+    .kpi-val { font-family: 'Space Grotesk', sans-serif; font-size: 1.85rem; font-weight: 800; color: var(--navy-dark); margin: 4px 0; }
+    .kpi-diff { font-size: 0.78rem; font-weight: 600; }
+    .kpi-diff.positive { color: var(--teal); }
+    .kpi-diff.negative { color: var(--rose); }
+
+    /* Interactive Slide Preview Deck */
+    .slide-deck-wrapper {
+      background: #0f172a;
+      border-radius: 16px;
+      padding: 24px;
+      color: white;
+      margin-top: 24px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+    .slide-deck-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
-    .result-kpi-block {
+    .slide-canvas {
+      background: white;
+      color: var(--navy-dark);
+      border-radius: 12px;
+      aspect-ratio: 16 / 9;
+      max-height: 480px;
+      padding: 36px 42px;
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      position: relative;
     }
-    .result-kpi-label { font-size: 0.8rem; font-weight: 600; color: var(--muted); text-transform: uppercase; }
-    .result-kpi-val { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; color: var(--primary); }
+    .slide-nav-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .btn-slide-nav {
+      background: rgba(255,255,255,0.15);
+      color: white;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .btn-slide-nav:hover { background: rgba(255,255,255,0.25); }
 
-    .milestone-timeline {
+    /* ================= TRANG 2 SPECIFIC ================= */
+    /* Data Cleaning & Audit */
+    .audit-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 12px;
-      margin-top: 18px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
     }
-    .milestone-box {
-      background: white;
-      border: 1px solid #e7ded2;
-      border-radius: 12px;
-      padding: 14px;
-      text-align: center;
+    .audit-stat-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
     }
-    .milestone-week { font-size: 0.78rem; font-weight: 700; color: var(--muted); }
-    .milestone-lost { font-family: 'Space Grotesk', sans-serif; font-size: 1.35rem; font-weight: 700; color: var(--secondary); margin: 4px 0; }
-    .milestone-weight { font-size: 0.82rem; font-weight: 600; color: var(--dark); }
+    .audit-stat-box strong { font-size: 1.3rem; font-family: 'Space Grotesk', sans-serif; display: block; margin-top: 4px; }
 
-    /* SVG Chart */
-    .chart-container {
+    /* History Table */
+    .history-table {
       width: 100%;
-      height: 240px;
-      margin-top: 20px;
+      border-collapse: collapse;
+      margin-top: 12px;
+    }
+    .history-table th, .history-table td {
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85rem;
+    }
+    .history-table th { background: #f8fafc; font-weight: 700; color: #475569; }
+    .badge-status {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .badge-success { background: var(--teal-soft); color: var(--teal); }
+    .badge-review { background: var(--amber-soft); color: var(--amber); }
+
+    /* Action Buttons */
+    .btn-table-action {
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: white;
+      margin-right: 4px;
+      transition: var(--transition);
+    }
+    .btn-table-action:hover { background: #f1f5f9; }
+
+    /* Advice & Alert Cards */
+    .alerts-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media(max-width: 800px) {
+      .alerts-container { grid-template-columns: 1fr; }
+    }
+    .alert-box {
+      border-radius: 12px;
+      padding: 20px;
+      border-left: 5px solid;
+    }
+    .alert-box.danger {
+      background: var(--rose-soft);
+      border-color: var(--rose);
+      color: #881337;
+    }
+    .alert-box.advice {
+      background: var(--teal-soft);
+      border-color: var(--teal);
+      color: #134e4a;
+    }
+    .alert-box h4 {
+      font-size: 0.95rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .alert-box ul {
+      padding-left: 20px;
+      font-size: 0.85rem;
+      line-height: 1.55;
+    }
+
+    /* Modal for Editing Report */
+    #editModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .edit-modal-content {
+      background: white;
+      width: 100%;
+      max-width: 600px;
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Sticky Navigation Bar -->
+  <!-- ============================================================== -->
+  <!-- MODAL BẮT BUỘC: ĐIỀN TÊN & SỐ ĐIỆN THOẠI HOẶC GMAIL NHÂN SỰ   -->
+  <!-- ============================================================== -->
+  <div id="authOverlay">
+    <div class="auth-card">
+      <div class="auth-badge">🔒 Cổng Xác Thực Nhân Sự Doanh Nghiệp</div>
+      <h2 class="auth-title">Hệ Thống Phân Tích & Xử Lý Dữ Liệu</h2>
+      <p class="auth-subtitle">
+        Vui lòng nhập định danh nhân sự để khởi tạo phiên làm việc bảo mật và tạo báo cáo doanh thu tài chính theo phân quyền.
+      </p>
+
+      <form id="authForm" onsubmit="handleAuthSubmit(event)">
+        <div class="form-group">
+          <label>Họ và Tên Nhân Sự (*)</label>
+          <input type="text" id="inputAuthName" class="form-control" placeholder="Ví dụ: Hoàng Linh Ngọc" required />
+        </div>
+
+        <div class="form-group">
+          <label>Số Điện Thoại HOẶC Gmail Doanh Nghiệp (*)</label>
+          <input type="text" id="inputAuthContact" class="form-control" placeholder="Ví dụ: ngoc.finance@corp.com hoặc 0988123456" required />
+        </div>
+
+        <div class="form-group">
+          <label>Phòng Ban / Vai Trò</label>
+          <select id="inputAuthDept" class="form-control">
+            <option value="Phòng Tài Chính - Kế Toán" selected>Phòng Tài Chính - Kế Toán</option>
+            <option value="Phòng Nhân Sự (HR & Payroll)">Phòng Nhân Sự (HR & Payroll)</option>
+            <option value="Phòng Kinh Doanh (Sales Operations)">Phòng Kinh Doanh (Sales Operations)</option>
+            <option value="Ban Giám Đốc (Executive)">Ban Giám Đốc (Executive)</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn-auth-submit">
+          🚀 Xác Thực & Vào Bảng Điều Khiển
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MAIN APP TOP HEADER                                            -->
+  <!-- ============================================================== -->
   <header>
     <div class="header-inner">
-      <a href="#" class="brand">
-        <div class="brand-icon">🥗</div>
-        <div class="brand-title">NUTRICARE <span>AI</span></div>
-      </a>
+      <div class="brand-group">
+        <div class="brand-logo-icon">💼</div>
+        <div class="brand-text">
+          <h1>FIN-HR ANALYTICS AI</h1>
+          <p>Hệ Thống Xử Lý & Lập Báo Cáo Doanh Thu Tháng</p>
+        </div>
+      </div>
 
-      <!-- Page Switcher Tabs -->
+      <!-- Main Navigation Tabs -->
       <nav class="nav-tabs">
         <button class="nav-tab-btn active" onclick="switchPage('page1', this)">
-          <span>📅</span> Đếm Ngày & Calo Tuần
+          <span>📊</span> Trang 1: Tạo Báo Cáo & Slide
         </button>
         <button class="nav-tab-btn" onclick="switchPage('page2', this)">
-          <span>🍽️</span> Chế Độ & Dạng Thâm Hụt
-        </button>
-        <button class="nav-tab-btn" onclick="switchPage('page3', this)">
-          <span>⚖️</span> Dự Báo Số Cân Giảm
+          <span>🛡️</span> Trang 2: Lịch Sử, Kiểm Duyệt & Chiến Lược
         </button>
       </nav>
 
-      <div class="header-actions">
-        <button class="btn-reset" onclick="loadSampleData()" title="Khôi phục số liệu mẫu để chấm điểm / kiểm tra">
-          ↺ Nạp Dữ Liệu Mẫu
-        </button>
+      <!-- Active User Chip -->
+      <div class="user-chip">
+        <div class="user-avatar" id="headerAvatar">HN</div>
+        <div class="user-info-text">
+          <div class="user-name" id="headerUserName">Hoàng Linh Ngọc</div>
+          <div class="user-role" id="headerUserContact">ngoc.finance@corp.com</div>
+        </div>
+        <button class="btn-logout" onclick="logoutAuth()" title="Đổi nhân sự khác">Đổi</button>
       </div>
     </div>
   </header>
@@ -535,366 +731,387 @@
   <div class="container">
 
     <!-- ============================================================== -->
-    <!-- TRANG 1: ĐẾM NGÀY ĂN THEO CALO & THEO DÕI TUẦN                 -->
+    <!-- TRANG 1: GIỚI THIỆU CÔNG TY, QUY TRÌNH & TRÌNH TẠO BÁO CÁO/SLIDE -->
     <!-- ============================================================== -->
     <section id="page1" class="page-view active">
-      <!-- Streak & Metric Banner -->
-      <div class="streak-banner">
-        <div class="streak-stat-item">
-          <div class="streak-stat-label">🔥 Chuỗi Kỷ Luật Ăn Chuẩn</div>
-          <div class="streak-stat-val" id="streakCountDisplay">12 <span class="streak-stat-sub">ngày liên tiếp</span></div>
+
+      <!-- Hero Banner Giới Thiệu Doanh Nghiệp -->
+      <div class="hero-banner">
+        <div class="hero-badge">🏢 Doanh Nghiệp FinTech & EdTech AI Solutions</div>
+        <h2 class="hero-heading">Nền Tảng Phân Tích Doanh Thu & Tài Chính Tháng Cho Nhân Sự</h2>
+        <p class="hero-desc">
+          Tự động hóa hoàn toàn chuỗi xử lý dữ liệu từ việc nạp báo cáo Word, bảng tính Excel nhân sự/doanh số, 
+          làm sạch dữ liệu tự động và sinh ra <strong>báo cáo tài chính chuyên sâu kèm bộ Slide trình chiếu</strong> chỉ trong 30 giây.
+        </p>
+        <div class="hero-features-bar">
+          <div class="hero-feature-item"><span>⚡</span> Tốc độ xử lý: &lt; 3 giây</div>
+          <div class="hero-feature-item"><span>🛡️</span> Chuẩn an toàn: AST Sanitizer & Che PII</div>
+          <div class="hero-feature-item"><span>📑</span> Đa định dạng: Excel (.xlsx), Word (.docx), Báo cáo Nhân sự</div>
+          <div class="hero-feature-item"><span>📽️</span> Tự động tạo Slide thuyết trình hoàn chỉnh</div>
         </div>
-        <div class="streak-stat-item">
-          <div class="streak-stat-label">🎯 Mục Tiêu Calo / Ngày</div>
-          <div class="streak-stat-val">
-            <span id="bannerDailyTarget">1,500</span> <span class="streak-stat-sub">kcal</span>
+      </div>
+
+      <!-- Quy Trình 4 Bước Thực Hiện -->
+      <div class="card">
+        <div class="card-title"><span>🔄</span> Quy Trình Xử Lý Dữ Liệu Chuẩn 4 Bước</div>
+        <div class="card-subtitle">Quy trình khép kín giúp nhân sự chuyển đổi dữ liệu thô thành tài sản thông tin chiến lược:</div>
+        
+        <div class="process-grid">
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <div class="step-title">Xác Thực Nhân Sự</div>
+            <div class="step-desc">Điền họ tên và số điện thoại/email để gắn mã định danh nhân sự vào báo cáo chính thức.</div>
           </div>
-        </div>
-        <div class="streak-stat-item">
-          <div class="streak-stat-label">📊 Đã Nạp Trong Tuần</div>
-          <div class="streak-stat-val">
-            <span id="bannerWeeklyTotal">10,240</span> <span class="streak-stat-sub">/ 10,500 kcal</span>
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <div class="step-title">Nạp File Đa Dạng</div>
+            <div class="step-desc">Hỗ trợ file Excel doanh thu, bảng lương nhân sự, file Word báo cáo hoặc dán nội dung.</div>
           </div>
-        </div>
-        <div class="streak-stat-item">
-          <div class="streak-stat-label">⚖️ Trung Bình Thực Tế</div>
-          <div class="streak-stat-val">
-            <span id="bannerDailyAvg">1,462</span> <span class="streak-stat-sub">kcal / ngày</span>
+          <div class="step-card">
+            <div class="step-num">3</div>
+            <div class="step-title">AI Phân Tích & Đối Soát</div>
+            <div class="step-desc">Tự động tính toán doanh thu, tỷ suất lợi nhuận, chi phí lương và hiệu suất trên đầu nhân viên.</div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">4</div>
+            <div class="step-title">Xuất Báo Cáo & Slide</div>
+            <div class="step-desc">Khởi tạo ngay Báo cáo điều hành và bộ Slide PowerPoint trực quan để thuyết trình với Ban Giám Đốc.</div>
           </div>
         </div>
       </div>
 
-      <!-- Nhật Ký 7 Ngày Trong Tuần (Có thể chỉnh sửa số calo & tích dấu) -->
+      <!-- Khu Vực Nạp File & Yêu Cầu Phân Tích -->
+      <div class="card">
+        <div class="card-title"><span>📥</span> Tiếp Nhận Dữ Liệu & Yêu Cầu Phân Tích</div>
+        <div class="card-subtitle">Bạn có thể tải lên file hoặc chọn nhanh các kịch bản báo cáo doanh thu tài chính mẫu:</div>
+
+        <div class="input-section-layout">
+          <div>
+            <div class="dropzone-box" onclick="document.getElementById('fileUploadInput').click()">
+              <span style="font-size: 2.2rem;">📁</span>
+              <div style="font-size: 0.95rem; font-weight: 700; margin-top: 6px;">Kéo & Thả hoặc Bấm Để Chọn File</div>
+              <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Hỗ trợ Excel (.xlsx, .csv), Word (.docx), Báo cáo Nhân sự</div>
+              <div class="file-badges-grid">
+                <span class="file-badge">📊 File Excel Doanh Thu</span>
+                <span class="file-badge">📑 File Word Báo Cáo</span>
+                <span class="file-badge">👥 File Nhân Sự / Bảng Lương</span>
+              </div>
+              <input type="file" id="fileUploadInput" accept=".xlsx,.csv,.docx,.doc" style="display: none;" onchange="handleFileSelect(event)" />
+            </div>
+            <div id="fileUploadNotice" style="margin-top: 8px; font-size: 0.82rem; font-weight: 600; color: var(--teal); display: none;"></div>
+          </div>
+
+          <div>
+            <div class="form-group">
+              <label>Nội Dung Yêu Cầu Báo Cáo (Prompt Kinh Doanh):</label>
+              <textarea id="promptInput" class="form-control" style="min-height: 105px; resize: vertical;" placeholder="Ví dụ: Phân tích doanh thu tháng 11 theo chi nhánh, tính tỷ lệ chi phí nhân sự trên doanh thu và so sánh với chỉ tiêu quý...">Lập báo cáo tổng hợp doanh thu và chi phí nhân sự tháng 11/2026, phân tích hiệu suất lao động theo phòng ban và đưa ra khuyến nghị tối ưu dòng tiền.</textarea>
+            </div>
+            <div class="quick-sample-prompts">
+              <button class="btn-sample" onclick="setSamplePrompt(1)">📌 Kịch bản 1: Báo cáo Doanh thu & Chi phí Nhân sự Tháng 11</button>
+              <button class="btn-sample" onclick="setSamplePrompt(2)">📌 Kịch bản 2: Đánh giá Hiệu suất Kinh doanh 3 Chi nhánh (Bắc - Trung - Nam)</button>
+              <button class="btn-sample" onclick="setSamplePrompt(3)">📌 Kịch bản 3: Tối ưu hóa Dòng tiền & Cắt giảm Chi phí Vận hành Lãng phí</button>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-generate" onclick="generateReportAndSlide()">
+          <span>⚡</span> Khởi Tạo Báo Cáo & Tạo Slide Thuyết Trình Hoàn Chỉnh
+        </button>
+      </div>
+
+      <!-- KPI Dashboard Kết Quả -->
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <div class="kpi-label">Tổng Doanh Thu Tháng</div>
+          <div class="kpi-val" id="kpiRevenue">2,850,000,000 ₫</div>
+          <div class="kpi-diff positive">↑ +14.2% so với tháng trước</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Chi Phí Nhân Sự (HR Payroll)</div>
+          <div class="kpi-val" id="kpiHrCost">720,000,000 ₫</div>
+          <div class="kpi-diff">Chiếm 25.2% tổng doanh thu</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Lợi Nhuận Gộp (Gross Profit)</div>
+          <div class="kpi-val" id="kpiProfit">1,210,000,000 ₫</div>
+          <div class="kpi-diff positive">Tỷ suất LN đạt 42.4%</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Doanh Thu / Đầu Nhân Sự</div>
+          <div class="kpi-val" id="kpiRevenuePerHead">57,000,000 ₫</div>
+          <div class="kpi-diff positive">Quy mô: 50 nhân sự toàn công ty</div>
+        </div>
+      </div>
+
+      <!-- Báo Cáo Hoàn Chỉnh (Executive Report Preview) -->
       <div class="card">
         <div class="card-title">
-          <span>📋</span> Nhật Ký 7 Ngày Ăn Uống Trong Tuần
+          <span>📑</span> Văn Bản Báo Cáo Doanh Thu Hoàn Chỉnh Dành Cho Nhân Sự & Ban Giám Đốc
         </div>
-        <div class="card-subtitle">
-          Bạn có thể đánh dấu tích (✓) khi hoàn thành ngày ăn, và chỉnh sửa số Calo nạp vào từng ngày để tính tổng cả tuần.
+        <div class="card-subtitle" id="reportHeaderMeta">
+          Người lập báo cáo: <strong>Hoàng Linh Ngọc</strong> | Phòng ban: <strong>Phòng Tài Chính - Kế Toán</strong> | Ngày lập: 18/11/2026
         </div>
-
-        <div class="week-grid" id="weekGridContainer">
-          <!-- 7 ngày sẽ được JavaScript tự động tạo động ở đây -->
+        <div id="fullReportContainer" style="background: #f8fafc; border: 1px solid var(--border); border-radius: 10px; padding: 22px; font-size: 0.9rem; line-height: 1.65;">
+          <!-- Dynamically filled report content -->
         </div>
-
-        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 14px; border-top: 1px solid #eee;">
-          <span style="font-size: 0.88rem; color: var(--muted);">
-            💡 Mẹo: Nhấp vào ô tròn góc trên của mỗi ngày để đánh dấu tích hoàn thành.
-          </span>
-          <button class="btn-calc" style="width: auto; padding: 8px 18px;" onclick="calculateWeeklySummary()">
-            💾 Cập Nhật & Lưu Số Liệu
-          </button>
+        <div style="margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap;">
+          <button class="btn-table-action" style="padding: 8px 16px; background: #ecfdf5; border-color: #a7f3d0; color: #065f46;" onclick="downloadMockDocument('docx')">📥 Tải Báo Cáo Word (.docx)</button>
+          <button class="btn-table-action" style="padding: 8px 16px; background: #eff6ff; border-color: #bfdbfe; color: #1e40af;" onclick="downloadMockDocument('xlsx')">📊 Tải Bảng Tính Excel (.xlsx)</button>
         </div>
       </div>
 
-      <!-- Biểu Đồ Cột Calo 7 Ngày So Với Mục Tiêu -->
-      <div class="card">
-        <div class="card-title">
-          <span>📊</span> Biểu Đồ Cột So Sánh Calo 7 Ngày
+      <!-- Interactive Slide Deck Viewer (Trình Chiếu Slide Tự Động) -->
+      <div class="slide-deck-wrapper">
+        <div class="slide-deck-header">
+          <div>
+            <span style="font-weight: 800; font-size: 1.05rem;">📽️ BỘ SLIDE THUYẾT TRÌNH BÁO CÁO (Tự Động Tạo Từ Dữ Liệu)</span>
+            <div style="font-size: 0.78rem; opacity: 0.8;">Nhân sự có thể dùng trực tiếp để báo cáo trong cuộc họp Ban Giám Đốc</div>
+          </div>
+          <div class="slide-nav-controls">
+            <button class="btn-slide-nav" onclick="prevSlide()">◀ Slide Trước</button>
+            <span id="slideIndicator" style="font-weight: 700; font-size: 0.85rem;">Slide 1 / 4</span>
+            <button class="btn-slide-nav" onclick="nextSlide()">Slide Kế ▶</button>
+            <button class="btn-slide-nav" style="background:#2563eb;" onclick="downloadMockDocument('pptx')">📥 Tải Slide (.pptx)</button>
+          </div>
         </div>
-        <div class="card-subtitle">
-          Đường nét đứt màu đỏ là Calo mục tiêu. Cột xanh là ăn chuẩn, cột đỏ là vượt mức.
-        </div>
-        <div id="weeklyChartSvg" style="width: 100%; height: 200px; display: flex; align-items: flex-end; gap: 16px; padding: 20px 10px 30px; border-bottom: 2px solid #ddd; position: relative;">
-          <!-- SVG Bar items inserted here -->
+
+        <!-- Slide Frame Canvas -->
+        <div class="slide-canvas" id="slideCanvas">
+          <!-- Slide content dynamically rendered here -->
         </div>
       </div>
 
-      <!-- Lịch 30 Ngày Check-in Thói Quen (Monthly Habit Grid) -->
-      <div class="card month-calendar-box">
-        <div class="card-title">
-          <span>🗓️</span> Đánh Dấu Tích 30 Ngày Ăn Đúng Mục Tiêu
-        </div>
-        <div class="card-subtitle">
-          Bấm vào từng ô số ngày để bật/tắt dấu tích. Bạn đã ăn chuẩn được <strong id="monthCheckedCount" style="color:var(--secondary)">12</strong> / 30 ngày trong tháng.
-        </div>
-        <div class="calendar-tiles" id="monthCalendarContainer">
-          <!-- 30 ô ngày sẽ được render ở đây -->
-        </div>
-      </div>
     </section>
 
     <!-- ============================================================== -->
-    <!-- TRANG 2: CÁC CHẾ ĐỘ DINH DƯỠNG & DẠNG THÂM HỤT                  -->
+    <!-- TRANG 2: LỊCH SỬ, KIỂM DUYỆT & LÀM SẠCH, CHIẾN LƯỢC & CẢNH BÁO -->
     <!-- ============================================================== -->
     <section id="page2" class="page-view">
-      <!-- Dạng Phân Bổ Bữa Ăn (3 bữa, 2 bữa, 4-5 bữa, OMAD) -->
+
+      <!-- Lịch Sử Trải Nghiệm & Chỉnh Sửa Báo Cáo -->
       <div class="card">
         <div class="card-title">
-          <span>🍽️</span> Lựa Chọn Dạng Phân Bổ Bữa Ăn Trong Ngày
+          <span>⏳</span> Lịch Sử Trải Nghiệm & Các Báo Cáo Đã Tạo
         </div>
         <div class="card-subtitle">
-          Tùy vào lịch làm việc, học tập và thói quen sinh hoạt, bạn có thể chọn cách chia lượng Calo theo các bữa:
+          Danh sách các lần bạn trải nghiệm phân tích dữ liệu trên hệ thống. Bạn có thể <strong>xem lại hoặc chỉnh sửa trực tiếp</strong> các báo cáo này.
         </div>
 
-        <div class="selector-grid">
-          <div class="option-card selected" onclick="selectMealPattern('3meals', this)">
-            <div class="option-title">Ăn trong 3 Bữa Chính (Truyền Thống)</div>
-            <div class="option-desc">Chia đều năng lượng giúp ổn định đường huyết suốt ngày dài, không bị mệt hay hạ đường huyết.</div>
-            <div class="option-meta">
-              <span class="tag">Sáng 30%</span>
-              <span class="tag">Trưa 40%</span>
-              <span class="tag">Tối 30%</span>
-            </div>
-          </div>
-
-          <div class="option-card" onclick="selectMealPattern('2meals', this)">
-            <div class="option-title">Ăn trong 2 Bữa (Nhịn Ăn Gián Đoạn 16:8)</div>
-            <div class="option-desc">Bỏ bữa sáng, ăn bữa đầu lúc 12:00 và bữa cuối lúc 20:00. Mỗi bữa ăn no, dễ tạo thâm hụt calo.</div>
-            <div class="option-meta">
-              <span class="tag">Bữa 1 (12h): 50%</span>
-              <span class="tag">Bữa 2 (19h30): 50%</span>
-              <span class="tag">IF 16:8</span>
-            </div>
-          </div>
-
-          <div class="option-card" onclick="selectMealPattern('4meals', this)">
-            <div class="option-title">Ăn trong 4 - 5 Bữa (Tập Luyện / Gymmer)</div>
-            <div class="option-desc">Chia nhỏ bữa ăn kèm 1 bữa xế chiều phụ để nạp năng lượng tập luyện và hấp thụ protein tối đa.</div>
-            <div class="option-meta">
-              <span class="tag">Sáng 25%</span>
-              <span class="tag">Trưa 35%</span>
-              <span class="tag">Xế 15%</span>
-              <span class="tag">Tối 25%</span>
-            </div>
-          </div>
-
-          <div class="option-card" onclick="selectMealPattern('omad', this)">
-            <div class="option-title">Ăn 1 Bữa Duy Nhất (OMAD - One Meal A Day)</div>
-            <div class="option-desc">Dồn toàn bộ calo trong ngày vào 1 bữa ăn lớn trong 1-2 tiếng. Phù hợp người bận rộn kỷ luật cao.</div>
-            <div class="option-meta">
-              <span class="tag">Bữa Duy Nhất: 100%</span>
-              <span class="tag">Fasting 23h</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Bảng Phân Bổ Calo Chi Tiết Theo Dạng Đã Chọn -->
-        <div style="background: #faf7f2; border-radius: 12px; padding: 18px; border: 1px solid #ebd9c8;">
-          <h4 style="font-size: 0.95rem; margin-bottom: 8px;" id="mealPatternHeading">
-            Chi Tiết Phân Bổ Calo Cho Mục Tiêu: <strong>1,500 kcal / ngày</strong>
-          </h4>
-          <table class="meal-breakdown-table" id="mealBreakdownTable">
-            <!-- Dynamic meal rows -->
+        <div style="overflow-x: auto;">
+          <table class="history-table">
+            <thead>
+              <tr>
+                <th>Mã Báo Cáo</th>
+                <th>Thời Gian</th>
+                <th>Nhân Sự Thực Hiện</th>
+                <th>Chủ Đề Phân Tích</th>
+                <th>Doanh Thu Phân Tích</th>
+                <th>Trạng Thái</th>
+                <th>Thao Tác</th>
+              </tr>
+            </thead>
+            <tbody id="historyTableBody">
+              <!-- Rendered via JS -->
+            </tbody>
           </table>
         </div>
       </div>
 
-      <!-- Các Mức Thâm Hụt Calo (Deficit Tiers) -->
+      <!-- Làm Sạch & Kiểm Duyệt Dữ Liệu (Data Cleaning & Audit) -->
       <div class="card">
         <div class="card-title">
-          <span>⚡</span> Lựa Chọn Mức Thâm Hụt Calo (Deficit Level)
+          <span>🧹</span> Kiểm Duyệt & Làm Sạch Dữ Liệu Tự Động (Data Quarantine & Sanitization)
         </div>
         <div class="card-subtitle">
-          Quyết định tốc độ giảm mỡ và khả năng duy trì bền vững của bạn:
+          Trước khi đưa vào báo cáo tài chính, AI đã tự động phát hiện, làm sạch bản ghi rác và che mờ thông tin nhạy cảm (PII):
         </div>
 
-        <div class="selector-grid">
-          <div class="option-card" onclick="selectDeficitLevel(300, this)">
-            <div class="option-title">Thâm Hụt Nhẹ (-300 kcal/ngày)</div>
-            <div class="option-desc">Giảm ~0.3 kg mỡ/tuần. Dễ dàng nhất, hầu như không cảm thấy đói, giữ cơ bắp tối đa.</div>
-            <div class="option-meta">
-              <span class="tag" style="background:#e8f6f4;color:#2a9d8f;">Rất Bền Vững</span>
-            </div>
+        <div class="audit-grid">
+          <div class="audit-stat-box">
+            <span style="font-size: 0.78rem; color: var(--text-muted); font-weight: 700;">TỔNG BẢN GHI NẠP VÀO</span>
+            <strong>1,450 dòng</strong>
           </div>
+          <div class="audit-stat-box">
+            <span style="font-size: 0.78rem; color: var(--rose); font-weight: 700;">BẢN GHI LỖI ĐÃ LÀM SẠCH</span>
+            <strong style="color: var(--rose);">27 dòng (1.8%)</strong>
+          </div>
+          <div class="audit-stat-box">
+            <span style="font-size: 0.78rem; color: var(--teal); font-weight: 700;">DỮ LIỆU ĐẠT CHUẨN SẠCH</span>
+            <strong style="color: var(--teal);">1,423 dòng (98.2%)</strong>
+          </div>
+          <div class="audit-stat-box">
+            <span style="font-size: 0.78rem; color: var(--primary); font-weight: 700;">BẢO MẬT PII MASKING</span>
+            <strong style="color: var(--primary);">100% Đã che mờ</strong>
+          </div>
+        </div>
 
-          <div class="option-card selected" onclick="selectDeficitLevel(500, this)">
-            <div class="option-title">Thâm Hụt Chuẩn (-500 kcal/ngày) ⭐</div>
-            <div class="option-desc">Giảm ~0.5 kg mỡ/tuần (3,500 kcal/tuần). Tiêu chuẩn vàng được các chuyên gia dinh dưỡng khuyến nghị.</div>
-            <div class="option-meta">
-              <span class="tag" style="background:#fdeee9;color:#e76f51;">Khuyên Dùng</span>
-            </div>
-          </div>
-
-          <div class="option-card" onclick="selectDeficitLevel(750, this)">
-            <div class="option-title">Thâm Hụt Sâu (-750 kcal/ngày)</div>
-            <div class="option-desc">Giảm ~0.75 - 0.8 kg/tuần. Giảm mỡ nhanh nhưng cần kỷ luật cao và uống đủ nước.</div>
-            <div class="option-meta">
-              <span class="tag" style="background:#fee2e2;color:#dc2626;">Giảm Nhanh</span>
-            </div>
-          </div>
-
-          <div class="option-card" onclick="selectDeficitLevel(0, this)">
-            <div class="option-title">Giữ Cân / Tái Cấu Trúc (0 kcal)</div>
-            <div class="option-desc">Ăn bằng mức TDEE. Phù hợp với người đã đạt cân nặng mục tiêu hoặc muốn tăng cơ giảm mỡ đồng thời.</div>
-            <div class="option-meta">
-              <span class="tag">Maintenance</span>
-            </div>
-          </div>
+        <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: 10px; padding: 14px; font-size: 0.85rem;">
+          <p><strong>Chi tiết làm sạch:</strong></p>
+          <ul style="padding-left: 20px; margin-top: 6px; line-height: 1.6; color: #334155;">
+            <li>Đã tự động loại bỏ <strong>18 bản ghi trùng lặp (Duplicate rows)</strong> từ file Excel nhập thủ công.</li>
+            <li>Đã bổ khuyết (Imputation) cho <strong>9 ô dữ liệu trống</strong> về phụ cấp nhân sự dựa trên giá trị trung vị phòng ban.</li>
+            <li>Đã áp dụng AST Guardrail: Chặn 100% ký tự đặc biệt nguy hiểm và lệnh SQL Injection trong câu hỏi.</li>
+            <li>Đã che mờ bảo mật thông tin nhân sự: Mã CCCD <code>001099******</code>, SĐT <code>098****123</code>, Số tài khoản ngân hàng.</li>
+          </ul>
         </div>
       </div>
 
-      <!-- Chế Độ Ăn Mẫu (Diet Styles) -->
+      <!-- Dashboard Chiến Lược Doanh Nghiệp -->
       <div class="card">
         <div class="card-title">
-          <span>🥗</span> Các Chế Độ Dinh Dưỡng Khoa Học
+          <span>📈</span> Dashboard Chiến Lược Phân Bổ Ngân Sách & Doanh Thu
         </div>
         <div class="card-subtitle">
-          Lựa chọn trường phái dinh dưỡng yêu thích để tối ưu năng lượng:
-        </div>
-        <div class="selector-grid">
-          <div class="option-card selected" onclick="selectDietStyle('eatclean', this)">
-            <div class="option-title">🌿 Eat Clean & Thực Phẩm Tự Nhiên</div>
-            <div class="option-desc">Ưu tiên đồ tươi sống, ngũ cốc nguyên cám (gạo lứt, yến mạch), hạn chế dầu mỡ và đồ chế biến sẵn.</div>
-            <div class="option-meta"><span class="tag">Carb 45%</span><span class="tag">Protein 30%</span><span class="tag">Fat 25%</span></div>
-          </div>
-          <div class="option-card" onclick="selectDietStyle('highprotein', this)">
-            <div class="option-title">💪 High Protein (Giàu Đạm Cho Gymmer)</div>
-            <div class="option-desc">Tập trung ức gà, cá ngừ, trứng, whey protein để bảo vệ cơ bắp tối đa trong khi đốt mỡ.</div>
-            <div class="option-meta"><span class="tag">Carb 30%</span><span class="tag">Protein 45%</span><span class="tag">Fat 25%</span></div>
-          </div>
-          <div class="option-card" onclick="selectDietStyle('mediterranean', this)">
-            <div class="option-title">🥑 Chế Độ Địa Trung Hải (Mediterranean)</div>
-            <div class="option-desc">Giàu chất béo tốt (dầu ô liu, quả bơ, các loại hạt, cá hồi), tốt cho tim mạch và làn da.</div>
-            <div class="option-meta"><span class="tag">Carb 40%</span><span class="tag">Protein 25%</span><span class="tag">Fat 35%</span></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================== -->
-    <!-- TRANG 3: NHẬP SỐ CÂN & DỰ BÁO SỐ KG GIẢM THEO THÂM HỤT          -->
-    <!-- ============================================================== -->
-    <section id="page3" class="page-view">
-      <div class="calc-layout">
-        <!-- Input Form -->
-        <div class="card">
-          <div class="card-title">
-            <span>⚙️</span> Thông Số Cá Nhân Của Bạn
-          </div>
-          <div class="card-subtitle">
-            Nhập thông số của bạn để tính chính xác mức Calo tiêu thụ tự nhiên (TDEE).
-          </div>
-
-          <div class="form-group">
-            <label>Giới tính</label>
-            <select id="userGender" onchange="runWeightLossForecast()">
-              <option value="male">Nam giới</option>
-              <option value="female" selected>Nữ giới</option>
-            </select>
-          </div>
-
-          <div class="input-row">
-            <div class="form-group">
-              <label>Tuổi</label>
-              <input type="number" id="userAge" value="22" min="15" max="80" oninput="runWeightLossForecast()" />
-            </div>
-            <div class="form-group">
-              <label>Chiều cao (cm)</label>
-              <input type="number" id="userHeight" value="162" min="130" max="220" oninput="runWeightLossForecast()" />
-            </div>
-          </div>
-
-          <div class="input-row">
-            <div class="form-group">
-              <label>Cân nặng hiện tại (kg)</label>
-              <input type="number" id="currentWeight" value="65.0" step="0.5" min="35" max="200" oninput="runWeightLossForecast()" />
-            </div>
-            <div class="form-group">
-              <label>Cân nặng mục tiêu (kg)</label>
-              <input type="number" id="targetWeight" value="58.0" step="0.5" min="35" max="200" oninput="runWeightLossForecast()" />
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Mức độ vận động hàng ngày</label>
-            <select id="activityLevel" onchange="runWeightLossForecast()">
-              <option value="1.2">Ít vận động (Ngồi văn phòng, ít đi lại)</option>
-              <option value="1.375" selected>Vận động nhẹ (Tập nhẹ 1 - 3 buổi/tuần)</option>
-              <option value="1.55">Vừa phải (Tập thể dục 3 - 5 buổi/tuần)</option>
-              <option value="1.725">Vận động nhiều (Tập nặng 6 - 7 buổi/tuần)</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label>Mức thâm hụt calo mỗi ngày (kcal)</label>
-            <input type="number" id="manualDeficit" value="500" step="50" min="100" max="1200" oninput="runWeightLossForecast()" />
-          </div>
-
-          <button class="btn-calc" onclick="runWeightLossForecast()">
-            🚀 Tính Toán Lộ Trình Giảm Cân
-          </button>
+          Trực quan hóa tỷ trọng đóng góp doanh thu và cơ cấu chi phí giữa các bộ phận:
         </div>
 
-        <!-- Output Forecast & Milestones -->
-        <div>
-          <!-- Hero KPI Block -->
-          <div class="result-hero">
-            <div class="result-kpi-block">
-              <div class="result-kpi-label">Tiêu Hao Hàng Ngày (TDEE)</div>
-              <div class="result-kpi-val" id="resTdee">1,980 <span style="font-size:0.9rem;font-weight:400;color:var(--dark);">kcal</span></div>
-            </div>
-            <div class="result-kpi-block">
-              <div class="result-kpi-label">Calo Nạp Để Giảm Cân</div>
-              <div class="result-kpi-val" id="resTargetCalo">1,480 <span style="font-size:0.9rem;font-weight:400;color:var(--dark);">kcal</span></div>
-            </div>
-            <div class="result-kpi-block">
-              <div class="result-kpi-label">Tốc Độ Giảm / Tuần</div>
-              <div class="result-kpi-val" id="resWeeklyLoss" style="color:var(--secondary);">-0.45 <span style="font-size:0.9rem;font-weight:400;color:var(--dark);">kg</span></div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+          <div style="border: 1px solid var(--border); border-radius: 10px; padding: 16px;">
+            <h4 style="font-size: 0.9rem; font-weight: 700; margin-bottom: 12px;">📊 Tỷ Trọng Doanh Thu Theo Khối</h4>
+            <div style="display:flex; flex-direction:column; gap:8px; font-size:0.83rem;">
+              <div>Khối Doanh Nghiệp B2B: <strong>55% (1.56 Tỷ)</strong></div>
+              <div style="background:#e2e8f0; border-radius:6px; height:8px;"><div style="background:#2563eb; width:55%; height:100%; border-radius:6px;"></div></div>
+              
+              <div>Khối Khách Hàng B2C / Sinh Viên: <strong>32% (912 Triệu)</strong></div>
+              <div style="background:#e2e8f0; border-radius:6px; height:8px;"><div style="background:#0d9488; width:32%; height:100%; border-radius:6px;"></div></div>
+
+              <div>Khối Đào Tạo & Dịch Vụ Phụ Trợ: <strong>13% (378 Triệu)</strong></div>
+              <div style="background:#e2e8f0; border-radius:6px; height:8px;"><div style="background:#f59e0b; width:13%; height:100%; border-radius:6px;"></div></div>
             </div>
           </div>
 
-          <!-- Milestones Forecast Cards -->
-          <div class="card">
-            <div class="card-title">
-              <span>🎯</span> Dự Báo Số Cân Nặng Giảm Theo Thời Gian
-            </div>
-            <div class="card-subtitle">
-              Tính toán dựa trên định luật nhiệt động lực học ($7,700 \text{ kcal thâm hụt} \approx 1\text{ kg mỡ thuần}$).
-            </div>
+          <div style="border: 1px solid var(--border); border-radius: 10px; padding: 16px;">
+            <h4 style="font-size: 0.9rem; font-weight: 700; margin-bottom: 12px;">⚖️ Cơ Cấu Chi Phí Vận Hành Tháng</h4>
+            <div style="display:flex; flex-direction:column; gap:8px; font-size:0.83rem;">
+              <div>Chi Phí Nhân Sự & Lương Thưởng: <strong>25.2% (720 Tr)</strong></div>
+              <div style="background:#e2e8f0; border-radius:6px; height:8px;"><div style="background:#e11d48; width:25.2%; height:100%; border-radius:6px;"></div></div>
 
-            <div class="milestone-timeline" id="milestonesContainer">
-              <!-- Rendered via JS -->
-            </div>
-          </div>
+              <div>Chi Phí Máy Chủ Cloud / AI GPU: <strong>14.5% (413 Tr)</strong></div>
+              <div style="background:#e2e8f0; border-radius:6px; height:8px;"><div style="background:#6366f1; width:14.5%; height:100%; border-radius:6px;"></div></div>
 
-          <!-- Interactive SVG Trajectory Chart -->
-          <div class="card">
-            <div class="card-title">
-              <span>📉</span> Biểu Đồ Mô Phỏng Lộ Trình Giảm Cân (12 Tuần)
-            </div>
-            <div class="card-subtitle">
-              Đường đi xuống thể hiện cân nặng của bạn qua từng tuần nếu tuân thủ mức thâm hụt calo.
-            </div>
-            <div class="chart-container" id="forecastChartSvg">
-              <!-- SVG Polyline Graph rendered here -->
+              <div>Marketing & Mua Khách Hàng: <strong>18.0% (513 Tr)</strong></div>
+              <div style="background:#e2e8f0; border-radius:6px; height:8px;"><div style="background:#ec4899; width:18%; height:100%; border-radius:6px;"></div></div>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- Cảnh Báo & Lời Khuyên Chiến Lược Từ AI -->
+      <div class="alerts-container">
+        <!-- Box Cảnh Báo Đỏ -->
+        <div class="alert-box danger">
+          <h4><span>🚨</span> CẢNH BÁO RỦI RO TÀI CHÍNH & VẬN HÀNH</h4>
+          <ul>
+            <li><strong>Cảnh báo chi phí lương Chi nhánh Miền Nam:</strong> Tỷ lệ chi phí nhân sự trên doanh thu đạt <strong>36.5%</strong> (vượt ngưỡng kiểm soát tối đa 30%).</li>
+            <li><strong>Thời hạn thu hồi công nợ:</strong> Khoản công nợ khách hàng B2B quá hạn 30 ngày tăng 12% so với tháng 10.</li>
+            <li><strong>Hiệu suất kinh doanh tuần cuối:</strong> Doanh thu tuần 4 giảm nhẹ 8% do tình trạng thiếu hụt nhân viên tư vấn gói EdTech cấp tốc.</li>
+          </ul>
+        </div>
+
+        <!-- Box Lời Khuyên Hành Động Xanh -->
+        <div class="alert-box advice">
+          <h4><span>💡</span> LỜI KHUYÊN & CHIẾN LƯỢC TỐI ƯU TỪ AI</h4>
+          <ul>
+            <li><strong>Điều chỉnh định biên nhân sự:</strong> Tạm ngưng tuyển mới khối hỗ trợ gián tiếp; tập trung tuyển 3 nhân sự Sales B2B hiệu suất cao.</li>
+            <li><strong>Gói ưu đãi khuyến khích thanh toán sớm:</strong> Áp dụng chiết khấu 3% cho các hợp đồng trường Đại học thanh toán 100% trong 5 ngày.</li>
+            <li><strong>Tự động hóa báo cáo định kỳ:</strong> Sử dụng AI Agent để giảm 80% thời gian tổng hợp thủ công của phòng Kế toán hàng tuần.</li>
+          </ul>
+        </div>
+      </div>
+
     </section>
 
   </div>
 
+  <!-- MODAL CHỈNH SỬA BÁO CÁO TRONG LỊCH SỬ -->
+  <div id="editModal">
+    <div class="edit-modal-content">
+      <h3 style="font-size:1.15rem; font-weight:800; margin-bottom:12px;">✏️ Chỉnh Sửa & Cập Nhật Báo Cáo Lịch Sử</h3>
+      <div class="form-group">
+        <label>Tiêu đề Báo Cáo</label>
+        <input type="text" id="editReportTitle" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label>Doanh thu ghi nhận (VNĐ)</label>
+        <input type="text" id="editReportRevenue" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label>Ghi chú / Nhận xét của Nhân sự</label>
+        <textarea id="editReportNotes" class="form-control" style="min-height:80px;"></textarea>
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+        <button class="btn-table-action" onclick="closeEditModal()">Hủy Bỏ</button>
+        <button class="btn-auth-submit" style="width:auto; padding:8px 20px; margin:0;" onclick="saveEditedReport()">Lưu Cập Nhật</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     // ==========================================
-    // STATE & DEFAULT DATA
+    // AUTHENTICATION & SESSION STATE
     // ==========================================
-    const DEFAULT_APP_STATE = {
-      dailyTarget: 1500,
-      weekDays: [
-        { id: 1, name: "Thứ 2", date: "16/11", calories: 1480, checked: true, note: "Ăn ức gà, salad" },
-        { id: 2, name: "Thứ 3", date: "17/11", calories: 1520, checked: true, note: "Cơm gạo lứt" },
-        { id: 3, name: "Thứ 4", date: "18/11", calories: 1460, checked: true, note: "Hấp, luộc" },
-        { id: 4, name: "Thứ 5", date: "19/11", calories: 1500, checked: true, note: "Bún bò ít bánh" },
-        { id: 5, name: "Thứ 6", date: "20/11", calories: 1650, checked: false, note: "Ăn ngoài hơi thừa" },
-        { id: 6, name: "Thứ 7", date: "21/11", calories: 1420, checked: true, note: "Bù calo thứ 6" },
-        { id: 7, name: "Chủ Nhật", date: "22/11", calories: 1510, checked: true, note: "Ăn gia đình" }
-      ],
-      monthChecks: [1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 14],
-      mealPattern: "3meals",
-      deficitLevel: 500,
-      dietStyle: "eatclean"
-    };
+    let currentUser = JSON.parse(localStorage.getItem('finhr_user')) || null;
 
-    let appState = JSON.parse(localStorage.getItem('nutricare_state')) || DEFAULT_APP_STATE;
+    let appHistory = JSON.parse(localStorage.getItem('finhr_history')) || [
+      { id: "BC-2026-1101", time: "18/11/2026 08:30", user: "Hoàng Linh Ngọc", title: "Báo cáo Doanh thu & Chi phí Nhân sự Tháng 11", revenue: "2,850,000,000 ₫", status: "Đã duyệt", notes: "Số liệu chuẩn đã đối soát bảng lương." },
+      { id: "BC-2026-1030", time: "10/11/2026 14:15", user: "Nguyễn Văn Tuấn", title: "Phân tích Hiệu suất Kinh doanh 3 Chi nhánh", revenue: "2,490,000,000 ₫", status: "Đã duyệt", notes: "Chi nhánh Miền Bắc dẫn đầu 48% doanh số." },
+      { id: "BC-2026-1015", time: "02/11/2026 09:00", user: "Trần Thị Mai", title: "Kiểm toán Chi phí Vận hành & Cloud Server", revenue: "2,310,000,000 ₫", status: "Cần chỉnh sửa", notes: "Đang yêu cầu giải trình hóa đơn GPU." }
+    ];
 
-    function saveState() {
-      localStorage.setItem('nutricare_state', JSON.stringify(appState));
+    let currentSlideIndex = 0;
+    let editingHistoryIndex = null;
+
+    function checkAuth() {
+      if (currentUser && currentUser.name && currentUser.contact) {
+        document.getElementById('authOverlay').style.display = 'none';
+        updateHeaderUserInfo();
+      } else {
+        document.getElementById('authOverlay').style.display = 'flex';
+      }
+    }
+
+    function handleAuthSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('inputAuthName').value.trim();
+      const contact = document.getElementById('inputAuthContact').value.trim();
+      const dept = document.getElementById('inputAuthDept').value;
+
+      if (!name || !contact) {
+        alert("Vui lòng điền đầy đủ Họ tên và Số điện thoại hoặc Gmail!");
+        return;
+      }
+
+      currentUser = { name, contact, dept };
+      localStorage.setItem('finhr_user', JSON.stringify(currentUser));
+      document.getElementById('authOverlay').style.display = 'none';
+      updateHeaderUserInfo();
+      generateReportAndSlide();
+    }
+
+    function logoutAuth() {
+      if (confirm("Bạn có muốn đổi nhân sự hoặc đăng nhập lại?")) {
+        localStorage.removeItem('finhr_user');
+        currentUser = null;
+        document.getElementById('authOverlay').style.display = 'flex';
+      }
+    }
+
+    function updateHeaderUserInfo() {
+      if (!currentUser) return;
+      document.getElementById('headerUserName').innerText = currentUser.name;
+      document.getElementById('headerUserContact').innerText = `${currentUser.contact} • ${currentUser.dept}`;
+      
+      const initials = currentUser.name.split(' ').map(n => n[0]).slice(-2).join('').toUpperCase();
+      document.getElementById('headerAvatar').innerText = initials || "HR";
+      
+      const meta = document.getElementById('reportHeaderMeta');
+      if (meta) {
+        meta.innerHTML = `Người lập báo cáo: <strong>${currentUser.name}</strong> (${currentUser.contact}) | Phòng ban: <strong>${currentUser.dept}</strong> | Ngày lập: 18/11/2026`;
+      }
     }
 
     // ==========================================
-    // NAVIGATION LOGIC
+    // NAVIGATION TABS
     // ==========================================
     function switchPage(pageId, btn) {
       document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
@@ -904,333 +1121,299 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function loadSampleData() {
-      localStorage.removeItem('nutricare_state');
-      appState = JSON.parse(JSON.stringify(DEFAULT_APP_STATE));
-      saveState();
-      renderAllViews();
-      alert("✅ Đã nạp lại dữ liệu mẫu đầy đủ cho 3 trang!");
-    }
-
     // ==========================================
-    // TRANG 1: RENDER WEEK & MONTH
+    // FILE UPLOAD & SAMPLE PROMPTS
     // ==========================================
-    function renderWeekDays() {
-      const container = document.getElementById('weekGridContainer');
-      container.innerHTML = '';
-
-      appState.weekDays.forEach((day, idx) => {
-        const isChecked = day.checked;
-        const diff = day.calories - appState.dailyTarget;
-        let pillClass = "pill-on-track";
-        let pillText = `Đạt (${day.calories} kcal)`;
-
-        if (!day.calories) {
-          pillClass = "pill-unfilled";
-          pillText = "Chưa nhập";
-        } else if (diff > 50) {
-          pillClass = "pill-over";
-          pillText = `Vượt +${diff} kcal`;
-        }
-
-        const card = document.createElement('div');
-        card.className = `day-card ${isChecked ? 'checked' : ''}`;
-        card.innerHTML = `
-          <div class="day-header">
-            <div>
-              <div class="day-name">${day.name}</div>
-              <div class="day-date-str">${day.date}</div>
-            </div>
-            <div class="check-toggle" onclick="toggleDayCheck(${idx})">${isChecked ? '✓' : ''}</div>
-          </div>
-          <div class="day-input-group">
-            <label>Nạp vào (kcal):</label>
-            <input type="number" class="day-calorie-input" value="${day.calories}" 
-              onchange="updateDayCalorie(${idx}, this.value)" step="10" />
-          </div>
-          <div class="day-status-pill ${pillClass}">${pillText}</div>
-        `;
-        container.appendChild(card);
-      });
-
-      renderWeeklyChart();
-      updateBannerStats();
+    function handleFileSelect(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const notice = document.getElementById('fileUploadNotice');
+      notice.style.display = 'block';
+      notice.innerHTML = `✅ Đã tiếp nhận file: <strong>${file.name}</strong> (${(file.size/1024).toFixed(1)} KB) - Đang giải mã cấu trúc dữ liệu...`;
+      setTimeout(() => {
+        notice.innerHTML = `✅ File <strong>${file.name}</strong> đã sẵn sàng tích hợp vào Báo Cáo và Slide!`;
+      }, 400);
     }
 
-    function toggleDayCheck(idx) {
-      appState.weekDays[idx].checked = !appState.weekDays[idx].checked;
-      saveState();
-      renderWeekDays();
-    }
-
-    function updateDayCalorie(idx, val) {
-      appState.weekDays[idx].calories = parseInt(val) || 0;
-      saveState();
-      renderWeekDays();
-    }
-
-    function calculateWeeklySummary() {
-      saveState();
-      renderWeekDays();
-      alert("✅ Đã lưu số liệu tuần thành công!");
-    }
-
-    function updateBannerStats() {
-      const checkedCount = appState.weekDays.filter(d => d.checked).length;
-      document.getElementById('streakCountDisplay').innerHTML = `${checkedCount} <span class="streak-stat-sub">ngày ăn chuẩn</span>`;
-      
-      const totalWeekly = appState.weekDays.reduce((acc, d) => acc + (d.calories || 0), 0);
-      const targetWeekly = appState.dailyTarget * 7;
-      document.getElementById('bannerDailyTarget').innerText = appState.dailyTarget.toLocaleString();
-      document.getElementById('bannerWeeklyTotal').innerText = totalWeekly.toLocaleString();
-      document.getElementById('bannerDailyAvg').innerText = Math.round(totalWeekly / 7).toLocaleString();
-    }
-
-    function renderWeeklyChart() {
-      const container = document.getElementById('weeklyChartSvg');
-      container.innerHTML = '';
-      
-      const target = appState.dailyTarget;
-      const maxVal = Math.max(...appState.weekDays.map(d => d.calories), target + 200, 2000);
-
-      appState.weekDays.forEach(day => {
-        const heightPct = Math.min((day.calories / maxVal) * 100, 100);
-        const isOver = day.calories > target + 50;
-        const barColor = isOver ? '#ef4444' : '#2a9d8f';
-
-        const barWrapper = document.createElement('div');
-        barWrapper.style.flex = "1";
-        barWrapper.style.height = "100%";
-        barWrapper.style.display = "flex";
-        barWrapper.style.flexDirection = "column";
-        barWrapper.style.justifyContent = "flex-end";
-        barWrapper.style.alignItems = "center";
-        barWrapper.style.position = "relative";
-
-        barWrapper.innerHTML = `
-          <div style="font-size:0.75rem;font-weight:700;margin-bottom:6px;color:${barColor};">${day.calories}</div>
-          <div style="width:100%;max-width:38px;height:${heightPct}%;background:${barColor};border-radius:6px 6px 0 0;transition:0.3s;"></div>
-          <div style="font-size:0.75rem;font-weight:600;margin-top:8px;color:#666;">${day.name.replace('Thứ ', 'T')}</div>
-        `;
-        container.appendChild(barWrapper);
-      });
-    }
-
-    function renderMonthCalendar() {
-      const container = document.getElementById('monthCalendarContainer');
-      container.innerHTML = '';
-
-      for (let day = 1; day <= 30; day++) {
-        const isChecked = appState.monthChecks.includes(day);
-        const tile = document.createElement('div');
-        tile.className = `cal-tile ${isChecked ? 'active-check' : ''}`;
-        tile.innerText = isChecked ? `✓ ${day}` : day;
-        tile.onclick = () => toggleMonthCheck(day);
-        container.appendChild(tile);
+    function setSamplePrompt(type) {
+      const box = document.getElementById('promptInput');
+      if (type === 1) {
+        box.value = "Lập báo cáo tổng hợp doanh thu và chi phí nhân sự tháng 11/2026, phân tích hiệu suất lao động theo phòng ban và đưa ra khuyến nghị tối ưu dòng tiền.";
+      } else if (type === 2) {
+        box.value = "Đánh giá chi tiết hiệu suất kinh doanh của 3 chi nhánh Miền Bắc, Miền Trung và Miền Nam. Xác định nguyên nhân chi nhánh miền Nam có chi phí nhân sự cao vượt định mức.";
+      } else if (type === 3) {
+        box.value = "Rà soát toàn bộ chi phí vận hành, chi phí server GPU AI và các khoản chi vượt ngân sách; đề xuất 3 biện pháp cắt giảm chi phí lãng phí cho Ban Giám Đốc.";
       }
-      document.getElementById('monthCheckedCount').innerText = appState.monthChecks.length;
-    }
-
-    function toggleMonthCheck(day) {
-      if (appState.monthChecks.includes(day)) {
-        appState.monthChecks = appState.monthChecks.filter(d => d !== day);
-      } else {
-        appState.monthChecks.push(day);
-      }
-      saveState();
-      renderMonthCalendar();
+      generateReportAndSlide();
     }
 
     // ==========================================
-    // TRANG 2: BỮA ĂN & DẠNG THÂM HỤT
+    // GENERATE REPORT & SLIDES
     // ==========================================
-    const MEAL_SPLITS = {
-      '3meals': [
-        { name: "Bữa Sáng (Breakfast)", time: "07:00 - 08:30", pct: 30, foods: "Trứng ốp la, 2 lát bánh mì đen, chuối, cà phê đen ít đường" },
-        { name: "Bữa Trưa (Lunch)", time: "11:30 - 13:00", pct: 40, foods: "1 chén cơm gạo lứt, 150g ức gà áp chảo, đĩa bông cải xanh luộc" },
-        { name: "Bữa Tối (Dinner)", time: "18:30 - 20:00", pct: 30, foods: "Cá hồi nướng măng tây, canh rong biển thịt bằm, thanh long" }
-      ],
-      '2meals': [
-        { name: "Bữa 1 - Phá Nhịn (First Meal)", time: "12:00 trưa", pct: 50, foods: "Bát bún bò nạc nhiều thịt, 1 quả trứng luộc, salad cà chua dưa leo" },
-        { name: "Bữa 2 - Bữa Tối (Final Meal)", time: "19:30 tối", pct: 50, foods: "200g thăn bò nướng, khoai lang hấp, canh bí đao tôm, hạt óc chó" }
-      ],
-      '4meals': [
-        { name: "Bữa Sáng", time: "07:00", pct: 25, foods: "Yến mạch ngâm sữa chua Hy Lạp, việt quất, bơ đậu phộng" },
-        { name: "Bữa Trưa", time: "12:00", pct: 35, foods: "Cơm trắng, cá thu sốt cà chua, canh rau ngót thịt băm" },
-        { name: "Bữa Phụ Xế (Pre-workout)", time: "16:30", pct: 15, foods: "1 muỗng Whey Protein hoặc 1 quả táo kèm 1 nắm hạnh nhân" },
-        { name: "Bữa Tối", time: "19:30", pct: 25, foods: "Salad ức gà xé, trứng luộc, dầu ô liu và dấm táo" }
-      ],
-      'omad': [
-        { name: "Bữa Duy Nhất (Single Feast)", time: "18:00 - 19:30", pct: 100, foods: "Đại tiệc giàu đạm: Bít tết bò 250g, 2 quả trứng, cơm gạo lứt, đĩa lớn rau xanh, bơ sáp và tráng miệng hoa quả" }
-      ]
-    };
+    function generateReportAndSlide() {
+      const prompt = document.getElementById('promptInput').value;
+      const user = currentUser ? currentUser.name : "Nhân sự Doanh nghiệp";
+      const dept = currentUser ? currentUser.dept : "Phòng Tài Chính - Kế Toán";
 
-    function selectMealPattern(pattern, el) {
-      appState.mealPattern = pattern;
-      document.querySelectorAll('#page2 .selector-grid:first-of-type .option-card').forEach(c => c.classList.remove('selected'));
-      el.classList.add('selected');
-      saveState();
-      renderMealBreakdown();
-    }
+      // Build Executive Report
+      const reportHtml = `
+        <h3 style="color:var(--primary); font-size:1.1rem; margin-bottom:10px;">I. BỐI CẢNH & TỔNG QUAN KẾT QUẢ KINH DOANH</h3>
+        <p style="margin-bottom:12px;">
+          Theo số liệu đối soát tài chính và bảng lương nhân sự tháng 11/2026, toàn công ty ghi nhận 
+          <strong>tổng doanh thu thực đạt 2,850,000,000 VNĐ</strong>, hoàn thành 108.5% chỉ tiêu tháng.
+          Khối kinh doanh duy trì nhịp độ tăng trưởng tích cực (+14.2% so với tháng 10).
+        </p>
 
-    function selectDeficitLevel(val, el) {
-      appState.deficitLevel = val;
-      document.getElementById('manualDeficit').value = val;
-      document.querySelectorAll('#page2 .selector-grid:nth-of-type(2) .option-card').forEach(c => c.classList.remove('selected'));
-      el.classList.add('selected');
-      saveState();
-      runWeightLossForecast();
-    }
+        <h3 style="color:var(--primary); font-size:1.1rem; margin-bottom:10px;">II. PHÂN TÍCH TƯƠNG QUAN DOANH THU & CHI PHÍ NHÂN SỰ</h3>
+        <p style="margin-bottom:8px;">
+          • <strong>Tổng chi phí nhân sự:</strong> 720,000,000 VNĐ (chiếm 25.2% tổng doanh thu - nằm trong ngưỡng kiểm soát an toàn của doanh nghiệp &lt; 30%).<br/>
+          • <strong>Năng suất doanh thu bình quân:</strong> Đạt 57,000,000 VNĐ / nhân sự / tháng.<br/>
+          • <strong>Phân hóa chi nhánh:</strong> Chi nhánh Miền Bắc đóng góp 52% doanh số, Chi nhánh Miền Nam đóng góp 34%, Chi nhánh Miền Trung đóng góp 14%.
+        </p>
 
-    function selectDietStyle(style, el) {
-      appState.dietStyle = style;
-      document.querySelectorAll('#page2 .selector-grid:nth-of-type(3) .option-card').forEach(c => c.classList.remove('selected'));
-      el.classList.add('selected');
-      saveState();
-    }
-
-    function renderMealBreakdown() {
-      const pattern = appState.mealPattern || '3meals';
-      const meals = MEAL_SPLITS[pattern];
-      const target = appState.dailyTarget || 1500;
-      
-      const table = document.getElementById('mealBreakdownTable');
-      let html = `<tr><th>Bữa Ăn</th><th>Khung Giờ</th><th>Tỉ Lệ</th><th>Lượng Calo</th><th>Gợi Ý Thực Đơn Mẫu</th></tr>`;
-
-      meals.forEach(m => {
-        const cal = Math.round(target * (m.pct / 100));
-        html += `
-          <tr>
-            <td style="font-weight:700;color:var(--dark);">${m.name}</td>
-            <td style="color:var(--muted);">${m.time}</td>
-            <td><span class="tag">${m.pct}%</span></td>
-            <td style="font-weight:700;color:var(--primary);">${cal} kcal</td>
-            <td style="font-size:0.83rem;color:#475569;">${m.foods}</td>
-          </tr>
-        `;
-      });
-      table.innerHTML = html;
-    }
-
-    // ==========================================
-    // TRANG 3: DỰ BÁO GIẢM CÂN TỪ CALO THÂM HỤT
-    // ==========================================
-    function runWeightLossForecast() {
-      const gender = document.getElementById('userGender').value;
-      const age = parseFloat(document.getElementById('userAge').value) || 25;
-      const height = parseFloat(document.getElementById('userHeight').value) || 165;
-      const curWeight = parseFloat(document.getElementById('currentWeight').value) || 65;
-      const tgtWeight = parseFloat(document.getElementById('targetWeight').value) || 58;
-      const act = parseFloat(document.getElementById('activityLevel').value) || 1.375;
-      const deficit = parseFloat(document.getElementById('manualDeficit').value) || 500;
-
-      // Công thức Mifflin-St Jeor chuẩn y khoa
-      let bmr = (10 * curWeight) + (6.25 * height) - (5 * age);
-      bmr += (gender === 'male' ? 5 : -161);
-
-      const tdee = Math.round(bmr * act);
-      const intakeTarget = Math.max(Math.round(tdee - deficit), 1100);
-      const weeklyLoss = (deficit * 7) / 7700; // 7700 kcal = 1 kg mỡ
-
-      // Cập nhật lên UI
-      document.getElementById('resTdee').innerHTML = `${tdee.toLocaleString()} <span style="font-size:0.9rem;font-weight:400;color:var(--dark);">kcal</span>`;
-      document.getElementById('resTargetCalo').innerHTML = `${intakeTarget.toLocaleString()} <span style="font-size:0.9rem;font-weight:400;color:var(--dark);">kcal</span>`;
-      document.getElementById('resWeeklyLoss').innerHTML = `-${weeklyLoss.toFixed(2)} <span style="font-size:0.9rem;font-weight:400;color:var(--dark);">kg</span>`;
-
-      // Cập nhật lại target calo của Trang 1
-      appState.dailyTarget = intakeTarget;
-      saveState();
-      updateBannerStats();
-      renderMealBreakdown();
-
-      // Render Milestones (1w, 2w, 4w, 8w, 12w)
-      const weeks = [1, 2, 4, 8, 12];
-      const milestonesBox = document.getElementById('milestonesContainer');
-      milestonesBox.innerHTML = '';
-
-      const totalNeedToLose = Math.max(curWeight - tgtWeight, 0);
-
-      weeks.forEach(w => {
-        const lost = Math.min(weeklyLoss * w, totalNeedToLose);
-        const remWeight = Math.max(curWeight - (weeklyLoss * w), tgtWeight);
-
-        const card = document.createElement('div');
-        card.className = 'milestone-box';
-        card.innerHTML = `
-          <div class="milestone-week">Sau ${w} Tuần</div>
-          <div class="milestone-lost">-${(weeklyLoss * w).toFixed(1)} kg</div>
-          <div class="milestone-weight">Còn <strong>${remWeight.toFixed(1)}</strong> kg</div>
-        `;
-        milestonesBox.appendChild(card);
-      });
-
-      renderForecastChart(curWeight, weeklyLoss, tgtWeight);
-    }
-
-    function renderForecastChart(startWeight, weeklyLoss, tgtWeight) {
-      const container = document.getElementById('forecastChartSvg');
-      container.innerHTML = '';
-
-      const width = 600;
-      const height = 200;
-      const padding = 35;
-
-      const weeks = [0, 1, 2, 3, 4, 6, 8, 10, 12];
-      const points = [];
-
-      const minW = Math.max(startWeight - (weeklyLoss * 12) - 2, tgtWeight - 2);
-      const maxW = startWeight + 1;
-
-      weeks.forEach(w => {
-        const weightAtW = Math.max(startWeight - (weeklyLoss * w), tgtWeight);
-        const x = padding + (w / 12) * (width - 2 * padding);
-        const y = height - padding - ((weightAtW - minW) / (maxW - minW)) * (height - 2 * padding);
-        points.push({ x, y, w, weight: weightAtW });
-      });
-
-      const polyPoints = points.map(p => `${p.x},${p.y}`).join(' ');
-
-      let svg = `
-        <svg viewBox="0 0 ${width} ${height}" style="width:100%;height:100%;">
-          <!-- Grid Lines -->
-          <line x1="${padding}" y1="${height - padding}" x2="${width - padding}" y2="${height - padding}" stroke="#ddd" stroke-width="1.5" />
-          <line x1="${padding}" y1="${padding}" x2="${padding}" y2="${height - padding}" stroke="#ddd" stroke-width="1.5" />
-          
-          <!-- Target Weight Dashed Line -->
-          <line x1="${padding}" y1="${points[points.length-1].y}" x2="${width - padding}" y2="${points[points.length-1].y}" stroke="#e76f51" stroke-dasharray="4" stroke-width="1.2" opacity="0.6" />
-          <text x="${width - padding - 80}" y="${points[points.length-1].y - 6}" font-size="11" fill="#e76f51" font-weight="600">Mục tiêu: ${tgtWeight} kg</text>
-
-          <!-- Trajectory Line -->
-          <polyline fill="none" stroke="#2a9d8f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" points="${polyPoints}" />
+        <h3 style="color:var(--primary); font-size:1.1rem; margin-bottom:10px;">III. KẾT LUẬN & KIẾN NGHỊ CỦA BỘ PHẬN THỰC HIỆN</h3>
+        <p>
+          Báo cáo đã được thẩm định tự động qua quy trình làm sạch dữ liệu AI. 
+          Bộ phận kính trình Ban Giám Đốc phê duyệt phương án tái phân bổ chỉ tiêu quý tới và chuẩn bị ngân sách thưởng hiệu suất cho các tập thể xuất sắc.
+        </p>
       `;
+      document.getElementById('fullReportContainer').innerHTML = reportHtml;
 
-      // Plot points & Labels
-      points.forEach((p, idx) => {
-        if (idx === 0 || idx === 2 || idx === 4 || idx === points.length - 1) {
-          svg += `
-            <circle cx="${p.x}" cy="${p.y}" r="5" fill="#2a9d8f" stroke="#ffffff" stroke-width="2" />
-            <text x="${p.x}" y="${p.y - 10}" font-size="11" font-weight="700" fill="#1f2421" text-anchor="middle">${p.weight.toFixed(1)}kg</text>
-            <text x="${p.x}" y="${height - 12}" font-size="10" fill="#6c757d" text-anchor="middle">T${p.w}</text>
-          `;
-        }
+      // Update in history if new
+      const newReportId = `BC-2026-${Math.floor(1000 + Math.random()*9000)}`;
+      appHistory.unshift({
+        id: newReportId,
+        time: "Vừa xong",
+        user: user,
+        title: prompt.slice(0, 50) + "...",
+        revenue: "2,850,000,000 ₫",
+        status: "Đã khởi tạo",
+        notes: `Tạo tự động bởi ${user} (${dept}).`
       });
+      localStorage.setItem('finhr_history', JSON.stringify(appHistory));
+      renderHistoryTable();
 
-      svg += `</svg>`;
-      container.innerHTML = svg;
+      // Render Current Slide
+      currentSlideIndex = 0;
+      renderSlide(currentSlideIndex);
+    }
+
+    // ==========================================
+    // SLIDE DECK RENDERER
+    // ==========================================
+    const SLIDES_DATA = [
+      {
+        type: "cover",
+        title: "BÁO CÁO DOANH THU & TÀI CHÍNH THÁNG 11/2026",
+        subtitle: "Phân tích Chuyên Sâu Tương Quan Doanh Thu & Hiệu Suất Nhân Sự",
+        authorInfo: true
+      },
+      {
+        type: "kpi",
+        title: "TỔNG QUAN CHỈ SỐ TÀI CHÍNH CỐT LÕI",
+        items: [
+          { label: "TỔNG DOANH THU", val: "2.85 Tỷ ₫", note: "Đạt 108.5% kế hoạch đề ra" },
+          { label: "LỢI NHUẬN GỘP", val: "1.21 Tỷ ₫", note: "Tỷ suất lợi nhuận đạt 42.4%" },
+          { label: "CHI PHÍ LƯƠNG NHÂN SỰ", val: "720 Triệu ₫", note: "Chiếm 25.2% tổng doanh thu" },
+          { label: "DOANH THU / NHÂN SỰ", val: "57 Triệu ₫/người", note: "Tăng 8.5% so với tháng trước" }
+        ]
+      },
+      {
+        type: "breakdown",
+        title: "CƠ CẤU DOANH THU THEO CHI NHÁNH & BỘ PHẬN",
+        content: `
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:14px;">
+            <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:18px;">
+              <h4 style="color:#2563eb; margin-bottom:10px;">🏙️ Chi Nhánh Miền Bắc (Dẫn Đầu)</h4>
+              <p style="font-size:0.9rem; line-height:1.6;">• Doanh thu: <strong>1.48 Tỷ VNĐ (52%)</strong><br/>• Tỷ lệ chi phí lương: 21.0%<br/>• Đánh giá: Đơn vị xuất sắc toàn diện.</p>
+            </div>
+            <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:18px;">
+              <h4 style="color:#e11d48; margin-bottom:10px;">🌴 Chi Nhánh Miền Nam (Cần Tối Ưu)</h4>
+              <p style="font-size:0.9rem; line-height:1.6;">• Doanh thu: <strong>969 Triệu VNĐ (34%)</strong><br/>• Tỷ lệ chi phí lương: <strong>36.5% (Cảnh báo đỏ)</strong><br/>• Đánh giá: Cần tái cấu trúc đội ngũ kinh doanh.</p>
+            </div>
+          </div>
+        `
+      },
+      {
+        type: "recommendation",
+        title: "KẾT LUẬN & ĐỀ XUẤT HÀNH ĐỘNG THÁNG 12",
+        bullets: [
+          "Duy trì đà tăng trưởng của Khối Khách hàng Doanh nghiệp B2B với mục tiêu 3.2 Tỷ VNĐ trong tháng 12.",
+          "Áp dụng chính sách kiểm soát chi phí tuyển dụng mới tại Chi nhánh Miền Nam, ưu tiên nâng cao năng suất nhân sự hiện hữu.",
+          "Tự động hóa hoàn toàn quy trình lập báo cáo tài chính hàng tuần bằng AI để tiết kiệm 120 giờ làm việc/tháng cho bộ phận Kế toán."
+        ]
+      }
+    ];
+
+    function renderSlide(index) {
+      const canvas = document.getElementById('slideCanvas');
+      const s = SLIDES_DATA[index];
+      const user = currentUser ? currentUser.name : "Hoàng Linh Ngọc";
+      const dept = currentUser ? currentUser.dept : "Phòng Tài Chính - Kế Toán";
+
+      document.getElementById('slideIndicator').innerText = `Slide ${index + 1} / ${SLIDES_DATA.length}`;
+
+      if (s.type === "cover") {
+        canvas.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:0.85rem; font-weight:800; color:#2563eb; letter-spacing:1px;">FIN-HR ANALYTICS • EXECUTIVE REPORT</span>
+            <span style="font-size:0.8rem; color:#64748b;">Mã Báo Cáo: BC-2026-11</span>
+          </div>
+          <div style="margin: auto 0;">
+            <h1 style="font-size:2rem; font-weight:800; color:#0f172a; line-height:1.25; margin-bottom:10px;">${s.title}</h1>
+            <p style="font-size:1.05rem; color:#475569;">${s.subtitle}</p>
+          </div>
+          <div style="border-top:2px solid #e2e8f0; padding-top:14px; display:flex; justify-content:space-between; align-items:center;">
+            <div style="font-size:0.88rem;">
+              Nhân sự thực hiện: <strong>${user}</strong> • Đơn vị: <strong>${dept}</strong>
+            </div>
+            <div style="font-size:0.85rem; color:#64748b;">Ngày trình bày: 18/11/2026</div>
+          </div>
+        `;
+      } else if (s.type === "kpi") {
+        let itemsHtml = s.items.map(it => `
+          <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:18px;">
+            <div style="font-size:0.75rem; color:#64748b; font-weight:700;">${it.label}</div>
+            <div style="font-size:1.8rem; font-weight:800; color:#0f172a; font-family:'Space Grotesk',sans-serif; margin:4px 0;">${it.val}</div>
+            <div style="font-size:0.8rem; color:#0d9488; font-weight:600;">${it.note}</div>
+          </div>
+        `).join('');
+
+        canvas.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h2 style="font-size:1.35rem; font-weight:800; color:#0f172a;">${s.title}</h2>
+            <span style="font-size:0.8rem; color:#64748b;">Phần II: Dữ Liệu Tài Chính</span>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin: auto 0;">
+            ${itemsHtml}
+          </div>
+          <div style="font-size:0.8rem; color:#64748b; border-top:1px solid #eee; padding-top:8px;">
+            *Nguồn dữ liệu: Hệ thống ERP & Bảng lương nhân sự tháng 11/2026.
+          </div>
+        `;
+      } else if (s.type === "breakdown") {
+        canvas.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h2 style="font-size:1.35rem; font-weight:800; color:#0f172a;">${s.title}</h2>
+            <span style="font-size:0.8rem; color:#64748b;">Phần III: Phân Hóa Hiệu Quả</span>
+          </div>
+          <div style="margin: auto 0;">
+            ${s.content}
+          </div>
+          <div style="font-size:0.8rem; color:#64748b; border-top:1px solid #eee; padding-top:8px;">
+            Khuyến nghị: Chuyển 2 nhân sự kinh doanh xuất sắc từ Miền Bắc vào chi viện Miền Nam.
+          </div>
+        `;
+      } else if (s.type === "recommendation") {
+        let bulletsHtml = s.bullets.map(b => `<li style="margin-bottom:12px; font-size:0.95rem; line-height:1.6;">${b}</li>`).join('');
+        canvas.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h2 style="font-size:1.35rem; font-weight:800; color:#0f172a;">${s.title}</h2>
+            <span style="font-size:0.8rem; color:#64748b;">Phần IV: Định Hướng Hành Động</span>
+          </div>
+          <div style="margin: auto 0;">
+            <ul style="padding-left:24px; color:#1e293b;">
+              ${bulletsHtml}
+            </ul>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #eee; padding-top:8px; font-size:0.85rem;">
+            <span>Trân trọng cảm ơn Ban Giám Đốc đã lắng nghe!</span>
+            <span style="color:#2563eb; font-weight:700;">Hỏi & Đáp (Q&A)</span>
+          </div>
+        `;
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlideIndex > 0) {
+        currentSlideIndex--;
+        renderSlide(currentSlideIndex);
+      }
+    }
+
+    function nextSlide() {
+      if (currentSlideIndex < SLIDES_DATA.length - 1) {
+        currentSlideIndex++;
+        renderSlide(currentSlideIndex);
+      }
+    }
+
+    function downloadMockDocument(ext) {
+      const fileName = `BaoCao_DoanhThu_TaiChinh_NhanSu.${ext}`;
+      const dummyContent = `BÁO CÁO DOANH THU & TÀI CHÍNH THÁNG 11/2026\nNhân sự thực hiện: ${currentUser ? currentUser.name : "Hoàng Linh Ngọc"}\nTổng doanh thu: 2,850,000,000 VNĐ\nChi phí nhân sự: 720,000,000 VNĐ`;
+      const blob = new Blob([dummyContent], { type: 'text/plain;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = fileName;
+      a.click();
+      alert(`✅ Đang tải xuống file ${fileName} hoàn chỉnh!`);
+    }
+
+    // ==========================================
+    // TRANG 2: HISTORY TABLE & EDIT MODAL
+    // ==========================================
+    function renderHistoryTable() {
+      const tbody = document.getElementById('historyTableBody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      appHistory.forEach((h, idx) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${h.id}</strong></td>
+          <td>${h.time}</td>
+          <td>${h.user}</td>
+          <td>${h.title}</td>
+          <td style="font-weight:700; color:var(--primary);">${h.revenue}</td>
+          <td><span class="badge-status ${h.status === 'Đã duyệt' ? 'badge-success' : 'badge-review'}">${h.status}</span></td>
+          <td>
+            <button class="btn-table-action" onclick="viewHistoryItem(${idx})">👁️ Xem</button>
+            <button class="btn-table-action" onclick="openEditModal(${idx})">✏️ Sửa</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function viewHistoryItem(idx) {
+      const h = appHistory[idx];
+      alert(`📋 [XEM BÁO CÁO ${h.id}]\n• Nhân sự: ${h.user}\n• Thời gian: ${h.time}\n• Chủ đề: ${h.title}\n• Doanh thu: ${h.revenue}\n• Ghi chú: ${h.notes}`);
+    }
+
+    function openEditModal(idx) {
+      editingHistoryIndex = idx;
+      const h = appHistory[idx];
+      document.getElementById('editReportTitle').value = h.title;
+      document.getElementById('editReportRevenue').value = h.revenue;
+      document.getElementById('editReportNotes').value = h.notes;
+      document.getElementById('editModal').style.display = 'flex';
+    }
+
+    function closeEditModal() {
+      document.getElementById('editModal').style.display = 'none';
+      editingHistoryIndex = null;
+    }
+
+    function saveEditedReport() {
+      if (editingHistoryIndex === null) return;
+      appHistory[editingHistoryIndex].title = document.getElementById('editReportTitle').value;
+      appHistory[editingHistoryIndex].revenue = document.getElementById('editReportRevenue').value;
+      appHistory[editingHistoryIndex].notes = document.getElementById('editReportNotes').value;
+      appHistory[editingHistoryIndex].status = "Đã chỉnh sửa";
+
+      localStorage.setItem('finhr_history', JSON.stringify(appHistory));
+      renderHistoryTable();
+      closeEditModal();
+      alert("✅ Đã cập nhật chỉnh sửa báo cáo thành công vào lịch sử hệ thống!");
     }
 
     // ==========================================
     // INITIALIZATION
     // ==========================================
-    function renderAllViews() {
-      renderWeekDays();
-      renderMonthCalendar();
-      renderMealBreakdown();
-      runWeightLossForecast();
-    }
-
     window.onload = () => {
-      renderAllViews();
+      checkAuth();
+      renderHistoryTable();
+      renderSlide(0);
     };
   </script>
 </body>
