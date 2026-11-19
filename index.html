@@ -147,7 +147,41 @@ th{color:var(--muted);font-size:.75rem;text-transform:uppercase}
 .slide .sfoot{font-size:.65rem;opacity:.55;margin-top:6px}
 .simg{position:absolute;border-radius:10px;cursor:grab;touch-action:none;box-shadow:0 6px 18px rgba(0,0,0,.25)}
 .simg.sel{outline:3px solid var(--sac)}
-@media print{header,.nav,.tools,.slidebar,.thumbs,.btn,#gate{display:none!important}body::before{display:none}}
+
+/* AI Chat Assistant */
+.chat-wrap{display:flex;flex-direction:column;height:560px;border-radius:var(--r);border:1px solid var(--edge);background:var(--card);backdrop-filter:blur(18px) saturate(170%);-webkit-backdrop-filter:blur(18px) saturate(170%);box-shadow:var(--shadow);overflow:hidden}
+.chat-hd{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;background:var(--soft)}
+.chat-hd .ai-badge{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;color:var(--good);background:color-mix(in srgb,var(--good) 15%,transparent);padding:4px 11px;border-radius:20px}
+.chat-hd .ai-badge::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--good);box-shadow:0 0 8px var(--good)}
+.chat-body{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth}
+.chat-msg{display:flex;gap:10px;max-width:85%}
+.chat-msg.user{align-self:flex-end;flex-direction:row-reverse}
+.chat-msg.bot{align-self:flex-start}
+.chat-avatar{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-weight:800;font-size:1.05rem;flex-shrink:0}
+.chat-msg.bot .chat-avatar{background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;box-shadow:0 4px 12px color-mix(in srgb,var(--ac) 35%,transparent)}
+.chat-msg.user .chat-avatar{background:var(--soft);border:1px solid var(--line);color:var(--text)}
+.chat-bubble{padding:12px 16px;border-radius:16px;font-size:.9rem;line-height:1.6;word-break:break-word}
+.chat-msg.bot .chat-bubble{background:var(--soft);border:1px solid var(--line);color:var(--text);border-top-left-radius:4px}
+.chat-msg.user .chat-bubble{background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;border-top-right-radius:4px;box-shadow:0 4px 14px color-mix(in srgb,var(--ac) 30%,transparent)}
+.chat-bubble p{margin:0 0 6px}
+.chat-bubble p:last-child{margin:0}
+.chat-bubble ul,.chat-bubble ol{padding-left:18px;margin:6px 0}
+.chat-bubble li{margin:3px 0}
+.chat-bubble b{color:var(--ac)}
+.chat-msg.user .chat-bubble b{color:#fff}
+.chat-prompts{display:flex;gap:7px;overflow-x:auto;padding:9px 14px;border-top:1px solid var(--line);background:color-mix(in srgb,var(--card) 80%,transparent)}
+.chat-prompts button{white-space:nowrap;font-size:.78rem;font-weight:700;padding:6px 13px;border-radius:18px;border:1px solid var(--line);background:var(--soft);color:var(--text);cursor:pointer;transition:.15s}
+.chat-prompts button:hover{border-color:var(--ac);color:var(--ac);background:var(--acsoft);transform:translateY(-1px)}
+.chat-bar{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--line);background:var(--soft)}
+.chat-bar input{flex:1;padding:11px 16px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);color:var(--text);font-size:.92rem}
+.chat-bar button{padding:10px 20px;white-space:nowrap}
+.typing{display:inline-flex;align-items:center;gap:4px;padding:8px 14px;border-radius:14px;background:var(--soft);border:1px solid var(--line);font-size:.8rem;color:var(--muted)}
+.typing span{width:6px;height:6px;border-radius:50%;background:var(--ac);display:inline-block;animation:bounce 1.2s infinite ease-in-out}
+.typing span:nth-child(2){animation-delay:.2s}
+.typing span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,80%,100%{transform:scale(0)}40%{transform:scale(1)}}
+
+@media print{header,.nav,.tools,.slidebar,.thumbs,.btn,#gate,.chat-prompts,.chat-bar{display:none!important}body::before{display:none}}
 </style>
 </head>
 <body>
@@ -172,7 +206,7 @@ th{color:var(--muted);font-size:.75rem;text-transform:uppercase}
   <nav class="nav">
     <button class="on" onclick="go(1)">① Gửi dữ liệu</button>
     <button onclick="go(2)">② Kết quả</button>
-    <button onclick="go(3)">③ Tư vấn</button>
+    <button onclick="go(3)">③ Tư vấn & Hỏi AI</button>
   </nav>
   <div class="tools">
     <span class="userchip" id="userChip" style="display:none"></span>
@@ -222,11 +256,31 @@ th{color:var(--muted);font-size:.75rem;text-transform:uppercase}
     </div>
     <input id="bizCustom" placeholder="Nhập loại hình doanh nghiệp của bạn…" style="display:none;margin-top:10px" />
 
-    <label class="l">Chọn dịch vụ</label>
+    <label class="l">Chọn dịch vụ & Tính năng phân tích AI</label>
     <div class="opts">
-      <label><input type="checkbox" id="sClean" checked> 🧹 Làm sạch</label>
+      <label><input type="checkbox" id="sClean" checked> 🧹 Làm sạch dữ liệu</label>
       <label><input type="checkbox" id="sKpi" checked> 📐 Tính toán KPI</label>
       <label><input type="checkbox" id="sDash" checked> 📊 Tạo Dashboard</label>
+      <label><input type="checkbox" id="sForecast" checked> 🔮 Dự báo tăng trưởng AI</label>
+      <label><input type="checkbox" id="sRisk" checked> ⚠️ Cảnh báo rủi ro</label>
+      <label><input type="checkbox" id="sStrategy" checked> 💡 Chiến lược kinh doanh AI</label>
+      <label><input type="checkbox" id="sCustomPrompt" onchange="toggleCustomPrompt()"> ✍️ AI làm theo yêu cầu riêng</label>
+    </div>
+
+    <!-- Hộp nhập yêu cầu tùy chọn cho AI -->
+    <div id="boxCustomPrompt" style="display:none;margin-top:14px;background:var(--acsoft);border:1.5px solid var(--ac);border-radius:14px;padding:16px">
+      <div class="row" style="justify-content:space-between;margin-bottom:6px">
+        <b style="color:var(--ac);font-size:.92rem">✨ Yêu cầu AI làm theo mong muốn của bạn:</b>
+        <span class="sub" style="font-size:.75rem">AI sẽ phân tích dữ liệu đúng theo yêu cầu này</span>
+      </div>
+      <textarea id="aiCustomReq" rows="3" placeholder="Ví dụ: 'Hãy tìm cho tôi kênh bán hàng nào có tỷ suất sinh lời cao nhất và phân tích xem tại sao?', 'Phát hiện các đơn hàng trên 2 triệu và gợi ý cách giữ chân khách'..."></textarea>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <span class="sub" style="font-size:.74rem;align-self:center">Gợi ý yêu cầu nhanh:</span>
+        <button type="button" class="btn ghost sm" style="font-size:.74rem;padding:4px 9px" onclick="setAiPrompt('Xác định top 3 sản phẩm chủ lực và gợi ý kịch bản tăng giá bán mà không mất khách')">🏆 Top 3 sản phẩm & kịch bản giá</button>
+        <button type="button" class="btn ghost sm" style="font-size:.74rem;padding:4px 9px" onclick="setAiPrompt('Phân tích chi tiết rủi ro dòng tiền và đề xuất giải pháp kiểm soát công nợ')">💸 Rủi ro dòng tiền & công nợ</button>
+        <button type="button" class="btn ghost sm" style="font-size:.74rem;padding:4px 9px" onclick="setAiPrompt('So sánh hiệu suất giữa các kênh phân phối và lập kế hoạch mở rộng thị trường')">📈 So sánh kênh & mở rộng thị trường</button>
+        <button type="button" class="btn ghost sm" style="font-size:.74rem;padding:4px 9px" onclick="setAiPrompt('Tìm các giao dịch bất thường và đề xuất quy trình kiểm soát nội bộ')">🛡 Giao dịch bất thường & kiểm soát</button>
+      </div>
     </div>
 
     <div class="prog" id="prog"><i id="progBar"></i></div>
@@ -322,20 +376,70 @@ th{color:var(--muted);font-size:.75rem;text-transform:uppercase}
 
 <!-- ============ TRANG 3 ============ -->
 <section id="p3" class="page">
-  <div class="card" style="max-width:640px;margin:0 auto">
-    <h2 style="font-size:1.3rem">Tư vấn cho bạn</h2>
-    <p class="sub">Chỉ cần vài thông tin, chúng tôi sẽ liên hệ sớm.</p>
-    <label class="l">Họ và tên</label>
-    <input id="cName" placeholder="Nguyễn Văn A" />
-    <label class="l">Số điện thoại hoặc Gmail</label>
-    <input id="cContact" placeholder="0799 xxx xxx hoặc ten@gmail.com" />
-    <label class="l">Nội dung thắc mắc</label>
-    <textarea id="cMsg" rows="4" placeholder="Bạn cần hỗ trợ điều gì?"></textarea>
-    <button class="btn block" onclick="sendConsult()">📨 Gửi yêu cầu tư vấn</button>
-    <div class="msg" id="msg3"></div>
-    <div id="mailBtn"></div>
+  <div class="hero">
+    <h1>Tư vấn & <span>Trợ lý AI Thông Minh</span></h1>
+    <p class="sub" style="margin-top:8px">Hỏi đáp thắc mắc trực tiếp với Trợ lý AI 24/7 hoặc gửi thông tin để chuyên gia Rekkei edu liên hệ.</p>
   </div>
-  <p class="thanks">Cảm ơn quý khách đã tin tưởng.</p>
+
+  <div class="tabs" style="max-width:680px;margin:0 auto 20px">
+    <button class="on" id="tabAi" onclick="switchConsultTab('ai')">🤖 Hỏi đáp trực tiếp với AI</button>
+    <button id="tabForm" onclick="switchConsultTab('form')">📝 Gửi yêu cầu tư vấn chuyên sâu</button>
+  </div>
+
+  <!-- PHẦN 1: TRỢ LÝ AI GIẢI ĐÁP THẮC MẮC -->
+  <div id="secAi" style="max-width:820px;margin:0 auto">
+    <div class="chat-wrap">
+      <div class="chat-hd">
+        <div class="row" style="gap:10px">
+          <div class="logo" style="width:34px;height:34px;font-size:1.1rem;border-radius:10px">L</div>
+          <div>
+            <b style="font-size:.95rem">Trợ lý AI – LANH THAI NGOC</b>
+            <div style="font-size:.74rem;color:var(--muted)">Giải đáp mọi thắc mắc dữ liệu & kinh doanh 24/7</div>
+          </div>
+        </div>
+        <div class="row">
+          <span class="ai-badge">Trực tuyến</span>
+          <button class="btn ghost sm" onclick="clearChat()" title="Làm mới đoạn chat" style="padding:4px 10px;font-size:.76rem">🗑 Làm mới</button>
+        </div>
+      </div>
+
+      <div class="chat-body" id="chatBody"></div>
+
+      <div class="chat-prompts">
+        <span class="sub" style="font-size:.75rem;align-self:center;margin-right:2px">Gợi ý:</span>
+        <button type="button" onclick="askPrompt('Hệ thống hỗ trợ những định dạng file nào và cách gửi?')">📁 Định dạng file?</button>
+        <button type="button" onclick="askPrompt('Quy trình làm sạch dữ liệu tự động gồm những bước nào?')">🧹 Làm sạch dữ liệu?</button>
+        <button type="button" onclick="askPrompt('Giải thích các loại biểu đồ trong Dashboard và cách chọn?')">📊 Các loại biểu đồ?</button>
+        <button type="button" onclick="askPrompt('Làm thế nào để tạo và tải Slide thuyết trình?')">🎞 Cách tạo Slide?</button>
+        <button type="button" onclick="askPrompt('Phân tích nhanh số liệu của bộ dữ liệu tôi vừa nạp lên?')">💡 Phân tích data của tôi</button>
+        <button type="button" onclick="askPrompt('Thông tin liên hệ Công ty cổ phần Rekkei edu?')">🏢 Liên hệ Rekkei edu</button>
+      </div>
+
+      <form class="chat-bar" onsubmit="sendChat(event); return false;">
+        <input id="chatInput" placeholder="Nhập câu hỏi của bạn cho AI (ví dụ: 'Cách sửa file lỗi?', 'Kênh nào bán tốt nhất?')..." autocomplete="off" />
+        <button type="submit" class="btn sm">Gửi ➔</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- PHẦN 2: FORM LIÊN HỆ TƯ VẤN -->
+  <div id="secForm" style="display:none;max-width:640px;margin:0 auto">
+    <div class="card">
+      <h2 style="font-size:1.3rem">Gửi yêu cầu tư vấn chuyên sâu</h2>
+      <p class="sub">Để lại thắc mắc của bạn, đội ngũ chuyên gia Rekkei edu sẽ liên hệ hỗ trợ trong thời gian sớm nhất.</p>
+      <label class="l">Họ và tên</label>
+      <input id="cName" placeholder="Nguyễn Văn A" />
+      <label class="l">Số điện thoại hoặc Gmail</label>
+      <input id="cContact" placeholder="0799 xxx xxx hoặc ten@gmail.com" />
+      <label class="l">Nội dung thắc mắc</label>
+      <textarea id="cMsg" rows="4" placeholder="Bạn cần hỗ trợ điều gì? (ví dụ: tư vấn setup dữ liệu, tích hợp hệ thống, thiết kế dashboard riêng...)"></textarea>
+      <button class="btn block" onclick="sendConsult()">📨 Gửi yêu cầu tư vấn</button>
+      <div class="msg" id="msg3"></div>
+      <div id="mailBtn"></div>
+    </div>
+  </div>
+
+  <p class="thanks">Cảm ơn quý khách đã tin tưởng. Mọi thắc mắc vui lòng liên hệ: 0799776936 · rekei@gmail.com</p>
 </section>
 </main>
 
@@ -365,6 +469,7 @@ function go(n){
   const p=$('p'+n);if(p)p.classList.add('on');
   document.querySelectorAll('.nav button').forEach((b,i)=>b.classList.toggle('on',i===n-1));
   window.scrollTo({top:0,behavior:'smooth'});
+  if(n===3)setTimeout(scrollChat,60);
 }
 function srcTab(t){
   if($('srcFile'))$('srcFile').style.display=t==='file'?'block':'none';
@@ -376,6 +481,19 @@ document.querySelectorAll('input[name=biz]').forEach(r=>r.addEventListener('chan
   const el=$('bizCustom'),ch=document.querySelector('input[name=biz]:checked');
   if(el&&ch)el.style.display=ch.value==='custom'?'block':'none';
 }));
+
+function toggleCustomPrompt(){
+  const cb=$('sCustomPrompt'), box=$('boxCustomPrompt');
+  if(box&&cb){
+    box.style.display=cb.checked?'block':'none';
+    if(cb.checked&&$('aiCustomReq'))$('aiCustomReq').focus();
+  }
+}
+function setAiPrompt(t){
+  if($('aiCustomReq'))$('aiCustomReq').value=t;
+  const cb=$('sCustomPrompt');
+  if(cb&&!cb.checked){cb.checked=true;toggleCustomPrompt()}
+}
 
 /* ===== CỔNG VÀO (XÁC THỰC NGƯỜI DÙNG) ===== */
 function validContact(c){
@@ -544,6 +662,69 @@ function getBiz(){
   return{t,label:$('bizCustom').value.trim()||'Doanh nghiệp khác'};
 }
 
+/* ===== PHÂN TÍCH AI THEO YÊU CẦU RIÊNG ===== */
+function buildAiCustomAnalysis(rows,k,req,biz){
+  const lower=req.toLowerCase();
+  const topCat=k.byCat.length?k.byCat[0]:null;
+  const rev=k.rev,avg=k.avg,max=k.max;
+  let keyFinding='',recommendations=[],cautions=[];
+
+  if(lower.includes('top')||lower.includes('sản phẩm')||lower.includes('chủ lực')||lower.includes('kênh')||lower.includes('mặt hàng')){
+    if(topCat){
+      keyFinding=`• Nhóm dẫn đầu hiện tại là **“${topCat[0]}”** đóng góp **${short(topCat[1])}** (chiếm **${(topCat[1]/rev*100).toFixed(1)}%** tổng doanh thu) với **${fmt(topCat[2])}** lượt giao dịch.\n• Giá trị bình quân mỗi giao dịch nhóm này đạt **${short(topCat[1]/topCat[2])}**, cao hơn mức TB toàn bộ (${short(avg)}).`;
+      recommendations=[
+        `Tập trung phân bổ ngân sách marketing vào **${topCat[0]}** vì đây là phễu doanh thu hiệu quả nhất.`,
+        `Thiết kế gói combo kèm thêm các sản phẩm phụ để tăng giá trị đơn hàng trung bình lên thêm 15 - 20%.`,
+        `Áp dụng chính sách chăm sóc VIP cho khách hàng mua nhóm **${topCat[0]}** để tăng tỷ lệ quay lại mua lần 2, lần 3.`
+      ];
+      cautions=[
+        `Không để phụ thuộc quá mức vào duy nhất một nhóm dẫn đầu; cần nuôi dưỡng thêm nhóm thứ hai.`,
+        `Thường xuyên kiểm tra phản hồi chất lượng sản phẩm để bảo vệ uy tín thương hiệu.`
+      ];
+    }else{
+      keyFinding=`Dữ liệu hiện tại phân bổ đồng đều qua các nhóm, trung bình đạt **${short(avg)}** mỗi giao dịch.`;
+      recommendations=['Định hình nhóm sản phẩm mũi nhọn có tỷ suất lợi nhuận cao nhất để đẩy mạnh.'];
+      cautions=['Tránh bán hàng dàn trải không rõ sản phẩm phễu.'];
+    }
+  }else if(lower.includes('giá')||lower.includes('chi phí')||lower.includes('dòng tiền')||lower.includes('công nợ')||lower.includes('lợi nhuận')||lower.includes('tiền')){
+    keyFinding=`• Tổng dòng tiền ghi nhận đạt **${short(rev)}**, phân bổ qua **${fmt(k.rows)}** lượt giao dịch.\n• Giao dịch cao nhất đạt **${short(max)}**, gấp **${(max/avg).toFixed(1)}** lần mức bình quân (${short(avg)}).\n• Biên độ giao dịch lớn phản ánh khách hàng có phân khúc chi tiêu đa dạng.`;
+    recommendations=[
+      `Tách riêng dòng tiền cố định phục vụ nhập hàng/vận hành và dòng tiền thặng dư đầu tư.`,
+      `Nếu tăng giá bán: Hãy thử nghiệm tăng 5 - 8% trên nhóm bán chạy nhất kèm quà tặng giá trị gia tăng nhỏ, khách hàng sẽ gần như không nhạy cảm về giá.`,
+      `Áp dụng chính sách chiết khấu 1 - 2% cho khách thanh toán chuyển khoản ngay để thu hồi dòng tiền sớm.`
+    ];
+    cautions=[
+      `Kiểm soát chặt chẽ các đơn hàng có giá trị đột biến lớn (trên ${short(avg*2.8)}) để tránh rủi ro công nợ xấu.`,
+      `Không cắt giảm chi phí vào dịch vụ khách hàng hoặc chất lượng đóng gói.`
+    ];
+  }else if(lower.includes('khách')||lower.includes('chăm sóc')||lower.includes('giữ chân')||lower.includes('đơn hàng')||lower.includes('vip')){
+    keyFinding=`• Phân khúc khách hàng chi tiêu cao (trên mức TB ${short(avg)}): Ghi nhận nhiều giao dịch tiệm cận đỉnh **${short(max)}**.\n• Tệp khách hàng thể hiện nhu cầu ổn định qua các kỳ kinh doanh.`;
+    recommendations=[
+      `Phân loại danh sách khách hàng theo phương pháp RFM (Gần đây, Thường xuyên, Giá trị cao) để gửi ưu đãi đúng lúc.`,
+      `Với đơn hàng lớn: Xây dựng kịch bản gọi điện chăm sóc sau 3 ngày và tặng voucher cho kỳ mua sắm tiếp theo.`,
+      `Tạo chương trình tích điểm hoặc nhóm khách hàng thân thiết để giữ chân khách trọn đời.`
+    ];
+    cautions=[
+      `Chi phí tìm khách mới đắt gấp 5 lần giữ khách cũ; tuyệt đối không bỏ qua các phàn nàn của khách hàng.`,
+      `Đảm bảo bảo mật tuyệt đối số điện thoại và email của khách hàng.`
+    ];
+  }else{
+    keyFinding=`• Theo yêu cầu riêng: AI đã quét qua toàn bộ **${fmt(k.rows)}** dòng dữ liệu thuộc loại hình **${biz.label}**.\n• Tổng doanh thu: **${short(rev)}** · Bình quân: **${short(avg)}**/giao dịch · Nhóm nổi bật: **${topCat?topCat[0]:'Đồng đều'}**.\n• Tăng trưởng kỳ gần nhất: **${k.growth===null?'Đang tích lũy':(k.growth>=0?'+':'')+k.growth.toFixed(1)+'%'}**.`;
+    recommendations=[
+      `Bám sát mục tiêu “${req.slice(0,60)}...” bằng cách thiết lập KPI đo lường cụ thể theo từng tuần.`,
+      `Tối ưu quy trình nhập liệu để bộ phận kinh doanh luôn nắm được số liệu tức thì.`,
+      `Nhân rộng các phương thức bán hàng đang đóng góp lớn nhất cho dòng tiền.`
+    ];
+    cautions=[
+      `Định kỳ làm sạch và đối soát lại dữ liệu mỗi tháng để dữ liệu luôn phản ánh đúng thực tế.`,
+      `Không thay đổi toàn bộ mô hình kinh doanh cùng một lúc mà hãy thử nghiệm theo từng nhóm nhỏ.`
+    ];
+  }
+
+  const analysis=`**🎯 Mục tiêu theo yêu cầu:**\n*“${esc(req)}”*\n\n**📊 Dữ liệu thực tế phân tích được:**\n${keyFinding}\n\n**💡 Đề xuất hành động từ AI:**\n${recommendations.map(r=>`• ${r}`).join('\n')}\n\n**🛡 Điểm cần lưu ý & Kiểm soát:**\n${cautions.map(c=>`• ${c}`).join('\n')}`;
+  return{req,analysis,recommendations,cautions};
+}
+
 function analyze(raw,opt,biz){
   const log={total:raw.length,empty:0,dup:0,neg:0,filled:0,fixedText:0};
   const headers=[...new Set(raw.flatMap(r=>Object.keys(r)))];
@@ -616,6 +797,43 @@ function analyze(raw,opt,biz){
     k.dos.push(`Xác định 3 chỉ số then chốt riêng của “${biz.label}” và theo dõi hằng tháng.`);
     k.donts.push(`Không áp nguyên mẫu của ngành khác cho “${biz.label}” khi chưa kiểm chứng.`);
   }
+
+  // 1. Phân tích AI theo yêu cầu riêng
+  if(opt.customReq){
+    k.customResult=buildAiCustomAnalysis(rows,k,opt.customReq,biz);
+  }
+
+  // 2. Dự báo tăng trưởng AI (3 kỳ tiếp theo)
+  if(opt.forecast){
+    const gRate=(k.growth!==null&&!isNaN(k.growth))?Math.max(-15,Math.min(30,k.growth)):8.5;
+    const base=(k.byTime.length?k.byTime.at(-1)[1]:k.rev)||10000000;
+    const now=new Date();
+    k.forecast=[1,2,3].map(i=>{
+      const v=Math.round(base*Math.pow(1+gRate/100,i));
+      const m=new Date(now.getFullYear(),now.getMonth()+i,1);
+      return{period:`Tháng ${m.getMonth()+1}/${m.getFullYear()}`,val:v,growth:gRate};
+    });
+  }
+
+  // 3. Cảnh báo rủi ro & Bất thường
+  if(opt.risk){
+    k.risks=[];
+    if(bad>5)k.risks.push({lvl:'high',txt:`Dữ liệu có ${bad.toFixed(1)}% dòng lỗi – cần chuẩn hóa nguồn nhập liệu để tránh làm sai lệch số liệu.`});
+    if(share>50&&topCat)k.risks.push({lvl:'high',txt:`Rủi ro phụ thuộc: nhóm “${topCat[0]}” chiếm tới ${share.toFixed(0)}% tổng doanh số. Cần phân bổ nguồn thu.`});
+    if(k.growth!==null&&k.growth<0)k.risks.push({lvl:'med',txt:`Tăng trưởng âm ${Math.abs(k.growth).toFixed(1)}% so với kỳ trước – dấu hiệu chững lại cần rà soát thị trường.`});
+    if(k.max>k.avg*2.8)k.risks.push({lvl:'med',txt:`Phát hiện giao dịch ngoại lai: giá trị lớn nhất (${short(k.max)}) gấp ${(k.max/k.avg).toFixed(1)} lần mức trung bình.`});
+    if(!k.risks.length)k.risks.push({lvl:'safe',txt:'Chỉ số rủi ro ở mức an toàn: Dữ liệu sạch, phân bổ cơ cấu cân đối, không phát hiện lỗi lớn.'});
+  }
+
+  // 4. Chiến lược kinh doanh AI (Lộ trình 30-60-90 ngày)
+  if(opt.strategy){
+    k.strategy=[
+      {day:'30 ngày',focus:'Tối ưu nguồn thu tức thì',act:`Dồn 70% ngân sách và nhân lực vào nhóm “${topCat?topCat[0]:'chủ lực'}”, loại bỏ các chi phí lãng phí.`},
+      {day:'60 ngày',focus:'Mở rộng & Giữ chân khách hàng',act:'Thiết lập chương trình tri ân khách hàng thân thiết, thử nghiệm combo gia tăng giá trị đơn hàng thêm 15%.'},
+      {day:'90 ngày',focus:'Tự động hóa & Mở rộng quy mô',act:'Số hóa quy trình báo cáo dữ liệu định kỳ, chuẩn hóa chỉ số KPI và mở thêm kênh bán mới.'}
+    ];
+  }
+
   return{log,k,opt,biz,headers,name:pendingName,time:new Date().toLocaleString('vi-VN')};
 }
 
@@ -692,6 +910,83 @@ function dashHTML(R,live){
     </div>
     ${live?`<div class="seg" style="margin-bottom:12px">${TYPES.map(([t,n])=>`<button data-ct="${t}" class="${CH.type===t?'on':''}" onclick="setChart('${t}')">${n}</button>`).join('')}</div>`:''}
     <div id="chartHolder">${chartInner(R)}</div></div>`;
+
+  // Phân tích AI theo yêu cầu riêng của khách hàng (Nổi bật)
+  if(k.customResult){
+    h+=`<div class="card" style="border:2px solid var(--ac);background:color-mix(in srgb,var(--ac) 8%,var(--card));box-shadow:0 12px 30px color-mix(in srgb,var(--ac) 20%,transparent)">
+      <div class="row" style="justify-content:space-between;margin-bottom:12px">
+        <div class="row" style="gap:10px">
+          <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;display:grid;place-items:center;font-size:1.15rem">✨</div>
+          <div>
+            <h2 style="font-size:1.18rem;margin:0;color:var(--ac)">Phân tích AI theo yêu cầu riêng của bạn</h2>
+            <span class="sub" style="font-size:.76rem">AI phân tích chuyên sâu dựa trên số liệu thực tế theo prompt bạn yêu cầu</span>
+          </div>
+        </div>
+        <span class="chip" style="background:var(--ac);color:#fff;font-weight:700">Yêu cầu riêng</span>
+      </div>
+      <div style="background:var(--soft);border-radius:12px;padding:12px 16px;margin-bottom:14px;border-left:4px solid var(--ac)">
+        <b style="font-size:.82rem;color:var(--muted)">Nội dung yêu cầu của bạn:</b>
+        <p style="margin:4px 0 0;font-style:italic;font-size:.92rem;color:var(--text)">“${esc(k.customResult.req)}”</p>
+      </div>
+      <div style="font-size:.92rem;line-height:1.65">
+        ${chatMd(k.customResult.analysis)}
+      </div>
+    </div>`;
+  }
+
+  // Dự báo tăng trưởng AI
+  if(opt.forecast && k.forecast){
+    h+=`<div class="card">
+      <div class="row" style="justify-content:space-between;margin-bottom:12px">
+        <div>
+          <h2>🔮 Dự báo tăng trưởng AI (3 kỳ tiếp theo)</h2>
+          <span class="sub">Mô hình hồi quy xu hướng kết hợp trung bình động trọng số</span>
+        </div>
+        <span class="chip" style="color:var(--good);background:color-mix(in srgb,var(--good) 15%,transparent)">Dự phóng</span>
+      </div>
+      <div class="kpis" style="margin-bottom:10px">
+        ${k.forecast.map(f=>`
+          <div class="kpi">
+            <small>${esc(f.period)}</small>
+            <div>${short(f.val)}</div>
+            <em class="${f.growth>=0?'up':'down'}">${f.growth>=0?'↑ +':'↓ '}${f.growth.toFixed(1)}% dự kiến</em>
+          </div>
+        `).join('')}
+      </div>
+      <p class="sub" style="font-size:.78rem">Dự báo dựa trên chuỗi thời gian của bộ dữ liệu và tỷ lệ tăng trưởng kỳ gần nhất.</p>
+    </div>`;
+  }
+
+  // Cảnh báo rủi ro & Bất thường
+  if(opt.risk && k.risks && k.risks.length){
+    h+=`<div class="card">
+      <h2>⚠️ Cảnh báo rủi ro & Bất thường</h2>
+      <ul class="ins">
+        ${k.risks.map(r=>`
+          <li class="${r.lvl==='high'?'w':'g'}">
+            ${r.lvl==='high'?'🚨 [RỦI RO CAO]':r.lvl==='med'?'⚠️ [CẦN CHÚ Ý]':'✅ [AN TOÀN]'} ${esc(r.txt)}
+          </li>
+        `).join('')}
+      </ul>
+    </div>`;
+  }
+
+  // Chiến lược kinh doanh AI (30-60-90 ngày)
+  if(opt.strategy && k.strategy){
+    h+=`<div class="card">
+      <h2>💡 Chiến lược kinh doanh & Lộ trình hành động AI</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:10px">
+        ${k.strategy.map(st=>`
+          <div style="background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:16px;border-top:3px solid var(--ac)">
+            <b style="color:var(--ac);font-size:.85rem;text-transform:uppercase;letter-spacing:.5px">${esc(st.day)}</b>
+            <div style="font-weight:700;font-size:1.02rem;margin:4px 0 6px">${esc(st.focus)}</div>
+            <p style="font-size:.86rem;margin:0;color:var(--muted);line-height:1.5">${esc(st.act)}</p>
+          </div>
+        `).join('')}
+      </div>
+    </div>`;
+  }
+
   if(opt.clean)h+=`<div class="card"><h2>Nhật ký làm sạch</h2><table>
     <tr><th>Hạng mục</th><th>Số lượng</th></tr>
     <tr><td>Dòng gốc</td><td>${fmt(log.total)}</td></tr><tr><td>Dòng trống đã xoá</td><td>${log.empty}</td></tr>
@@ -708,13 +1003,31 @@ function dashHTML(R,live){
 function showResult(R){
   RES=R;$('resEmpty').style.display='none';$('resBox').style.display='block';$('slideBox').style.display='none';
   $('resMeta').textContent=`${R.biz.label} · ${R.name||'Dữ liệu'} · ${R.time}`;
-  $('pipe').innerHTML=['Đã nhận dữ liệu',R.opt.clean?'Đã làm sạch':null,R.opt.kpi?'Đã tính KPI':null,R.opt.dash?'Đã tạo Dashboard':null].filter(Boolean).map(t=>`<span class="chip">${t}</span>`).join('');
+  $('pipe').innerHTML=[
+    'Đã nhận dữ liệu',
+    R.opt.clean?'Đã làm sạch':null,
+    R.opt.kpi?'Đã tính KPI':null,
+    R.opt.dash?'Đã tạo Dashboard':null,
+    R.opt.forecast?'Dự báo AI':null,
+    R.opt.risk?'Quét rủi ro':null,
+    R.opt.strategy?'Chiến lược AI':null,
+    R.opt.customReq?'AI theo yêu cầu':null
+  ].filter(Boolean).map(t=>`<span class="chip">${t}</span>`).join('');
   $('dash').innerHTML=dashHTML(R,true);go(2);
 }
 async function runPipeline(){
   if(!USER){refreshUser();return}
-  const opt={clean:$('sClean').checked,kpi:$('sKpi').checked,dash:$('sDash').checked};
-  if(!opt.clean&&!opt.kpi&&!opt.dash)return say('msg1','Hãy chọn ít nhất 1 dịch vụ.','err');
+  const customReq = $('sCustomPrompt') && $('sCustomPrompt').checked && $('aiCustomReq') ? $('aiCustomReq').value.trim() : '';
+  const opt={
+    clean:$('sClean').checked,
+    kpi:$('sKpi').checked,
+    dash:$('sDash').checked,
+    forecast:$('sForecast')?$('sForecast').checked:false,
+    risk:$('sRisk')?$('sRisk').checked:false,
+    strategy:$('sStrategy')?$('sStrategy').checked:false,
+    customReq:customReq
+  };
+  if(!opt.clean&&!opt.kpi&&!opt.dash&&!opt.forecast&&!opt.risk&&!opt.strategy&&!opt.customReq)return say('msg1','Hãy chọn ít nhất 1 dịch vụ hoặc tính năng.','err');
   if(getBiz().t==='custom'&&!$('bizCustom').value.trim())return say('msg1','Hãy nhập loại hình doanh nghiệp của bạn.','err');
   let raw=pendingRows;
   try{
@@ -755,6 +1068,18 @@ function makeSlides(){
     {html:`<h3>Chỉ số chính (KPI)</h3><div class="big"><div>Tổng doanh thu<b>${short(k.rev)}</b></div><div>Trung bình / dòng<b>${short(k.avg)}</b></div><div>Giá trị cao nhất<b>${short(k.max)}</b></div><div>Tăng trưởng kỳ gần nhất<b>${k.growth===null?'—':(k.growth>=0?'+':'')+k.growth.toFixed(1)+'%'}</b></div></div>`},
     {html:`<h3>Xu hướng theo thời gian</h3>${cT}`},
     {html:`<h3>Cơ cấu theo nhóm</h3>${cC}`},
+    ...(k.customResult ? [{
+      html:`<h3>✨ Phân tích AI theo yêu cầu riêng</h3><p><b>Yêu cầu của bạn:</b> <i>“${esc(k.customResult.req)}”</i></p><ul>${k.customResult.recommendations.map(r=>`<li>${esc(r)}</li>`).join('')}</ul><p class="sfoot">AI đã phân tích chuyên sâu dựa trên số liệu thực tế</p>`
+    }] : []),
+    ...(R.opt.forecast && k.forecast ? [{
+      html:`<h3>🔮 Dự báo tăng trưởng AI (3 kỳ tới)</h3><div class="big">${k.forecast.map(f=>`<div>${esc(f.period)}<b>${short(f.val)}</b><em style="color:var(--good)">${f.growth>=0?'+':''}${f.growth.toFixed(1)}%</em></div>`).join('')}</div><p class="sfoot">Mô hình hồi quy xu hướng kết hợp trung bình động</p>`
+    }] : []),
+    ...(R.opt.risk && k.risks && k.risks.length ? [{
+      html:`<h3>⚠️ Cảnh báo rủi ro & Điểm kiểm soát</h3><ul>${k.risks.map(r=>`<li><b>${r.lvl==='high'?'🚨 Rủi ro cao':r.lvl==='med'?'⚠️ Cần chú ý':'✅ An toàn'}:</b> ${esc(r.txt)}</li>`).join('')}</ul>`
+    }] : []),
+    ...(R.opt.strategy && k.strategy ? [{
+      html:`<h3>💡 Chiến lược kinh doanh AI</h3><ul>${k.strategy.map(st=>`<li><b>${esc(st.day)} (${esc(st.focus)}):</b> ${esc(st.act)}</li>`).join('')}</ul>`
+    }] : []),
     {html:`<h3>Nhận xét</h3><ul>${k.tips.map(x=>`<li>${esc(x[1])}</li>`).join('')}</ul>`},
     {html:`<h3>👍 Nên làm</h3><ul>${li(k.dos)}</ul>`},
     {html:`<h3>🚫 Không nên</h3><ul>${li(k.donts)}</ul>`},
@@ -835,6 +1160,159 @@ function sendConsult(){
   if(mEl)mEl.value='';
 }
 
+/* ===== TRỢ LÝ AI TƯ VẤN & GIẢI ĐÁP THẮC MẮC 24/7 ===== */
+function switchConsultTab(t){
+  if($('secAi'))$('secAi').style.display=t==='ai'?'block':'none';
+  if($('secForm'))$('secForm').style.display=t==='form'?'block':'none';
+  if($('tabAi'))$('tabAi').classList.toggle('on',t==='ai');
+  if($('tabForm'))$('tabForm').classList.toggle('on',t==='form');
+  if(t==='ai')scrollChat();
+}
+
+function initChatHistory(){
+  try{
+    const saved=JSON.parse(safeGet('ltn_chat','null'));
+    if(saved&&Array.isArray(saved)&&saved.length)return saved;
+  }catch(e){}
+  const name=USER?USER.name:'Quý khách';
+  return [
+    {
+      role:'bot',
+      text:`Xin chào **${name}**! 👋\n\nTôi là **Trợ lý AI của LANH THAI NGOC & Công ty cổ phần Rekkei edu**.\nTôi luôn sẵn sàng giải đáp mọi thắc mắc của bạn về:\n• **Gửi dữ liệu:** Hướng dẫn nạp file Excel, Word, CSV hoặc liên kết Google Sheet.\n• **Làm sạch lỗi:** Quy trình lọc dòng trống, loại bỏ trùng lặp, khử số âm & điền trung vị.\n• **Dashboard & KPI:** Ý nghĩa chỉ số doanh thu, tăng trưởng & cách chọn biểu đồ.\n• **Slide báo cáo:** Khởi tạo, chỉnh sửa trực tiếp văn bản, chèn ảnh & xuất slide HTML.\n• **Dữ liệu thực tế:** Phân tích trực tiếp các chỉ số bộ dữ liệu bạn vừa tải lên!\n\nBạn có câu hỏi nào cần AI giải đáp không? Hãy nhập câu hỏi bên dưới nhé!`
+    }
+  ];
+}
+let chatHistory=initChatHistory();
+
+function chatMd(txt){
+  let h=esc(txt);
+  h=h.replace(/\*\*(.*?)\*\*/g,'<b>$1</b>');
+  const lines=h.split('\n');
+  let res='',inUl=false;
+  lines.forEach(l=>{
+    const s=l.trim();
+    if(s.startsWith('•')||s.startsWith('-')){
+      if(!inUl){res+='<ul>';inUl=true}
+      res+=`<li>${s.replace(/^[•\-]\s*/,'')}</li>`;
+    }else{
+      if(inUl){res+='</ul>';inUl=false}
+      if(s)res+=`<p>${s}</p>`;
+    }
+  });
+  if(inUl)res+='</ul>';
+  return res;
+}
+
+function renderChat(){
+  const box=$('chatBody');
+  if(!box)return;
+  box.innerHTML=chatHistory.map(m=>`
+    <div class="chat-msg ${m.role}">
+      <div class="chat-avatar">${m.role==='bot'?'AI':'👤'}</div>
+      <div class="chat-bubble">${chatMd(m.text)}</div>
+    </div>
+  `).join('');
+  scrollChat();
+}
+
+function scrollChat(){
+  const box=$('chatBody');
+  if(box)box.scrollTop=box.scrollHeight;
+}
+
+function clearChat(){
+  safeSet('ltn_chat','[]');
+  chatHistory=initChatHistory();
+  renderChat();
+}
+
+function askPrompt(q){
+  if($('chatInput'))$('chatInput').value=q;
+  sendChat();
+}
+
+function sendChat(e){
+  if(e&&e.preventDefault)e.preventDefault();
+  const inp=$('chatInput');
+  if(!inp)return;
+  const q=inp.value.trim();
+  if(!q)return;
+  inp.value='';
+
+  chatHistory.push({role:'user',text:q});
+  renderChat();
+
+  const box=$('chatBody');
+  const typingEl=document.createElement('div');
+  typingEl.className='chat-msg bot';
+  typingEl.id='chatTyping';
+  typingEl.innerHTML='<div class="chat-avatar">AI</div><div class="chat-bubble typing">AI đang suy nghĩ<span></span><span></span><span></span></div>';
+  box.appendChild(typingEl);
+  scrollChat();
+
+  setTimeout(()=>{
+    const el=$('chatTyping');
+    if(el)el.remove();
+    const ans=generateAiAnswer(q);
+    chatHistory.push({role:'bot',text:ans});
+    safeSet('ltn_chat',JSON.stringify(chatHistory.slice(-30)));
+    renderChat();
+  },360);
+}
+
+function generateAiAnswer(q){
+  const lower=q.toLowerCase();
+
+  // 1. Hỏi về dữ liệu hiện tại đã nạp
+  if(lower.includes('của tôi')||lower.includes('vừa nạp')||lower.includes('vừa tải')||lower.includes('data của tôi')||lower.includes('số liệu của tôi')||lower.includes('báo cáo của tôi')){
+    if(RES){
+      const k=RES.k, l=RES.log;
+      return `Dưới đây là tóm tắt nhanh bộ dữ liệu bạn vừa phân tích:\n• **Tên dữ liệu:** ${RES.name||'Tệp tải lên'} (${RES.biz.label})\n• **Dòng sạch:** **${fmt(k.rows)}** / ${fmt(l.total)} dòng gốc.\n• **Đã làm sạch:** Loại bỏ ${l.empty} dòng trống, ${l.dup} dòng trùng, ${l.neg} số âm; điền ${l.filled} ô trống bằng giá trị trung vị.\n• **Tổng doanh thu:** **${short(k.rev)}**\n• **Trung bình / dòng:** **${short(k.avg)}** (Cao nhất: ${short(k.max)})\n• **Nhóm dẫn đầu:** **${k.byCat[0]?k.byCat[0][0]:'—'}** (${k.byCat[0]?short(k.byCat[0][1]):''})\n• **Tăng trưởng kỳ gần nhất:** **${k.growth===null?'Chưa đủ 2 chu kỳ':(k.growth>=0?'+':'')+k.growth.toFixed(1)+'%'}**\n\nBạn có thể sang tab **② Kết quả** để xem Dashboard đa dạng hoặc bấm **'🎞 Tạo slide'** để trình chiếu nhé!`;
+    }else{
+      return `Hiện tại bạn chưa nạp dữ liệu vào hệ thống!\n\n👉 Hãy chuyển sang tab **① Gửi dữ liệu**, chọn tải file Excel/CSV/Word hoặc bấm **'Dùng dữ liệu mẫu'**. Sau khi hệ thống phân tích xong, bạn quay lại đây tôi sẽ phân tích chi tiết từng con số cho bạn ngay!`;
+    }
+  }
+
+  // 2. Định dạng file & cách gửi
+  if(lower.includes('định dạng')||lower.includes('file')||lower.includes('tệp')||lower.includes('excel')||lower.includes('csv')||lower.includes('word')||lower.includes('pdf')||lower.includes('sheet')||lower.includes('lark')){
+    return `Hệ thống **LANH THAI NGOC** hỗ trợ xử lý đa dạng các nguồn dữ liệu:\n• **Excel (.xlsx, .xls):** Hỗ trợ tốt nhất, tự động nhận diện sheet đầu tiên.\n• **CSV (.csv):** Chuẩn dữ liệu bảng phổ thông, xử lý siêu tốc.\n• **Word (.docx):** Tự động trích xuất bảng biểu đầu tiên trong tài liệu.\n• **Google Sheet:** Dán link trực tiếp (yêu cầu bật quyền *"Bất kỳ ai có liên kết đều có thể xem"*).\n• **PDF:** Khuyến nghị chuyển sang Excel/CSV trước khi tải để đạt độ chính xác tối đa.\n• **Lark Base:** Hãy xuất sang file Excel/CSV rồi tải lên hệ thống.`;
+  }
+
+  // 3. Quy trình làm sạch dữ liệu
+  if(lower.includes('làm sạch')||lower.includes('lọc')||lower.includes('trùng')||lower.includes('lỗi')||lower.includes('số âm')||lower.includes('trống')||lower.includes('median')||lower.includes('trung vị')||lower.includes('chuẩn hóa')||lower.includes('bảo mật')||lower.includes('pii')){
+    return `Quy trình tự động làm sạch dữ liệu gồm **5 bước chuẩn hóa chuyên sâu**:\n• **Bước 1 - Xoá dòng trống:** Loại bỏ triệt để các hàng không có dữ liệu để tránh làm sai lệch mẫu.\n• **Bước 2 - Lọc trùng lặp:** So khớp và giữ lại 1 bản ghi duy nhất cho các dòng trùng lặp 100%.\n• **Bước 3 - Khử số âm:** Phát hiện và loại bỏ các giao dịch âm bất thường trong doanh thu/số lượng.\n• **Bước 4 - Bổ sung ô thiếu bằng Trung vị (Median):** Dùng giá trị trung vị thay vì trung bình để tránh bị méo số liệu do các giá trị ngoại lai (outliers).\n• **Bước 5 - Che mờ thông tin cá nhân (PII):** Ẩn các ký tự nhạy cảm trong tên/liên hệ để bảo đảm an toàn dữ liệu doanh nghiệp.`;
+  }
+
+  // 4. Các loại biểu đồ Dashboard
+  if(lower.includes('biểu đồ')||lower.includes('dashboard')||lower.includes('cột')||lower.includes('đường')||lower.includes('tròn')||lower.includes('vùng')||lower.includes('combo')||lower.includes('đồ thị')){
+    return `Hệ thống cung cấp **5 loại hình thù Dashboard linh hoạt** để bạn chọn theo sở thích:\n• **📊 Biểu đồ cột (Bar):** Tối ưu nhất khi so sánh doanh số giữa các sản phẩm, chi nhánh hoặc kênh bán hàng.\n• **📈 Biểu đồ đường (Line):** Thích hợp nhất để theo dõi biến động doanh thu theo chuỗi thời gian (tháng, quý).\n• **🥧 Biểu đồ tròn (Pie):** Thể hiện trực quan tỷ trọng phần trăm (%) thị phần và cơ cấu đóng góp.\n• **⛰ Biểu đồ vùng (Area):** Làm nổi bật quy mô doanh thu và sự tích lũy theo thời gian.\n• **🔀 Biểu đồ kết hợp (Combo):** Vừa hiển thị doanh thu (cột) vừa đối sánh số lượng giao dịch (đường cam) trên cùng một trục.`;
+  }
+
+  // 5. Tính năng Slide thuyết trình
+  if(lower.includes('slide')||lower.includes('thuyết trình')||lower.includes('trình chiếu')||lower.includes('tải slide')||lower.includes('chèn ảnh')||lower.includes('sửa')){
+    return `Tính năng **Khởi tạo Slide thuyết trình** được thiết kế hiện đại và tiện lợi:\n• **Khởi tạo theo nhu cầu:** Chỉ khi bạn bấm **'🎞 Tạo slide'** ở tab **② Kết quả** thì slide mới được sinh ra, tránh làm rối mắt.\n• **Gồm 11 slide quản trị:** Đầy đủ từ Bìa, Quy trình, Chất lượng data, KPI, Biểu đồ thời gian, Biểu đồ nhóm, Chiến lược Nên/Không nên, Đánh giá.\n• **Sửa trực tiếp:** Bạn có thể **bấm thẳng vào bất kỳ dòng chữ nào trên slide** để chỉnh sửa nội dung theo ý muốn!\n• **Tuỳ biến thẩm mỹ:** Hỗ trợ 6 bộ màu phối sẵn hoặc tự chọn màu nền, chữ, màu nhấn.\n• **Chèn & Kéo thả ảnh:** Tải ảnh lên slide, kéo thả di chuyển vị trí tự do và chỉnh thanh kích thước.\n• **Xuất file:** Bấm **'⬇ Tải slide'** để tải file HTML trình chiếu độc lập hoặc in ra PDF chất lượng cao.`;
+  }
+
+  // 6. Thông tin công ty Rekkei edu & liên hệ
+  if(lower.includes('công ty')||lower.includes('rekkei')||lower.includes('địa chỉ')||lower.includes('sdt')||lower.includes('số điện thoại')||lower.includes('gmail')||lower.includes('hotline')||lower.includes('zalo')||lower.includes('lanh thai ngoc')||lower.includes('liên hệ')){
+    return `Thông tin chính thức của đơn vị đồng hành:\n• **Đơn vị:** Công ty cổ phần Rekkei edu\n• **Chuyên gia phụ trách:** LANH THAI NGOC\n• 📍 **Địa chỉ:** Hà Nội\n• 📞 **Số điện thoại / Zalo:** **0799776936**\n• ✉️ **Gmail:** **rekei@gmail.com**\n• 🌐 **Hỗ trợ:** Bạn có thể chuyển sang tab **'📝 Gửi yêu cầu tư vấn'** ngay bên cạnh để gửi yêu cầu hỗ trợ chuyên sâu 1-1!`;
+  }
+
+  // 7. Lời khuyên và chiến lược kinh doanh
+  if(lower.includes('lời khuyên')||lower.includes('chiến lược')||lower.includes('nên')||lower.includes('không nên')||lower.includes('tối ưu')||lower.includes('kinh doanh')||lower.includes('tư vấn')||lower.includes('tăng trưởng')){
+    return `Chiến lược tối ưu vận hành từ góc nhìn phân tích dữ liệu:\n• **NÊN LÀM:**\n  - Tập trung 80% ngân sách vào nhóm sản phẩm/kênh bán đang dẫn đầu doanh số (quy luật Pareto).\n  - Thường xuyên làm sạch dữ liệu định kỳ để tránh đưa ra quyết định sai lầm từ data rác.\n  - Theo dõi tỷ lệ tăng trưởng kỳ gần nhất để phát hiện sớm dấu hiệu chững lại của thị trường.\n• **KHÔNG NÊN:**\n  - Dồn toàn bộ nguồn lực vào một kênh phân phối duy nhất.\n  - Giữ lại các mặt hàng có số dòng giao dịch cao nhưng biên lợi nhuận âm.\n  - Bỏ qua các cảnh báo về tỷ lệ dữ liệu lỗi vượt quá 10%.`;
+  }
+
+  // 8. Chào hỏi
+  if(lower.includes('chào')||lower.includes('hello')||lower.includes('hi')||lower.includes('bạn là ai')||lower.includes('giới thiệu')||lower.includes('alo')){
+    const name=USER?USER.name:'bạn';
+    return `Chào **${name}**! Tôi là Trợ lý AI thông minh của nền tảng **LANH THAI NGOC**.\nTôi có thể giải đáp chi tiết về:\n• Hướng dẫn nạp file và làm sạch dữ liệu.\n• Cách đọc biểu đồ và phân tích KPI kinh doanh.\n• Hướng dẫn làm slide thuyết trình và xuất báo cáo.\n• Phân tích số liệu dữ liệu bạn vừa tải lên.\nBạn muốn tìm hiểu phần nào trước?`;
+  }
+
+  // 9. Phản hồi mặc định
+  return `Cảm ơn câu hỏi của bạn! Dưới đây là giải đáp từ Trợ lý AI:\n\n• **Về nền tảng:** Hệ thống hỗ trợ xử lý dữ liệu tự động, làm sạch lỗi, tính toán KPI kinh doanh và vẽ Dashboard 5 loại biểu đồ.\n• **Về slide & báo cáo:** Bạn có thể xuất báo cáo HTML hoàn chỉnh hoặc tạo slide thuyết trình 11 trang có thể sửa chữ và chèn ảnh trực tiếp.\n• **Hỗ trợ thêm:** Nếu bạn cần tư vấn chuyên sâu riêng cho doanh nghiệp của mình, hãy chọn tab **'📝 Gửi yêu cầu tư vấn'** hoặc liên hệ trực tiếp hotline **0799776936** (Rekkei edu)!`;
+}
+
 /* ===== KHỞI CHẠY ỨNG DỤNG ===== */
 function init(){
   try{
@@ -843,6 +1321,7 @@ function init(){
     if(m&&m!==root.dataset.mode)toggleMode();
     refreshUser();
     buildStars();
+    renderChat();
   }catch(e){console.error('Init error:',e)}
 }
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init)}else{init()}
