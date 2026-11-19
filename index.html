@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="vi" data-mode="light" data-accent="gold">
 <head>
 <meta charset="UTF-8" />
@@ -782,10 +782,21 @@ function buildAiCustomAnalysis(rows,k,req,biz){
   return{req,analysis,recommendations,cautions};
 }
 
+function fixEncoding(s){
+  if(!s||typeof s!=='string')return s;
+  try{
+    if(/[\u00C2-\u00F4][\u0080-\u00BF]/.test(s)){
+      const d=decodeURIComponent(escape(s));
+      if(d&&!d.includes(''))return d;
+    }
+  }catch(e){}
+  return s;
+}
+
 function analyze(raw,opt,biz){
   const log={total:raw.length,empty:0,dup:0,neg:0,filled:0,fixedText:0};
   const headers=[...new Set(raw.flatMap(r=>Object.keys(r)))];
-  let rows=raw.map(r=>{const o={};headers.forEach(h=>{let v=r[h];if(typeof v==='string')v=v.trim();o[h]=v??''});return o});
+  let rows=raw.map(r=>{const o={};headers.forEach(h=>{let v=r[h];if(typeof v==='string')v=fixEncoding(v.trim());o[h]=v??''});return o});
   const info={};
   headers.forEach(h=>{
     const vals=rows.map(r=>r[h]).filter(v=>!isEmpty(v));
@@ -802,7 +813,7 @@ function analyze(raw,opt,biz){
   const numCols=headers.filter(h=>info[h].type==='num');
   const dateCol=headers.find(h=>info[h].type==='date');
   const textCols=headers.filter(h=>info[h].type==='text');
-  const revCol=numCols.find(h=>/doanh thu|revenue|thành tiền|amount|total|tổng|giá trị|sales/i.test(h))||numCols[numCols.length-1]||null;
+  let revCol=numCols.find(h=>/doanh thu|revenue|thành tiền|amount|total|tổng|giá trị|sales/i.test(fixEncoding(h)))||numCols[numCols.length-1]||null;
   rows.forEach(r=>numCols.forEach(h=>{if(typeof r[h]==='string'&&!isEmpty(r[h]))log.fixedText++;r[h]=toNum(r[h])}));
   if(opt.clean){
     const b3=rows.length;
@@ -813,17 +824,66 @@ function analyze(raw,opt,biz){
   }else numCols.forEach(h=>rows.forEach(r=>{if(isNaN(r[h]))r[h]=0}));
   log.clean=rows.length;log.removed=log.total-rows.length;
 
-  const k={rows:rows.length,rev:0,avg:0,max:0,growth:null,revCol,dateCol,catCol:null,byCat:[],byTime:[]};
+  const k={rows:rows.length,rev:0,avg:0,max:0,growth:null,revCol:fixEncoding(revCol),dateCol,catCol:null,byCat:[],byTime:[]};
   if(revCol&&rows.length){const v=rows.map(r=>r[revCol]);k.rev=v.reduce((a,b)=>a+b,0);k.avg=k.rev/v.length;k.max=Math.max(...v)}
-  const catCol=textCols.find(h=>{const u=new Set(rows.map(r=>r[h])).size;return u>=2&&u<=20});
+  
+  // Tự động tìm cột phân loại nhóm (bỏ qua cột ID/STT/mã)
+  let catCol=textCols.find(h=>!/^(stt|id|mã|ma|code|no|#)$/i.test(h)&&new Set(rows.map(r=>r[h])).size>=2)||textCols[0]||null;
   k.catCol=catCol||null;
   if(catCol&&revCol){
-    const g={};rows.forEach(r=>{const o=g[r[catCol]]||(g[r[catCol]]=[0,0]);o[0]+=r[revCol];o[1]++});
-    k.byCat=Object.entries(g).map(([n,[s,c]])=>[n,s,c]).sort((a,b)=>b[1]-a[1]).slice(0,8);
+    const g={};rows.forEach(r=>{const val=String(r[catCol]||'Không rõ').trim()||'Khác';const o=g[val]||(g[val]=[0,0]);o[0]+=r[revCol];o[1]++});
+    const entries=Object.entries(g).map(([n,[s,c]])=>[n,s,c]).sort((a,b)=>b[1]-a[1]);
+    if(entries.length>8){
+      const top7=entries.slice(0,7);
+      const rest=entries.slice(7);
+      const restSum=rest.reduce((acc,x)=>acc+x[1],0);
+      const restCnt=rest.reduce((acc,x)=>acc+x[2],0);
+      k.byCat=[...top7,['Nhóm khác',restSum,restCnt]];
+    }else{
+      k.byCat=entries;
+    }
   }
+
+  // Nếu file hoàn toàn không có cột phân loại chữ: tự động tạo nhóm theo 3 phân vị giá trị
+  if(!k.byCat.length&&revCol&&rows.length){
+    const lowTier=Math.round(k.avg*0.75), highTier=Math.round(k.avg*1.25);
+    const t1=`< ${short(lowTier)}`, t2=`${short(lowTier)} – ${short(highTier)}`, t3=`> ${short(highTier)}`;
+    const tiers={[t1]:[0,0],[t2]:[0,0],[t3]:[0,0]};
+    rows.forEach(r=>{
+      const val=r[revCol];
+      const tier=val<lowTier?t1:val<=highTier?t2:t3;
+      tiers[tier][0]+=val;tiers[tier][1]++;
+    });
+    k.byCat=Object.entries(tiers).filter(x=>x[1][1]>0).map(([n,[s,c]])=>[n,s,c]);
+  }
+  // Đảm bảo byCat luôn luôn có dữ liệu (kể cả file không có cột chữ lẫn số chuẩn)
+  if(!k.byCat.length&&rows.length){
+    const h=headers[0]||'Mục';
+    const g={};
+    rows.slice(0,500).forEach((r,i)=>{
+      const val=String(r[h]||`Mục ${i+1}`).trim()||`Mục ${i+1}`;
+      const v=revCol?(Number(r[revCol])||0):1;
+      const o=g[val]||(g[val]=[0,0]);o[0]+=v;o[1]++;
+    });
+    k.byCat=Object.entries(g).map(([n,[s,c]])=>[n,s,c]).slice(0,8);
+  }
+
+  // Tự động tìm chuỗi thời gian (hoặc chia đều thành các đợt tiến trình của tập dữ liệu)
   if(dateCol&&revCol){
     const g={};rows.forEach(r=>{const d=toDate(r[dateCol]);if(!d)return;const key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');const o=g[key]||(g[key]=[0,0]);o[0]+=r[revCol];o[1]++});
     k.byTime=Object.entries(g).map(([n,[s,c]])=>[n,s,c]).sort((a,b)=>a[0].localeCompare(b[0])).slice(-12);
+    if(k.byTime.length>=2){const a=k.byTime.at(-2)[1],b=k.byTime.at(-1)[1];k.growth=a?((b-a)/a*100):null}
+  }
+
+  // Nếu file không có cột ngày: chia đều các dòng thành các chặng tiến trình để LUÔN có biểu đồ đường/vùng
+  if(!k.byTime.length&&rows.length>=2){
+    const chunks=Math.min(10,Math.max(2,Math.floor(rows.length/20)||rows.length));
+    const size=Math.ceil(rows.length/chunks);
+    for(let i=0;i<chunks;i++){
+      const slice=rows.slice(i*size,(i+1)*size);
+      const sum=slice.reduce((a,r)=>a+(revCol?(Number(r[revCol])||0):1),0);
+      k.byTime.push([`Kỳ ${i+1}`,sum,slice.length]);
+    }
     if(k.byTime.length>=2){const a=k.byTime.at(-2)[1],b=k.byTime.at(-1)[1];k.growth=a?((b-a)/a*100):null}
   }
   // Nhận xét + Nên / Không nên
@@ -937,10 +997,19 @@ function chartSVG(type,labels,vals,vals2,o={}){
 }
 const TYPES=[['bar','📊 Cột'],['line','📈 Đường'],['pie','🥧 Tròn'],['area','⛰ Vùng'],['combo','🔀 Kết hợp']];
 function chartData(R,src,type){
-  const k=R.k;let d=src==='time'?k.byTime:k.byCat;
-  if(!d.length)d=src==='time'?k.byCat:k.byTime,src=src==='time'?'cat':'time';
-  const labels=d.map(x=>src==='time'?x[0].slice(5)+'/'+x[0].slice(2,4):x[0]);
-  return{labels,v:d.map(x=>x[1]),c:d.map(x=>x[2]),src};
+  const k=R.k||{};
+  let d=(src==='time'?k.byTime:k.byCat)||[];
+  let activeSrc=src;
+  if(!d.length){
+    d=(src==='time'?k.byCat:k.byTime)||[];
+    activeSrc=src==='time'?'cat':'time';
+  }
+  const fmtLabel=s=>{
+    s=String(s||'');
+    return /^\d{4}-\d{2}$/.test(s)?(s.slice(5)+'/'+s.slice(2,4)):s;
+  };
+  const labels=d.map(x=>fmtLabel(x[0]));
+  return{labels,v:d.map(x=>Number(x[1])||0),c:d.map(x=>Number(x[2])||1),src:activeSrc};
 }
 function chartInner(R){
   const d=chartData(R,CH.src,CH.type);
