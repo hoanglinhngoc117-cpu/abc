@@ -25,6 +25,14 @@
 [data-accent=green]{--ac:#0d9488;--ac2:#0f766e;--acsoft:rgba(13,148,136,.14)}
 [data-accent=rose]{--ac:#e11d48;--ac2:#be123c;--acsoft:rgba(225,29,72,.12)}
 [data-accent=violet]{--ac:#7c3aed;--ac2:#6d28d9;--acsoft:rgba(124,58,237,.13)}
+[data-accent=gold]{--ac:#c59b27;--ac2:#aa8012;--acsoft:rgba(197,155,39,.16)}
+[data-accent=blue]{--ac:#2563eb;--ac2:#1d4ed8;--acsoft:rgba(37,99,235,.15)}
+[data-accent=emerald]{--ac:#059669;--ac2:#047857;--acsoft:rgba(5,150,105,.16)}
+[data-accent=rose]{--ac:#e11d48;--ac2:#be123c;--acsoft:rgba(225,29,72,.15)}
+[data-accent=violet]{--ac:#7c3aed;--ac2:#6d28d9;--acsoft:rgba(124,58,237,.16)}
+[data-accent=amber]{--ac:#ea580c;--ac2:#c2410c;--acsoft:rgba(234,88,12,.16)}
+[data-accent=cyan]{--ac:#0891b2;--ac2:#0e7490;--acsoft:rgba(8,145,178,.16)}
+[data-accent=fuchsia]{--ac:#c026d3;--ac2:#a21caf;--acsoft:rgba(192,38,211,.16)}
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif}
 body{background:var(--bg);color:var(--text);min-height:100vh;line-height:1.55;transition:background .3s,color .3s}
 body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
@@ -45,6 +53,23 @@ header{position:sticky;top:0;z-index:50;border-width:0 0 1px 0}
 .dot.on{box-shadow:0 0 0 2px var(--text)}
 .mode,.userchip{border:1px solid var(--edge);background:var(--soft);color:var(--text);border-radius:20px;padding:5px 12px;cursor:pointer;font-size:.8rem;font-weight:700}
 .userchip{cursor:default}.userchip a{color:var(--bad);cursor:pointer;margin-left:6px;font-weight:700}
+.tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pal-wrap{display:flex;align-items:center;gap:6px;background:var(--soft);padding:4px 8px;border-radius:22px;border:1px solid var(--line);box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.dot{width:18px;height:18px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px var(--line);cursor:pointer;transition:.15s}
+.dot:hover{transform:scale(1.22)}
+.dot.on{box-shadow:0 0 0 2.5px var(--text);transform:scale(1.18)}
+.custom-color-pick{position:relative;width:22px;height:22px;border-radius:50%;border:1.5px dashed var(--ac);display:grid;place-items:center;cursor:pointer;background:var(--acsoft);transition:.15s;overflow:hidden}
+.custom-color-pick:hover{transform:scale(1.2)}
+.pick-icon{font-size:.76rem;pointer-events:none}
+.userbadge{display:inline-flex;align-items:center;gap:8px;background:color-mix(in srgb,var(--card) 85%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line);padding:4px 12px 4px 6px;border-radius:24px;box-shadow:0 4px 14px rgba(0,0,0,.06);font-size:.82rem}
+.userbadge .u-ava{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;display:grid;place-items:center;font-weight:800;font-size:.75rem;box-shadow:0 2px 8px color-mix(in srgb,var(--ac) 35%,transparent)}
+.userbadge .u-info{display:flex;flex-direction:column;line-height:1.2}
+.userbadge .u-name{font-weight:700;color:var(--text);font-size:.84rem}
+.userbadge .u-nick{font-size:.72rem;color:var(--ac);font-weight:700}
+.userbadge .u-edit{color:var(--bad);font-size:.75rem;cursor:pointer;margin-left:4px;text-decoration:none;font-weight:700}
+.userbadge .u-edit:hover{text-decoration:underline}
+.mode{border:1px solid var(--edge);background:var(--soft);color:var(--text);border-radius:20px;padding:6px 13px;cursor:pointer;font-size:.8rem;font-weight:700;transition:.15s}
+.mode:hover{border-color:var(--ac);color:var(--ac)}
 main{max-width:1120px;margin:0 auto;padding:26px 20px 60px}
 .page{display:none;animation:in .3s ease}.page.on{display:block}
 @keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
@@ -194,6 +219,8 @@ th{color:var(--muted);font-size:.75rem;text-transform:uppercase}
     <p class="sub">Nhập thông tin để bắt đầu phân tích dữ liệu</p>
     <label class="l" for="gName">Họ và tên (*)</label>
     <input id="gName" autocomplete="name" placeholder="Ví dụ: Hoàng Linh Ngọc" required />
+    <label class="l" for="gNick">Biệt danh / Nickname (tùy chọn)</label>
+    <input id="gNick" placeholder="Ví dụ: Ngọc Ruby, Linh Ngọc..." />
     <label class="l" for="gContact">Số điện thoại hoặc Gmail (*)</label>
     <input id="gContact" autocomplete="email" placeholder="Ví dụ: 0799776936 hoặc ngoc@gmail.com" required />
     <div class="msg" id="gMsg"></div>
@@ -215,6 +242,21 @@ th{color:var(--muted);font-size:.75rem;text-transform:uppercase}
     <span class="dot" data-a="green" style="background:#0d9488" onclick="setAccent('green')"></span>
     <span class="dot" data-a="rose" style="background:#e11d48" onclick="setAccent('rose')"></span>
     <span class="dot" data-a="violet" style="background:#7c3aed" onclick="setAccent('violet')"></span>
+    <div class="userbadge" id="userBadge" style="display:none"></div>
+    <div class="pal-wrap">
+      <span class="dot" data-a="gold" title="Vàng hoàng gia" style="background:#c59b27" onclick="setAccent('gold')"></span>
+      <span class="dot" data-a="blue" title="Xanh dương" style="background:#2563eb" onclick="setAccent('blue')"></span>
+      <span class="dot" data-a="emerald" title="Xanh ngọc bích" style="background:#059669" onclick="setAccent('emerald')"></span>
+      <span class="dot" data-a="rose" title="Đỏ hồng ngọc" style="background:#e11d48" onclick="setAccent('rose')"></span>
+      <span class="dot" data-a="violet" title="Tím hoàng hôn" style="background:#7c3aed" onclick="setAccent('violet')"></span>
+      <span class="dot" data-a="amber" title="Cam hổ phách" style="background:#ea580c" onclick="setAccent('amber')"></span>
+      <span class="dot" data-a="cyan" title="Xanh băng tuyết" style="background:#0891b2" onclick="setAccent('cyan')"></span>
+      <span class="dot" data-a="fuchsia" title="Hồng neon" style="background:#c026d3" onclick="setAccent('fuchsia')"></span>
+      <label class="custom-color-pick" title="Tự chọn màu tùy thích theo ý bạn">
+        <span class="pick-icon">🎨</span>
+        <input type="color" id="userColorPick" oninput="setCustomAccent(this.value)" style="opacity:0;position:absolute;inset:0;width:100%;height:100%;cursor:pointer">
+      </label>
+    </div>
     <button class="mode" id="modeBtn" onclick="toggleMode()">🌙 Tối</button>
   </div>
 </div></header>
@@ -463,6 +505,33 @@ let CH={type:'bar',src:'time'};
 
 /* ===== GIAO DIỆN ===== */
 function setAccent(a){root.dataset.accent=a;safeSet('ltn_acc',a);document.querySelectorAll('.dot').forEach(d=>d.classList.toggle('on',d.dataset.a===a))}
+/* ===== GIAO DIỆN & TÙY CHỌN MÀU SẮC ===== */
+function setCustomAccent(hex){
+  if(!hex)return;
+  root.dataset.accent='custom';
+  root.style.setProperty('--ac', hex);
+  root.style.setProperty('--ac2', hex);
+  root.style.setProperty('--acsoft', hex + '26');
+  safeSet('ltn_acc', 'custom');
+  safeSet('ltn_custom_color', hex);
+  document.querySelectorAll('.dot').forEach(d=>d.classList.remove('on'));
+}
+
+function setAccent(a){
+  if(a==='custom'){
+    const hex = safeGet('ltn_custom_color', '#c59b27');
+    setCustomAccent(hex);
+    if($('userColorPick')) $('userColorPick').value = hex;
+    return;
+  }
+  root.dataset.accent=a;
+  root.style.removeProperty('--ac');
+  root.style.removeProperty('--ac2');
+  root.style.removeProperty('--acsoft');
+  safeSet('ltn_acc',a);
+  document.querySelectorAll('.dot').forEach(d=>d.classList.toggle('on',d.dataset.a===a));
+}
+
 function toggleMode(){const m=root.dataset.mode==='light'?'dark':'light';root.dataset.mode=m;safeSet('ltn_mode',m);const b=$('modeBtn');if(b)b.textContent=m==='light'?'🌙 Tối':'☀️ Sáng'}
 function go(n){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
@@ -519,14 +588,31 @@ function refreshUser(){
     }
     const ch=$('userChip');
     if(ch){
+    const b=$('userBadge');
+    if(b){
       if(USER){
         ch.style.display='inline-block';
         ch.innerHTML='👤 '+esc(USER.name)+' <a onclick="logout()" title="Đổi thông tin" style="cursor:pointer;margin-left:6px;color:var(--bad);font-weight:700">[Đổi]</a>';
         if($('cName'))$('cName').value=USER.name;
         if($('cContact'))$('cContact').value=USER.contact;
+        b.style.display='inline-flex';
+        const nick = USER.nickname || USER.name || 'Khách';
+        const initial = nick.charAt(0).toUpperCase();
+        b.innerHTML=`
+          <div class="u-ava">${esc(initial)}</div>
+          <div class="u-info">
+            <span class="u-name">👤 ${esc(USER.name)}</span>
+            <span class="u-nick">✨ @${esc(nick)}</span>
+          </div>
+          <a class="u-edit" onclick="logout()" title="Đổi thông tin">[Đổi]</a>
+        `;
+        if($('cName')) $('cName').value=USER.name;
+        if($('cContact')) $('cContact').value=USER.contact;
       }else{
         ch.style.display='none';
         ch.innerHTML='';
+        b.style.display='none';
+        b.innerHTML='';
       }
     }
   }catch(e){console.error('refreshUser error:',e)}
@@ -536,13 +622,19 @@ function enter(ev){
   if(ev&&ev.preventDefault)ev.preventDefault();
   try{
     const nEl=$('gName'),cEl=$('gContact'),msgEl=$('gMsg');
+    const nEl=$('gName'), nickEl=$('gNick'), cEl=$('gContact'), msgEl=$('gMsg');
     const n=(nEl?nEl.value:'').trim();
+    let nick=(nickEl?nickEl.value:'').trim();
     const c=(cEl?cEl.value:'').trim();
 
     if(!n){
       if(msgEl){msgEl.className='msg err';msgEl.textContent='⚠️ Vui lòng nhập họ và tên của bạn.';}
       if(nEl)nEl.focus();
       return;
+    }
+    if(!nick){
+      const parts = n.split(' ');
+      nick = parts[parts.length - 1];
     }
     if(!c){
       if(msgEl){msgEl.className='msg err';msgEl.textContent='⚠️ Vui lòng nhập số điện thoại hoặc Gmail.';}
@@ -551,11 +643,13 @@ function enter(ev){
     }
     if(!validContact(c)){
       if(msgEl){msgEl.className='msg err';msgEl.textContent='⚠️ Số điện thoại (9-11 số) hoặc Gmail (ví dụ: ten@gmail.com) chưa đúng.';}
+      if(msgEl){msgEl.className='msg err';msgEl.textContent='⚠️ Số điện thoại (8-12 số) hoặc Gmail (ví dụ: ten@gmail.com) chưa đúng.';}
       if(cEl)cEl.focus();
       return;
     }
 
     USER={name:n,contact:c,ts:Date.now()};
+    USER={name:n, nickname:nick, contact:c, ts:Date.now()};
     safeSet('ltn_user',JSON.stringify(USER));
     if(msgEl){msgEl.className='msg';msgEl.textContent='';}
 
@@ -574,6 +668,7 @@ function logout(){
   USER=null;
   try{localStorage.removeItem('ltn_user')}catch(e){}
   if($('gName'))$('gName').value='';
+  if($('gNick'))$('gNick').value='';
   if($('gContact'))$('gContact').value='';
   refreshUser();
 }
@@ -1175,10 +1270,12 @@ function initChatHistory(){
     if(saved&&Array.isArray(saved)&&saved.length)return saved;
   }catch(e){}
   const name=USER?USER.name:'Quý khách';
+  const nick = USER ? (USER.nickname ? `${USER.name} (@${USER.nickname})` : USER.name) : 'Quý khách';
   return [
     {
       role:'bot',
       text:`Xin chào **${name}**! 👋\n\nTôi là **Trợ lý AI của LANH THAI NGOC & Công ty cổ phần Rekkei edu**.\nTôi luôn sẵn sàng giải đáp mọi thắc mắc của bạn về:\n• **Gửi dữ liệu:** Hướng dẫn nạp file Excel, Word, CSV hoặc liên kết Google Sheet.\n• **Làm sạch lỗi:** Quy trình lọc dòng trống, loại bỏ trùng lặp, khử số âm & điền trung vị.\n• **Dashboard & KPI:** Ý nghĩa chỉ số doanh thu, tăng trưởng & cách chọn biểu đồ.\n• **Slide báo cáo:** Khởi tạo, chỉnh sửa trực tiếp văn bản, chèn ảnh & xuất slide HTML.\n• **Dữ liệu thực tế:** Phân tích trực tiếp các chỉ số bộ dữ liệu bạn vừa tải lên!\n\nBạn có câu hỏi nào cần AI giải đáp không? Hãy nhập câu hỏi bên dưới nhé!`
+      text:`Xin chào **${nick}**! 👋\n\nTôi là **Trợ lý AI của LANH THAI NGOC & Công ty cổ phần Rekkei edu**.\nTôi luôn sẵn sàng giải đáp mọi thắc mắc của bạn về:\n• **Gửi dữ liệu:** Hướng dẫn nạp file Excel, Word, CSV hoặc liên kết Google Sheet.\n• **Làm sạch lỗi:** Quy trình lọc dòng trống, loại bỏ trùng lặp, khử số âm & điền trung vị.\n• **Dashboard & KPI:** Ý nghĩa chỉ số doanh thu, tăng trưởng & cách chọn biểu đồ.\n• **Slide báo cáo:** Khởi tạo, chỉnh sửa trực tiếp văn bản, chèn ảnh & xuất slide HTML.\n• **Dữ liệu thực tế:** Phân tích trực tiếp các chỉ số bộ dữ liệu bạn vừa tải lên!\n\nBạn có câu hỏi nào cần AI giải đáp không? Hãy nhập câu hỏi bên dưới nhé!`
     }
   ];
 }
@@ -1317,6 +1414,14 @@ function generateAiAnswer(q){
 function init(){
   try{
     setAccent(safeGet('ltn_acc','gold'));
+    const savedAcc = safeGet('ltn_acc','gold');
+    if(savedAcc === 'custom'){
+      const hex = safeGet('ltn_custom_color','#c59b27');
+      setCustomAccent(hex);
+      if($('userColorPick')) $('userColorPick').value = hex;
+    }else{
+      setAccent(savedAcc);
+    }
     const m=safeGet('ltn_mode','light');
     if(m&&m!==root.dataset.mode)toggleMode();
     refreshUser();
