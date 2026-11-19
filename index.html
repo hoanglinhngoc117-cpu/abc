@@ -20,11 +20,6 @@
   --bg:#0b0c10; --card:rgba(32,34,44,.55); --soft:rgba(255,255,255,.07); --text:#f1f2f4; --muted:#a0a5b0;
   --line:rgba(255,255,255,.12); --edge:rgba(255,255,255,.12); --good:#34d399; --bad:#fb7185; --shadow:0 12px 36px -12px rgba(0,0,0,.7);
 }
-[data-accent=gold]{--ac:#c59b27;--ac2:#aa8012;--acsoft:rgba(197,155,39,.14)}
-[data-accent=blue]{--ac:#2563eb;--ac2:#1d4ed8;--acsoft:rgba(37,99,235,.13)}
-[data-accent=green]{--ac:#0d9488;--ac2:#0f766e;--acsoft:rgba(13,148,136,.14)}
-[data-accent=rose]{--ac:#e11d48;--ac2:#be123c;--acsoft:rgba(225,29,72,.12)}
-[data-accent=violet]{--ac:#7c3aed;--ac2:#6d28d9;--acsoft:rgba(124,58,237,.13)}
 [data-accent=gold]{--ac:#c59b27;--ac2:#aa8012;--acsoft:rgba(197,155,39,.16)}
 [data-accent=blue]{--ac:#2563eb;--ac2:#1d4ed8;--acsoft:rgba(37,99,235,.15)}
 [data-accent=emerald]{--ac:#059669;--ac2:#047857;--acsoft:rgba(5,150,105,.16)}
@@ -48,11 +43,6 @@ header{position:sticky;top:0;z-index:50;border-width:0 0 1px 0}
 .nav{display:flex;gap:4px;background:var(--soft);padding:4px;border-radius:30px;border:1px solid var(--edge)}
 .nav button{border:0;background:none;color:var(--muted);font-weight:700;font-size:.85rem;padding:8px 16px;border-radius:24px;cursor:pointer}
 .nav button.on{background:var(--card);color:var(--ac);box-shadow:0 2px 10px rgba(0,0,0,.1)}
-.tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.dot{width:20px;height:20px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px var(--line);cursor:pointer}
-.dot.on{box-shadow:0 0 0 2px var(--text)}
-.mode,.userchip{border:1px solid var(--edge);background:var(--soft);color:var(--text);border-radius:20px;padding:5px 12px;cursor:pointer;font-size:.8rem;font-weight:700}
-.userchip{cursor:default}.userchip a{color:var(--bad);cursor:pointer;margin-left:6px;font-weight:700}
 .tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .pal-wrap{display:flex;align-items:center;gap:6px;background:var(--soft);padding:4px 8px;border-radius:22px;border:1px solid var(--line);box-shadow:0 2px 8px rgba(0,0,0,.04)}
 .dot{width:18px;height:18px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px var(--line);cursor:pointer;transition:.15s}
@@ -213,20 +203,44 @@ th{color:var(--muted);font-size:.75rem;text-transform:uppercase}
 
 <!-- ===== CỔNG VÀO: BẮT BUỘC NHẬP TÊN + SĐT/GMAIL ===== -->
 <div id="gate">
-  <form class="modal" id="gateForm" onsubmit="enter(event); return false;">
+  <form class="modal" id="gateForm" onsubmit="return false;" novalidate>
     <div class="logo">L</div>
     <h2 style="font-size:1.35rem">Chào mừng đến LANH THAI NGOC</h2>
     <p class="sub">Nhập thông tin để bắt đầu phân tích dữ liệu</p>
     <label class="l" for="gName">Họ và tên (*)</label>
-    <input id="gName" autocomplete="name" placeholder="Ví dụ: Hoàng Linh Ngọc" required />
-    <label class="l" for="gNick">Biệt danh / Nickname (tùy chọn)</label>
-    <input id="gNick" placeholder="Ví dụ: Ngọc Ruby, Linh Ngọc..." />
+    <input id="gName" autocomplete="name" placeholder="Ví dụ: Hoàng Linh Ngọc" />
     <label class="l" for="gContact">Số điện thoại hoặc Gmail (*)</label>
-    <input id="gContact" autocomplete="email" placeholder="Ví dụ: 0799776936 hoặc ngoc@gmail.com" required />
+    <input id="gContact" autocomplete="email" placeholder="Ví dụ: 0799776936 hoặc ngoc@gmail.com" />
     <div class="msg" id="gMsg"></div>
-    <button type="submit" id="btnEnter" class="btn block">🚀 Bắt đầu</button>
+    <button type="button" id="btnEnter" class="btn block" onclick="ltnGateEnter()">🚀 Bắt đầu</button>
   </form>
 </div>
+<script>
+/* CỔNG VÀO ĐỘC LẬP – chạy riêng, không phụ thuộc phần script chính */
+function ltnGateEnter(){
+  var nEl=document.getElementById('gName'),cEl=document.getElementById('gContact'),msg=document.getElementById('gMsg');
+  var n=(nEl.value||'').replace(/^\s+|\s+$/g,''),c=(cEl.value||'').replace(/^\s+|\s+$/g,'');
+  function err(t,f){msg.className='msg err';msg.textContent=t;if(f)f.focus();}
+  if(!n)return err('⚠️ Vui lòng nhập họ và tên.',nEl);
+  if(!c)return err('⚠️ Vui lòng nhập số điện thoại hoặc Gmail.',cEl);
+  var digits=c.replace(/[\s.\-+()]/g,'');
+  var ok=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(c)||/^\d{8,12}$/.test(digits);
+  if(!ok)return err('⚠️ Số điện thoại (8–12 số) hoặc Gmail (vd: ten@gmail.com) chưa đúng.',cEl);
+  var u={name:n,contact:c,ts:Date.now()};
+  try{localStorage.setItem('ltn_user',JSON.stringify(u))}catch(e){}
+  window.__ltnUser=u;
+  msg.className='msg';msg.textContent='';
+  document.getElementById('gate').style.display='none';
+  try{if(typeof syncUserFromStorage==='function')syncUserFromStorage()}catch(e){}
+}
+(function(){
+  var saved=null;try{saved=JSON.parse(localStorage.getItem('ltn_user')||'null')}catch(e){}
+  if(saved&&saved.name)document.getElementById('gate').style.display='none';
+  ['gName','gContact'].forEach(function(id){
+    document.getElementById(id).addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();ltnGateEnter();}});
+  });
+})();
+</script>
 
 <header><div class="hd">
   <div class="brand"><div class="logo">L</div><b>LANH THAI NGOC</b></div>
@@ -236,12 +250,6 @@ th{color:var(--muted);font-size:.75rem;text-transform:uppercase}
     <button onclick="go(3)">③ Tư vấn & Hỏi AI</button>
   </nav>
   <div class="tools">
-    <span class="userchip" id="userChip" style="display:none"></span>
-    <span class="dot" data-a="gold" style="background:#c59b27" onclick="setAccent('gold')"></span>
-    <span class="dot" data-a="blue" style="background:#2563eb" onclick="setAccent('blue')"></span>
-    <span class="dot" data-a="green" style="background:#0d9488" onclick="setAccent('green')"></span>
-    <span class="dot" data-a="rose" style="background:#e11d48" onclick="setAccent('rose')"></span>
-    <span class="dot" data-a="violet" style="background:#7c3aed" onclick="setAccent('violet')"></span>
     <div class="userbadge" id="userBadge" style="display:none"></div>
     <div class="pal-wrap">
       <span class="dot" data-a="gold" title="Vàng hoàng gia" style="background:#c59b27" onclick="setAccent('gold')"></span>
@@ -503,8 +511,6 @@ let RES=null;
 let SL={slides:[],idx:0,sel:-1,theme:{bg:'#ffffff',tx:'#17181a',ac:'#c59b27'}};
 let CH={type:'bar',src:'time'};
 
-/* ===== GIAO DIỆN ===== */
-function setAccent(a){root.dataset.accent=a;safeSet('ltn_acc',a);document.querySelectorAll('.dot').forEach(d=>d.classList.toggle('on',d.dataset.a===a))}
 /* ===== GIAO DIỆN & TÙY CHỌN MÀU SẮC ===== */
 function setCustomAccent(hex){
   if(!hex)return;
@@ -586,31 +592,22 @@ function refreshUser(){
         gate.style.display='grid';
       }
     }
-    const ch=$('userChip');
-    if(ch){
     const b=$('userBadge');
     if(b){
       if(USER){
-        ch.style.display='inline-block';
-        ch.innerHTML='👤 '+esc(USER.name)+' <a onclick="logout()" title="Đổi thông tin" style="cursor:pointer;margin-left:6px;color:var(--bad);font-weight:700">[Đổi]</a>';
-        if($('cName'))$('cName').value=USER.name;
-        if($('cContact'))$('cContact').value=USER.contact;
         b.style.display='inline-flex';
-        const nick = USER.nickname || USER.name || 'Khách';
-        const initial = nick.charAt(0).toUpperCase();
+        const initial = (USER.name||'K').trim().split(/\s+/).pop().charAt(0).toUpperCase();
         b.innerHTML=`
           <div class="u-ava">${esc(initial)}</div>
           <div class="u-info">
             <span class="u-name">👤 ${esc(USER.name)}</span>
-            <span class="u-nick">✨ @${esc(nick)}</span>
+            <span class="u-nick">${esc(USER.contact||'')}</span>
           </div>
           <a class="u-edit" onclick="logout()" title="Đổi thông tin">[Đổi]</a>
         `;
         if($('cName')) $('cName').value=USER.name;
         if($('cContact')) $('cContact').value=USER.contact;
       }else{
-        ch.style.display='none';
-        ch.innerHTML='';
         b.style.display='none';
         b.innerHTML='';
       }
@@ -620,55 +617,20 @@ function refreshUser(){
 
 function enter(ev){
   if(ev&&ev.preventDefault)ev.preventDefault();
-  try{
-    const nEl=$('gName'),cEl=$('gContact'),msgEl=$('gMsg');
-    const nEl=$('gName'), nickEl=$('gNick'), cEl=$('gContact'), msgEl=$('gMsg');
-    const n=(nEl?nEl.value:'').trim();
-    let nick=(nickEl?nickEl.value:'').trim();
-    const c=(cEl?cEl.value:'').trim();
+  ltnGateEnter();
+}
 
-    if(!n){
-      if(msgEl){msgEl.className='msg err';msgEl.textContent='⚠️ Vui lòng nhập họ và tên của bạn.';}
-      if(nEl)nEl.focus();
-      return;
-    }
-    if(!nick){
-      const parts = n.split(' ');
-      nick = parts[parts.length - 1];
-    }
-    if(!c){
-      if(msgEl){msgEl.className='msg err';msgEl.textContent='⚠️ Vui lòng nhập số điện thoại hoặc Gmail.';}
-      if(cEl)cEl.focus();
-      return;
-    }
-    if(!validContact(c)){
-      if(msgEl){msgEl.className='msg err';msgEl.textContent='⚠️ Số điện thoại (9-11 số) hoặc Gmail (ví dụ: ten@gmail.com) chưa đúng.';}
-      if(msgEl){msgEl.className='msg err';msgEl.textContent='⚠️ Số điện thoại (8-12 số) hoặc Gmail (ví dụ: ten@gmail.com) chưa đúng.';}
-      if(cEl)cEl.focus();
-      return;
-    }
-
-    USER={name:n,contact:c,ts:Date.now()};
-    USER={name:n, nickname:nick, contact:c, ts:Date.now()};
-    safeSet('ltn_user',JSON.stringify(USER));
-    if(msgEl){msgEl.className='msg';msgEl.textContent='';}
-
-    // Đảm bảo ẩn ngay cổng vào
-    const gate=$('gate');
-    if(gate)gate.style.setProperty('display','none','important');
-    refreshUser();
-  }catch(err){
-    console.error('Enter error:',err);
-    const gate=$('gate');
-    if(gate)gate.style.display='none';
-  }
+/* Được cổng vào gọi sau khi khách nhập xong */
+function syncUserFromStorage(){
+  try{USER=JSON.parse(safeGet('ltn_user','null'))}catch(e){USER=window.__ltnUser||null}
+  if(!USER&&window.__ltnUser)USER=window.__ltnUser;
+  refreshUser();
 }
 
 function logout(){
   USER=null;
   try{localStorage.removeItem('ltn_user')}catch(e){}
   if($('gName'))$('gName').value='';
-  if($('gNick'))$('gNick').value='';
   if($('gContact'))$('gContact').value='';
   refreshUser();
 }
@@ -1269,12 +1231,10 @@ function initChatHistory(){
     const saved=JSON.parse(safeGet('ltn_chat','null'));
     if(saved&&Array.isArray(saved)&&saved.length)return saved;
   }catch(e){}
-  const name=USER?USER.name:'Quý khách';
-  const nick = USER ? (USER.nickname ? `${USER.name} (@${USER.nickname})` : USER.name) : 'Quý khách';
+  const nick = USER ? USER.name : 'Quý khách';
   return [
     {
       role:'bot',
-      text:`Xin chào **${name}**! 👋\n\nTôi là **Trợ lý AI của LANH THAI NGOC & Công ty cổ phần Rekkei edu**.\nTôi luôn sẵn sàng giải đáp mọi thắc mắc của bạn về:\n• **Gửi dữ liệu:** Hướng dẫn nạp file Excel, Word, CSV hoặc liên kết Google Sheet.\n• **Làm sạch lỗi:** Quy trình lọc dòng trống, loại bỏ trùng lặp, khử số âm & điền trung vị.\n• **Dashboard & KPI:** Ý nghĩa chỉ số doanh thu, tăng trưởng & cách chọn biểu đồ.\n• **Slide báo cáo:** Khởi tạo, chỉnh sửa trực tiếp văn bản, chèn ảnh & xuất slide HTML.\n• **Dữ liệu thực tế:** Phân tích trực tiếp các chỉ số bộ dữ liệu bạn vừa tải lên!\n\nBạn có câu hỏi nào cần AI giải đáp không? Hãy nhập câu hỏi bên dưới nhé!`
       text:`Xin chào **${nick}**! 👋\n\nTôi là **Trợ lý AI của LANH THAI NGOC & Công ty cổ phần Rekkei edu**.\nTôi luôn sẵn sàng giải đáp mọi thắc mắc của bạn về:\n• **Gửi dữ liệu:** Hướng dẫn nạp file Excel, Word, CSV hoặc liên kết Google Sheet.\n• **Làm sạch lỗi:** Quy trình lọc dòng trống, loại bỏ trùng lặp, khử số âm & điền trung vị.\n• **Dashboard & KPI:** Ý nghĩa chỉ số doanh thu, tăng trưởng & cách chọn biểu đồ.\n• **Slide báo cáo:** Khởi tạo, chỉnh sửa trực tiếp văn bản, chèn ảnh & xuất slide HTML.\n• **Dữ liệu thực tế:** Phân tích trực tiếp các chỉ số bộ dữ liệu bạn vừa tải lên!\n\nBạn có câu hỏi nào cần AI giải đáp không? Hãy nhập câu hỏi bên dưới nhé!`
     }
   ];
@@ -1413,7 +1373,6 @@ function generateAiAnswer(q){
 /* ===== KHỞI CHẠY ỨNG DỤNG ===== */
 function init(){
   try{
-    setAccent(safeGet('ltn_acc','gold'));
     const savedAcc = safeGet('ltn_acc','gold');
     if(savedAcc === 'custom'){
       const hex = safeGet('ltn_custom_color','#c59b27');
