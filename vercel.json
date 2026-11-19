@@ -1,0 +1,29 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/bi",
+      "destination": "/bi.html"
+    },
+    {
+      "source": "/slides",
+      "destination": "/slides_hong.html"
+    },
+    {
+      "source": "/slides_hong",
+      "destination": "/slides_hong.html"
+    },
+    {
+      "source": "/slides.html",
+      "destination": "/slides.html"
+    },
+    {
+      "source": "/slides_hong.html",
+      "destination": "/slides_hong.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

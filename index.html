@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi" data-mode="light" data-accent="gold">
 <head>
 <meta charset="UTF-8" />
@@ -197,6 +197,61 @@ th{color:var(--muted);font-size:.75rem;text-transform:uppercase}
 @keyframes bounce{0%,80%,100%{transform:scale(0)}40%{transform:scale(1)}}
 
 @media print{header,.nav,.tools,.slidebar,.thumbs,.btn,#gate,.chat-prompts,.chat-bar{display:none!important}body::before{display:none}}
+
+/* ===== CHẾ ĐỘ LÀM VIỆC NHÓM & LIVE CHAT (TRANG 3) ===== */
+.team-layout { display: grid; grid-template-columns: 1fr 340px; gap: 20px; align-items: start; }
+@media (max-width: 960px) { .team-layout { grid-template-columns: 1fr; } }
+.team-board { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 22px; }
+.team-chat-pane { background: var(--card); border: 1px solid var(--line); border-radius: 18px; display: flex; flex-direction: column; height: 740px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.06); }
+.chat-thread-list { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+.comment-item { display: flex; gap: 12px; font-size: 0.88rem; }
+.comment-avatar { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; color: #fff; flex-shrink: 0; font-size: 0.85rem; }
+.comment-body { flex: 1; background: var(--soft); border-radius: 12px; padding: 10px 14px; border: 1px solid var(--line); }
+.comment-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.comment-author { font-weight: 700; color: var(--text); font-size: 0.86rem; }
+.comment-time { font-size: 0.72rem; color: var(--muted); }
+.comment-text { color: var(--text); line-height: 1.45; word-break: break-word; }
+.comment-tag { color: var(--ac); font-weight: 700; }
+.comment-actions { display: flex; gap: 12px; margin-top: 6px; font-size: 0.75rem; color: var(--muted); }
+.comment-actions span { cursor: pointer; }
+.comment-actions span:hover { color: var(--ac); text-decoration: underline; }
+
+/* ===== ĐIỂM CHẤT LƯỢNG DỮ LIỆU & 3D / MAP / RADAR (TRANG 2) ===== */
+.dqs-card { background: var(--card); border: 1.5px solid var(--ac); border-radius: 18px; padding: 22px; margin-bottom: 20px; box-shadow: 0 12px 30px color-mix(in srgb,var(--ac) 15%,transparent); }
+.dqs-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 16px; }
+.dqs-score-dial { display: flex; align-items: center; gap: 16px; }
+.dqs-number { font-size: 2.8rem; font-weight: 800; color: var(--ac); line-height: 1; }
+.dqs-badge { padding: 4px 12px; border-radius: 999px; font-size: 0.82rem; font-weight: 800; display: inline-block; }
+.dqs-badge.excel { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+.dqs-badge.good { background: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc; }
+.dqs-badge.warn { background: #fef3c7; color: #b45309; border: 1px solid #fcd34d; }
+
+.vis-toggle-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; background: var(--soft); padding: 6px; border-radius: 12px; }
+.vis-btn { background: transparent; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+.vis-btn.on { background: var(--card); color: var(--ac); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+
+/* Timeline versioning */
+.timeline-track { display: flex; gap: 14px; overflow-x: auto; padding: 8px 0 14px; }
+.time-node { background: var(--soft); border: 1.5px solid var(--line); border-radius: 14px; padding: 14px 16px; min-width: 210px; flex-shrink: 0; cursor: pointer; transition: all 0.2s; }
+.time-node:hover, .time-node.active { border-color: var(--ac); transform: translateY(-2px); box-shadow: 0 8px 20px color-mix(in srgb,var(--ac) 15%,transparent); }
+
+/* Scenario cards */
+.scenario-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin: 16px 0; }
+.scenario-card { background: var(--soft); border: 1.5px solid var(--line); border-radius: 16px; padding: 18px; }
+.scenario-card.opt { border-top: 4px solid #10b981; }
+.scenario-card.base { border-top: 4px solid #38bdf8; }
+.scenario-card.pes { border-top: 4px solid #f43f5e; }
+
+/* Mô phỏng giả định Sliders */
+.whatif-box { background: var(--soft); border: 1px solid var(--line); border-radius: 16px; padding: 20px; margin-top: 16px; }
+.slider-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin-top: 14px; }
+
+/* ===== PHÒNG HỌP CHIẾN LƯỢC AI (TRANG 4) ===== */
+.expert-shelf { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 16px; }
+.expert-pill { background: var(--card); border: 1.5px solid var(--line); border-radius: 14px; padding: 10px 18px; display: flex; align-items: center; gap: 10px; cursor: pointer; font-weight: 700; font-size: 0.88rem; transition: all 0.2s; white-space: nowrap; }
+.expert-pill.on { border-color: var(--ac); background: color-mix(in srgb,var(--ac) 10%,var(--card)); color: var(--ac); box-shadow: 0 6px 16px color-mix(in srgb,var(--ac) 20%,transparent); }
+.consensus-card { background: linear-gradient(135deg, color-mix(in srgb,var(--ac) 12%,var(--card)), var(--card)); border: 2px solid var(--ac); border-radius: 18px; padding: 22px; margin-bottom: 20px; box-shadow: 0 12px 32px color-mix(in srgb,var(--ac) 20%,transparent); }
+
 </style>
 </head>
 <body>
@@ -246,8 +301,10 @@ function ltnGateEnter(){
   <div class="brand"><div class="logo">L</div><b>LANH THAI NGOC</b></div>
   <nav class="nav">
     <button class="on" onclick="go(1)">① Gửi dữ liệu</button>
-    <button onclick="go(2)">② Kết quả</button>
-    <button onclick="go(3)">③ Tư vấn & Hỏi AI</button>
+    <button onclick="go(2)">② Kết quả & Phân tích</button>
+    <button onclick="go(3)">③ Làm việc nhóm & Thảo luận</button>
+    <button onclick="go(4)">④ Phòng Họp Hội Đồng Cố Vấn Chiến Lược Trí Tuệ Nhân Tạo</button>
+    <a href="slides_hong.html" target="_blank" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#ec4899,#f43f5e);color:#fff;padding:8px 14px;border-radius:12px;font-size:0.82rem;font-weight:700;box-shadow:0 2px 8px rgba(236,72,153,0.3);margin-left:8px">📽️ Mở 10 Trang Báo Cáo Thuyết Trình</a>
   </nav>
   <div class="tools">
     <div class="userbadge" id="userBadge" style="display:none"></div>
@@ -274,8 +331,8 @@ function ltnGateEnter(){
 <section id="p1" class="page on">
   <div class="hero">
     <h1>Biến dữ liệu thô thành <span>báo cáo rõ ràng</span></h1>
-    <p class="sub" style="margin-top:8px">Gửi file · Tự làm sạch · Phân tích KPI · Xuất Dashboard & báo cáo</p>
-    <div class="steps"><span class="chip">1 Gửi file</span><span class="chip">2 Làm sạch</span><span class="chip">3 Phân tích</span><span class="chip">4 Xuất báo cáo</span></div>
+    <p class="sub" style="margin-top:8px">Gửi tệp dữ liệu · Tự động làm sạch · Đo lường chỉ số kinh doanh · Xuất Bảng điều khiển trực quan</p>
+    <div class="steps"><span class="chip">1 Gửi tệp</span><span class="chip">2 Làm sạch dữ liệu</span><span class="chip">3 Phân tích chuyên sâu</span><span class="chip">4 Xuất bản báo cáo</span></div>
   </div>
 
   <div class="card">
@@ -306,27 +363,27 @@ function ltnGateEnter(){
     </div>
     <input id="bizCustom" placeholder="Nhập loại hình doanh nghiệp của bạn…" style="display:none;margin-top:10px" />
 
-    <label class="l">Chọn dịch vụ & Tính năng phân tích AI</label>
+    <label class="l">Chọn dịch vụ & Tính năng phân tích của Trí tuệ nhân tạo</label>
     <div class="opts">
       <label><input type="checkbox" id="sClean" checked> 🧹 Làm sạch dữ liệu</label>
-      <label><input type="checkbox" id="sKpi" checked> 📐 Tính toán KPI</label>
-      <label><input type="checkbox" id="sDash" checked> 📊 Tạo Dashboard</label>
-      <label><input type="checkbox" id="sForecast" checked> 🔮 Dự báo tăng trưởng AI</label>
+      <label><input type="checkbox" id="sKpi" checked> 📐 Tính toán chỉ số kinh doanh</label>
+      <label><input type="checkbox" id="sDash" checked> 📊 Tạo Bảng điều khiển phân tích</label>
+      <label><input type="checkbox" id="sForecast" checked> 🔮 Dự báo tăng trưởng bằng Trí tuệ nhân tạo</label>
       <label><input type="checkbox" id="sRisk" checked> ⚠️ Cảnh báo rủi ro</label>
-      <label><input type="checkbox" id="sStrategy" checked> 💡 Chiến lược kinh doanh AI</label>
-      <label><input type="checkbox" id="sCustomPrompt" onchange="toggleCustomPrompt()"> ✍️ AI làm theo yêu cầu riêng</label>
+      <label><input type="checkbox" id="sStrategy" checked> 💡 Chiến lược kinh doanh từ Trí tuệ nhân tạo</label>
+      <label><input type="checkbox" id="sCustomPrompt" onchange="toggleCustomPrompt()"> ✍️ Trí tuệ nhân tạo theo yêu cầu riêng</label>
     </div>
 
     <!-- Hộp nhập yêu cầu tùy chọn cho AI -->
     <div id="boxCustomPrompt" style="display:none;margin-top:14px;background:var(--acsoft);border:1.5px solid var(--ac);border-radius:14px;padding:16px">
       <div class="row" style="justify-content:space-between;margin-bottom:6px">
-        <b style="color:var(--ac);font-size:.92rem">✨ Yêu cầu AI làm theo mong muốn của bạn:</b>
-        <span class="sub" style="font-size:.75rem">AI sẽ phân tích dữ liệu đúng theo yêu cầu này</span>
+        <b style="color:var(--ac);font-size:.92rem">✨ Yêu cầu Trí tuệ nhân tạo thực hiện theo ý bạn:</b>
+        <span class="sub" style="font-size:.75rem">Trí tuệ nhân tạo sẽ phân tích dữ liệu chính xác theo yêu cầu này</span>
       </div>
       <textarea id="aiCustomReq" rows="3" placeholder="Ví dụ: 'Hãy tìm cho tôi kênh bán hàng nào có tỷ suất sinh lời cao nhất và phân tích xem tại sao?', 'Phát hiện các đơn hàng trên 2 triệu và gợi ý cách giữ chân khách'..."></textarea>
       <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
         <span class="sub" style="font-size:.74rem;align-self:center">Gợi ý yêu cầu nhanh:</span>
-        <button type="button" class="btn ghost sm" style="font-size:.74rem;padding:4px 9px" onclick="setAiPrompt('Xác định top 3 sản phẩm chủ lực và gợi ý kịch bản tăng giá bán mà không mất khách')">🏆 Top 3 sản phẩm & kịch bản giá</button>
+        <button type="button" class="btn ghost sm" style="font-size:.74rem;padding:4px 9px" onclick="setAiPrompt('Xác định top 3 sản phẩm chủ lực và gợi ý kịch bản tăng giá bán mà không mất khách')">🏆 Ba sản phẩm dẫn đầu & kịch bản định giá</button>
         <button type="button" class="btn ghost sm" style="font-size:.74rem;padding:4px 9px" onclick="setAiPrompt('Phân tích chi tiết rủi ro dòng tiền và đề xuất giải pháp kiểm soát công nợ')">💸 Rủi ro dòng tiền & công nợ</button>
         <button type="button" class="btn ghost sm" style="font-size:.74rem;padding:4px 9px" onclick="setAiPrompt('So sánh hiệu suất giữa các kênh phân phối và lập kế hoạch mở rộng thị trường')">📈 So sánh kênh & mở rộng thị trường</button>
         <button type="button" class="btn ghost sm" style="font-size:.74rem;padding:4px 9px" onclick="setAiPrompt('Tìm các giao dịch bất thường và đề xuất quy trình kiểm soát nội bộ')">🛡 Giao dịch bất thường & kiểm soát</button>
@@ -356,7 +413,7 @@ function ltnGateEnter(){
     <div style="background:var(--acsoft);border-radius:14px;padding:18px;display:flex;flex-direction:column;justify-content:center">
       <b style="color:var(--ac)">Cần hỗ trợ?</b>
       <p class="sub" style="margin:4px 0 12px">Để lại nội dung thắc mắc, chúng tôi sẽ liên hệ.</p>
-      <button class="btn sm" onclick="go(3)">Nhận tư vấn →</button>
+      <button class="btn sm" onclick="go(4)">Vào Phòng họp Hội đồng Cố vấn →</button>
     </div>
   </div>
   <p class="thanks">Cảm ơn quý khách đã tin tưởng. Mọi thắc mắc vui lòng liên hệ theo địa chỉ trên.</p>
@@ -373,9 +430,9 @@ function ltnGateEnter(){
     <div class="row" style="justify-content:space-between;margin-bottom:16px">
       <div><h2 style="font-size:1.3rem">Kết quả phân tích</h2><span class="sub" id="resMeta"></span></div>
       <div class="row">
-        <button class="btn sm" onclick="downloadReport()">⬇ Báo cáo HTML</button>
-        <button class="btn ghost sm" onclick="window.print()">🖨 In / PDF</button>
-        <button class="btn ghost sm" onclick="makeSlides()">🎞 Tạo slide</button>
+        <button class="btn sm" onclick="downloadReport()">⬇ Tải Báo Cáo Trang Mạng</button>
+        <button class="btn ghost sm" onclick="window.print()">🖨 In Ấn / Xuất Tài Liệu</button>
+        <button class="btn ghost sm" onclick="makeSlides()">🎞 Khởi Tạo Bài Trình Chiếu</button>
       </div>
     </div>
     <div class="pipe" id="pipe"></div>
@@ -389,7 +446,7 @@ function ltnGateEnter(){
           <button class="btn ghost sm" onclick="slideNav(-1)">◀</button>
           <b id="slideNo" style="font-size:.85rem"></b>
           <button class="btn ghost sm" onclick="slideNav(1)">▶</button>
-          <button class="btn sm" onclick="downloadSlides()">⬇ Tải slide</button>
+          <button class="btn sm" onclick="downloadSlides()">⬇ Tải Về Bài Trình Chiếu</button>
         </div>
       </div>
       <div class="slidebar">
@@ -400,8 +457,8 @@ function ltnGateEnter(){
         <label class="sub" style="display:flex;align-items:center;gap:4px">Nhấn <input type="color" class="colorin" id="cAc" oninput="themePick('ac',this.value)"></label>
       </div>
       <div class="slidebar">
-        <button class="btn ghost sm" onclick="addSlide()">＋ Thêm slide</button>
-        <button class="btn ghost sm" onclick="delSlide()">🗑 Xoá slide</button>
+        <button class="btn ghost sm" onclick="addSlide()">＋ Thêm Trang Trình Chiếu</button>
+        <button class="btn ghost sm" onclick="delSlide()">🗑 Xoá Trang Này</button>
         <button class="btn ghost sm" onclick="document.execCommand('bold')">B</button>
         <button class="btn ghost sm" onclick="document.execCommand('insertUnorderedList')">• Danh sách</button>
         <button class="btn ghost sm" onclick="imgIn.click()">🖼 Chèn ảnh</button>
@@ -425,10 +482,460 @@ function ltnGateEnter(){
 </section>
 
 <!-- ============ TRANG 3 ============ -->
+<!-- ============ TRANG 3: LÀM VIỆC NHÓM & THẢO LUẬN TRỰC TIẾP ============ -->
 <section id="p3" class="page">
   <div class="hero">
-    <h1>Tư vấn & <span>Trợ lý AI Thông Minh</span></h1>
-    <p class="sub" style="margin-top:8px">Hỏi đáp thắc mắc trực tiếp với Trợ lý AI 24/7 hoặc gửi thông tin để chuyên gia Rekkei edu liên hệ.</p>
+    <h1>Không gian <span>Làm việc nhóm & Thảo luận</span></h1>
+    <p class="sub" style="margin-top:8px">Cộng tác thời gian thực: Phân quyền chỉnh sửa trực tiếp số liệu, bảng mục tiêu kinh doanh và khung trao đổi nhóm đồng bộ.</p>
+  </div>
+
+  <!-- Thanh trạng thái phân quyền phòng làm việc nhóm -->
+  <div class="card" style="margin-bottom:18px;padding:16px 22px;background:var(--soft);border:1.5px solid var(--line);box-shadow:0 6px 20px rgba(0,0,0,0.04)">
+    <div class="row" style="justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div class="row" style="gap:12px">
+        <div style="width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#10b981,#059669);color:#fff;display:grid;place-items:center;font-size:1.2rem;box-shadow:0 4px 12px rgba(16,185,129,0.35)">👥</div>
+        <div>
+          <div class="row" style="gap:8px">
+            <b style="font-size:1.02rem">Phòng Làm Việc Nhóm Doanh Nghiệp: LÃNH THÁI NGỌC</b>
+            <span class="chip" style="background:#dcfce7;color:#15803d;font-weight:700">🟢 Đang trực tuyến · 5 thành viên</span>
+          </div>
+          <div style="font-size:.78rem;color:var(--muted);margin-top:2px">
+            Người tạo phòng: <strong>Lãnh Thái Ngọc (Chủ phòng / Toàn quyền)</strong> · Mã phòng: <code>LTN-TEAM-8899</code>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="gap:8px">
+        <div class="row" style="gap:4px;background:var(--card);padding:4px 8px;border-radius:10px;border:1px solid var(--line)">
+          <small style="color:var(--muted);font-size:.75rem">Quyền của bạn:</small>
+          <select id="userPermSelect" onchange="setTeamPerm(this.value)" style="border:none;background:transparent;font-weight:800;font-size:.82rem;color:var(--ac);cursor:pointer;outline:none">
+            <option value="owner">👑 Chủ sở hữu (Toàn quyền)</option>
+            <option value="editor" selected>✏️ Biên tập viên (Được sửa)</option>
+            <option value="viewer">👀 Người xem (Chỉ xem)</option>
+          </select>
+        </div>
+        <button class="btn sm" onclick="grantMemberPerm()" title="Cấp quyền chỉnh sửa cho cộng sự">🔑 Cấp quyền</button>
+        <button class="btn ghost sm" onclick="copyInviteLink()" title="Sao chép link mời vào nhóm">🔗 Mời cộng sự</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bố cục 2 cột chuẩn Dashboard + Comments như hình ảnh yêu cầu -->
+  <div class="team-layout">
+    <!-- Cột trái: Bảng hiệu suất kinh doanh nhóm có thể sửa trực tiếp -->
+    <div class="team-board">
+      <div class="row" style="justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+        <div>
+          <h2 style="font-size:1.35rem;margin:0">Tổng Quan Hiệu Suất Hoạt Động Kinh Doanh</h2>
+          <span class="sub" style="font-size:.8rem">Bảng tổng quan hiệu suất nhóm · <strong style="color:var(--ac)">Bấm vào ô số liệu để sửa trực tiếp</strong> (Chỉ cần người tạo cấp quyền)</span>
+        </div>
+        <div class="row" style="gap:8px">
+          <select class="btn ghost sm" style="padding:4px 10px;font-size:.8rem"><option>Kịch bản: Cơ sở ổn định</option><option>Kịch bản: Tích cực tăng trưởng</option><option>Kịch bản: Thận trọng dự phòng</option></select>
+          <select class="btn ghost sm" style="padding:4px 10px;font-size:.8rem"><option>Gói thuê bao: Tất cả</option><option>Khối Doanh nghiệp</option><option>Doanh nghiệp vừa và nhỏ</option></select>
+          <select class="btn ghost sm" style="padding:4px 10px;font-size:.8rem"><option>Kỳ báo cáo: Quý 3 hiện tại</option><option>Q2</option><option>Q1</option></select>
+        </div>
+      </div>
+
+      <!-- Thẻ KPI nhóm -->
+      <div class="kpis" style="margin-bottom:18px">
+        <div class="kpi">
+          <small>Tỷ Suất Biên Lợi Nhuận Gộp</small>
+          <div id="tmKpiMargin" contenteditable="true" onblur="saveTeamCell('tmKpiMargin',this.textContent)" title="Nhấp để sửa">$116,332,116</div>
+          <em class="up">↑ 89.7% tỷ suất lợi nhuận</em>
+        </div>
+        <div class="kpi">
+          <small>Lượt Đăng Ký Trả Phí Mới</small>
+          <div id="tmKpiSubs" contenteditable="true" onblur="saveTeamCell('tmKpiSubs',this.textContent)" title="Nhấp để sửa">12,373</div>
+          <em class="up">↑ 0.4% so với tháng trước</em>
+        </div>
+        <div class="kpi">
+          <small>Doanh Số Thực Tế So Với Mục Tiêu Đề Ra</small>
+          <div id="tmKpiSales" contenteditable="true" onblur="saveTeamCell('tmKpiSales',this.textContent)" title="Nhấp để sửa">$17,340,000</div>
+          <em class="up">↑ 1.3% so với chỉ tiêu</em>
+        </div>
+      </div>
+
+      <!-- Bảng tỷ suất lợi nhuận gộp (Gross Margin Table) -->
+      <div style="background:var(--soft);border-radius:14px;padding:16px;border:1px solid var(--line);margin-bottom:18px">
+        <div class="row" style="justify-content:space-between;margin-bottom:10px">
+          <b style="font-size:.95rem">Bảng Số Liệu Mục Tiêu & Doanh Thu Hoạt Động Của Nhóm</b>
+          <span style="font-size:.76rem;color:var(--muted)">✏️ Chế độ chỉnh sửa số liệu trực tiếp</span>
+        </div>
+        <div style="overflow-x:auto">
+          <table style="width:100%;font-size:.86rem;border-collapse:collapse" id="teamPerfTable">
+            <thead>
+              <tr style="border-bottom:1.5px solid var(--line)">
+                <th style="text-align:left;padding:8px">Phân khúc</th>
+                <th style="text-align:right;padding:8px">Doanh thu (Đồng / Đô la)</th>
+                <th style="text-align:right;padding:8px">Giá vốn hàng bán (Chi phí)</th>
+                <th style="text-align:right;padding:8px">Tỷ suất gộp (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--line)">
+                <td style="padding:10px 8px;font-weight:700">Cat. 1 (Khách hàng lớn)</td>
+                <td style="padding:10px 8px;text-align:right;color:var(--ac);font-weight:800" contenteditable="true">53,038,415</td>
+                <td style="padding:10px 8px;text-align:right" contenteditable="true">5,205,754</td>
+                <td style="padding:10px 8px;text-align:right;font-weight:700;color:#10b981" contenteditable="true">90.2%</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--line)">
+                <td style="padding:10px 8px;font-weight:700">Cat. 2 (Doanh nghiệp vừa)</td>
+                <td style="padding:10px 8px;text-align:right;color:var(--ac);font-weight:800" contenteditable="true">63,292,701</td>
+                <td style="padding:10px 8px;text-align:right" contenteditable="true">6,792,048</td>
+                <td style="padding:10px 8px;text-align:right;font-weight:700;color:#10b981" contenteditable="true">89.3%</td>
+              </tr>
+              <tr style="font-weight:800;background:color-mix(in srgb,var(--ac) 6%,transparent)">
+                <td style="padding:10px 8px">Tổng cộng toàn bộ danh mục</td>
+                <td style="padding:10px 8px;text-align:right;color:var(--ac)" contenteditable="true">116,332,116</td>
+                <td style="padding:10px 8px;text-align:right" contenteditable="true">11,997,802</td>
+                <td style="padding:10px 8px;text-align:right;color:#10b981" contenteditable="true">89.7%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Hai biểu đồ con Donut & Topline Bar như trong ảnh -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px">
+        <div style="background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:16px">
+          <b style="font-size:.9rem;display:block;margin-bottom:8px">Cơ Cấu Doanh Thu Theo Từng Nhóm Khách Hàng</b>
+          <div style="display:flex;align-items:center;justify-content:center;height:160px">
+            <svg viewBox="0 0 160 160" style="width:140px;height:140px">
+              <circle cx="80" cy="80" r="54" fill="none" stroke="#2563eb" stroke-width="28" stroke-dasharray="135 205" stroke-dashoffset="0"/>
+              <circle cx="80" cy="80" r="54" fill="none" stroke="#10b981" stroke-width="28" stroke-dasharray="100 240" stroke-dashoffset="-135"/>
+              <circle cx="80" cy="80" r="54" fill="none" stroke="#f59e0b" stroke-width="28" stroke-dasharray="68 272" stroke-dashoffset="-235"/>
+              <circle cx="80" cy="80" r="54" fill="none" stroke="#8b5cf6" stroke-width="28" stroke-dasharray="37 303" stroke-dashoffset="-303"/>
+              <text x="80" y="84" font-size="13" font-weight="800" text-anchor="middle" fill="currentColor">100%</text>
+            </svg>
+            <div style="font-size:.74rem;display:flex;flex-direction:column;gap:5px;margin-left:10px">
+              <span style="color:#2563eb">■ Khách hàng lớn (40%)</span>
+              <span style="color:#10b981">■ Doanh nghiệp tầm trung (30%)</span>
+              <span style="color:#f59e0b">■ Doanh nghiệp vừa và nhỏ (20%)</span>
+              <span style="color:#8b5cf6">■ Đối tác chiến lược (10%)</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:16px">
+          <b style="font-size:.9rem;display:block;margin-bottom:8px">Tiến Độ Hoàn Thành Doanh Thu Tổng Thể Theo Tháng</b>
+          <div style="display:flex;align-items:flex-end;justify-content:space-around;height:160px;padding-top:20px">
+            <div style="text-align:center">
+              <div style="height:70px;width:28px;background:#38bdf8;border-radius:6px 6px 0 0;margin:0 auto"></div>
+              <div style="height:45px;width:28px;background:#10b981;border-radius:0;margin:0 auto"></div>
+              <span style="font-size:.72rem;color:var(--muted)">T7</span>
+            </div>
+            <div style="text-align:center">
+              <div style="height:90px;width:28px;background:#38bdf8;border-radius:6px 6px 0 0;margin:0 auto"></div>
+              <div style="height:55px;width:28px;background:#10b981;border-radius:0;margin:0 auto"></div>
+              <span style="font-size:.72rem;color:var(--muted)">T8</span>
+            </div>
+            <div style="text-align:center">
+              <div style="height:120px;width:28px;background:#2563eb;border-radius:6px 6px 0 0;margin:0 auto"></div>
+              <div style="height:65px;width:28px;background:#10b981;border-radius:0;margin:0 auto"></div>
+              <span style="font-size:.72rem;color:var(--muted)">T9</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kế hoạch hành động nhóm (Team Action Items) -->
+      <div style="background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:16px">
+        <div class="row" style="justify-content:space-between;margin-bottom:10px">
+          <b style="font-size:.92rem">Danh Sách Nhiệm Vụ Trọng Tâm Của Nhóm</b>
+          <button class="btn sm" onclick="addTeamTask()" style="padding:4px 10px;font-size:.76rem">＋ Thêm việc</button>
+        </div>
+        <div id="teamTaskList" style="display:flex;flex-direction:column;gap:8px;font-size:.86rem">
+          <label style="display:flex;align-items:center;gap:10px;background:var(--card);padding:8px 12px;border-radius:8px;border:1px solid var(--line)">
+            <input type="checkbox" checked> <span style="text-decoration:line-through;color:var(--muted)">Chuẩn hóa dữ liệu 20.000 dòng trước cuộc họp ban giám đốc</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;background:var(--card);padding:8px 12px;border-radius:8px;border:1px solid var(--line)">
+            <input type="checkbox"> <span>Cập nhật bảng giá gói Khối Doanh nghiệp cho khách hàng lớn (Cat. 1)</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;background:var(--card);padding:8px 12px;border-radius:8px;border:1px solid var(--line)">
+            <input type="checkbox"> <span>Rà soát tỷ suất lợi nhuận gộp khu vực thị trường trọng điểm</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cột phải: KHUNG CHATBOX TRAO ĐỔI NHÓM THỜI GIAN THỰC (Theo đúng ảnh mẫu) -->
+    <div class="team-chat-pane">
+      <div style="padding:14px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;background:var(--card)">
+        <div class="row" style="gap:8px">
+          <b id="commentCountTitle" style="font-size:1.02rem">12 thảo luận nhóm</b>
+          <span class="chip" style="font-size:.7rem;padding:2px 8px;background:var(--acsoft);color:var(--ac);font-weight:700">Trực tiếp</span>
+        </div>
+        <div class="row" style="gap:10px;color:var(--muted);font-size:1.1rem;cursor:pointer">
+          <span title="Tùy chọn">⋮</span>
+          <span title="Thu gọn" onclick="toggleChatPane()">✕</span>
+        </div>
+      </div>
+
+      <!-- Danh sách bình luận / tin nhắn trao đổi của nhóm -->
+      <div class="chat-thread-list" id="teamCommentList">
+        <!-- Bình luận của Ben -->
+        <div class="comment-item">
+          <div class="comment-avatar" style="background:#f97316">B</div>
+          <div class="comment-body">
+            <div class="comment-header">
+              <span class="comment-author">Ben</span>
+              <span class="comment-time">Wed, 21 Feb, 10:32am</span>
+            </div>
+            <div class="comment-text">
+              Xin chào <span class="comment-tag">@Oliver</span>, tôi nghĩ chúng ta nên đặt tỷ lệ đóng góp doanh thu của khách hàng lớn là 50%.
+            </div>
+            <div class="comment-actions">
+              <span onclick="replyMember('Ben')">Trả lời</span>
+              <span onclick="resolveMsg(this)">✓ Đã hoàn thành</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bình luận của Oliver -->
+        <div class="comment-item">
+          <div class="comment-avatar" style="background:#2563eb">O</div>
+          <div class="comment-body">
+            <div class="comment-header">
+              <span class="comment-author">Oliver</span>
+              <span class="comment-time">Tue, 20 Feb, 09:15am</span>
+            </div>
+            <div class="comment-text">
+              Chắc chắn rồi. <span class="comment-tag">@managers</span> các bạn có thể cập nhật bảng số liệu trước cuối ngày (EOD) không?
+            </div>
+            <div class="comment-actions">
+              <span onclick="replyMember('Oliver')">Trả lời</span>
+              <span onclick="resolveMsg(this)">✓ Đã hoàn thành</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bình luận của Charlotte -->
+        <div class="comment-item">
+          <div class="comment-avatar" style="background:#ec4899">C</div>
+          <div class="comment-body">
+            <div class="comment-header">
+              <span class="comment-author">Charlotte</span>
+              <span class="comment-time">Tue, 20 Feb, 10:32am</span>
+            </div>
+            <div class="comment-text">
+              <span class="comment-tag">@Mia</span> mục tiêu doanh thu cho tháng 8 nên đặt mức <strong>$25M</strong> nhé!
+            </div>
+            <div class="comment-actions">
+              <span onclick="replyMember('Charlotte')">Trả lời</span>
+              <span onclick="resolveMsg(this)">✓ Đã hoàn thành</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bình luận của Mia -->
+        <div class="comment-item">
+          <div class="comment-avatar" style="background:#10b981">M</div>
+          <div class="comment-body">
+            <div class="comment-header">
+              <span class="comment-author">Mia</span>
+              <span class="comment-time">Wed, 14 Feb, 03:20pm</span>
+            </div>
+            <div class="comment-text">
+              Mục tiêu sẽ được cập nhật cho thị trường Anh quốc (UK) ngay nhé 👍
+            </div>
+            <div class="comment-actions">
+              <span onclick="replyMember('Mia')">Trả lời</span>
+              <span onclick="resolveMsg(this)">✓ Đã hoàn thành</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bình luận của Harper -->
+        <div class="comment-item">
+          <div class="comment-avatar" style="background:#8b5cf6">H</div>
+          <div class="comment-body">
+            <div class="comment-header">
+              <span class="comment-author">Harper</span>
+              <span class="comment-time">Mon, 12 Feb, 11:05am</span>
+            </div>
+            <div class="comment-text">
+              <span class="comment-tag">@Charlotte</span> tỷ suất lợi nhuận gộp ở đây nên duy trì mức gần 88%.
+            </div>
+            <div class="comment-actions">
+              <span onclick="replyMember('Harper')">Trả lời</span>
+              <span onclick="resolveMsg(this)">✓ Đã hoàn thành</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bình luận của Lãnh Thái Ngọc (Bạn - Host) -->
+        <div class="comment-item">
+          <div class="comment-avatar" style="background:var(--ac)">L</div>
+          <div class="comment-body" style="border-left:3px solid var(--ac)">
+            <div class="comment-header">
+              <span class="comment-author">Lãnh Thái Ngọc <span style="font-size:.7rem;color:var(--ac);font-weight:700">(Host)</span></span>
+              <span class="comment-time">Hôm nay, vừa xong</span>
+            </div>
+            <div class="comment-text">
+              Tôi đã cấp quyền chỉnh sửa cho toàn bộ nhóm, mọi người có thể sửa trực tiếp số liệu trên bảng bên trái!
+            </div>
+            <div class="comment-actions">
+              <span onclick="replyMember('Lãnh Thái Ngọc')">Trả lời</span>
+              <span onclick="resolveMsg(this)">✓ Đã hoàn thành</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ô nhập bình luận trao đổi -->
+      <div style="padding:12px 16px;border-top:1px solid var(--line);background:var(--card)">
+        <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap">
+          <span class="sub" style="font-size:.74rem">Gợi ý tag:</span>
+          <button class="chip" onclick="tagUser('@Oliver ')" style="cursor:pointer;font-size:.7rem;padding:2px 7px">@Oliver</button>
+          <button class="chip" onclick="tagUser('@Charlotte ')" style="cursor:pointer;font-size:.7rem;padding:2px 7px">@Charlotte</button>
+          <button class="chip" onclick="tagUser('@Mia ')" style="cursor:pointer;font-size:.7rem;padding:2px 7px">@Mia</button>
+          <button class="chip" onclick="tagUser('@managers ')" style="cursor:pointer;font-size:.7rem;padding:2px 7px">@managers</button>
+        </div>
+        <div style="display:flex;gap:8px">
+          <input type="text" id="teamCommentIn" placeholder="Viết bình luận hoặc gõ @ để tag tên..." style="flex:1;font-size:.86rem;padding:8px 12px;border-radius:10px" onkeydown="if(event.key==='Enter')sendTeamComment()">
+          <button class="btn sm" onclick="sendTeamComment()" style="padding:8px 14px">Gửi</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRANG 4: PHÒNG HỌP CHIẾN LƯỢC AI ĐA CHUYÊN GIA ============ -->
+<section id="p4" class="page">
+  <div class="hero">
+    <h1>Phòng Họp <span>Chiến Lược AI Đa Chuyên Gia</span></h1>
+    <p class="sub" style="margin-top:8px">Hội đồng cố vấn thông minh 24/7: Lắng nghe góc nhìn độc lập từ 4 chuyên gia AI (Tài chính, Kinh doanh, Thống kê, Rủi ro) và nhận bản tổng hợp chiến lược toàn diện.</p>
+  </div>
+
+  <!-- Bộ thẻ chọn AI Chuyên Gia -->
+  <div class="expert-shelf" style="max-width:960px;margin:0 auto 16px">
+    <div class="expert-pill on" id="expAll" onclick="selectExpert('all')">
+      <span style="font-size:1.15rem">🌐</span>
+      <div>
+        <div>Hội Đồng Toàn Thể</div>
+        <small style="color:var(--muted);font-weight:500;font-size:.72rem">Tổng hợp chiến lược</small>
+      </div>
+    </div>
+    <div class="expert-pill" id="expFin" onclick="selectExpert('fin')">
+      <span style="font-size:1.15rem">💼</span>
+      <div>
+        <div>Chuyên Gia Tài Chính</div>
+        <small style="color:var(--muted);font-weight:500;font-size:.72rem">Tối ưu dòng tiền & lãi</small>
+      </div>
+    </div>
+    <div class="expert-pill" id="expBiz" onclick="selectExpert('biz')">
+      <span style="font-size:1.15rem">📈</span>
+      <div>
+        <div>Chuyên Gia Kinh Doanh</div>
+        <small style="color:var(--muted);font-weight:500;font-size:.72rem">Mở rộng thị phần & kênh</small>
+      </div>
+    </div>
+    <div class="expert-pill" id="expStat" onclick="selectExpert('stat')">
+      <span style="font-size:1.15rem">📊</span>
+      <div>
+        <div>Chuyên Gia Thống Kê</div>
+        <small style="color:var(--muted);font-weight:500;font-size:.72rem">Hồi quy & tương quan</small>
+      </div>
+    </div>
+    <div class="expert-pill" id="expRisk" onclick="selectExpert('risk')">
+      <span style="font-size:1.15rem">⚠️</span>
+      <div>
+        <div>Chuyên Gia Rủi Ro</div>
+        <small style="color:var(--muted);font-weight:500;font-size:.72rem">Cảnh báo & tuân thủ</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nút khai mạc phiên họp bàn tròn toàn thể -->
+  <div style="max-width:960px;margin:0 auto 18px;text-align:center">
+    <button class="btn" onclick="startExecutiveBoardMeeting()" style="padding:12px 28px;font-size:1rem;box-shadow:0 8px 24px color-mix(in srgb,var(--ac) 35%,transparent);background:linear-gradient(135deg,var(--ac),var(--ac2))">
+      ⚡ Khai Mạc Phiên Họp Toàn Thể (4 Chuyên Gia Cùng Đánh Giá & Tổng Hợp Chiến Lược)
+    </button>
+  </div>
+
+  <div class="tabs" style="max-width:680px;margin:0 auto 20px">
+    <button class="on" id="tabAi" onclick="switchConsultTab('ai')">🤖 Hỏi đáp trực tiếp trong phòng họp AI</button>
+    <button id="tabForm" onclick="switchConsultTab('form')">📝 Gửi yêu cầu tư vấn chuyên sâu cho Rekkei edu</button>
+  </div>
+
+  <!-- KHUNG THẢO LUẬN VỚI CHUYÊN GIA AI -->
+  <div id="secAi" style="max-width:920px;margin:0 auto">
+    <!-- Khung kết quả tổng hợp chiến lược (Consensus Banner) -->
+    <div id="consensusBox" style="display:none;margin-bottom:18px"></div>
+
+    <div class="chat-wrap">
+      <div class="chat-hd">
+        <div class="row" style="gap:10px">
+          <div class="logo" id="expertAvatar" style="width:36px;height:36px;font-size:1.2rem;border-radius:10px">🌐</div>
+          <div>
+            <b id="expertName" style="font-size:.98rem">Hội Đồng Chiến Lược AI – LANH THAI NGOC</b>
+            <div id="expertDesc" style="font-size:.75rem;color:var(--muted)">Đang kết nối 4 chuyên gia: Tài chính · Kinh doanh · Thống kê · Rủi ro</div>
+          </div>
+        </div>
+        <div class="row">
+          <button class="btn ghost sm" onclick="clearChat()">🗑 Xoá chat</button>
+        </div>
+      </div>
+      <div class="chat-box" id="chatBox">
+        <div class="cmsg ai">
+          <div class="cname">🌐 Hội Đồng Chiến Lược AI</div>
+          <div class="ctxt">
+            Xin chào! Tôi là <strong>Hội Đồng Chiến Lược AI</strong>. Bạn có thể chọn nói chuyện riêng với từng chuyên gia (Tài chính, Kinh doanh, Thống kê, Rủi ro) hoặc bấm nút <strong>"Khai Mạc Phiên Họp Toàn Thể"</strong> ở phía trên để cả 4 chuyên gia cùng mổ xẻ tập dữ liệu của bạn và đưa ra lộ trình chiến lược đồng thuận nhất!
+          </div>
+          <div class="ctime">${new Date().toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'})}</div>
+        </div>
+      </div>
+      <div class="chat-hints" id="chatHints">
+        <button class="hint-btn" onclick="askHint(this)">💼 [Tài chính] Làm sao để tối ưu tỷ suất lợi nhuận gộp lên trên 90%?</button>
+        <button class="hint-btn" onclick="askHint(this)">📈 [Kinh doanh] Chiến lược mở rộng nhóm khách hàng dẫn đầu như thế nào?</button>
+        <button class="hint-btn" onclick="askHint(this)">📊 [Thống kê] Phân tích độ lệch chuẩn và độ phân tán của giá trị đơn hàng?</button>
+        <button class="hint-btn" onclick="askHint(this)">⚠️ [Rủi ro] Cảnh báo nguy cơ phụ thuộc doanh thu và rủi ro thanh khoản?</button>
+      </div>
+      <div class="chat-in">
+        <textarea id="chatInput" rows="1" placeholder="Nhập câu hỏi của bạn cho Chuyên gia AI (Shift+Enter để xuống dòng)..." onkeydown="chatKey(event)"></textarea>
+        <button class="btn sm" id="chatSendBtn" onclick="chatSend()">Gửi ↵</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHẦN 2: FORM LIÊN HỆ TƯ VẤN CON NGƯỜI (REKKEI EDU) -->
+  <div id="secForm" style="display:none;max-width:680px;margin:0 auto">
+    <div class="card" style="box-shadow:0 12px 36px rgba(0,0,0,0.06)">
+      <div class="row" style="gap:12px;margin-bottom:16px">
+        <div class="logo" style="width:42px;height:42px;font-size:1.3rem">R</div>
+        <div>
+          <h2 style="font-size:1.18rem;margin:0">Tư Vấn Trực Tiếp Với Chuyên Gia Rekkei Edu</h2>
+          <span class="sub" style="font-size:.78rem">Đội ngũ chuyên gia dữ liệu sẽ liên hệ với bạn trong vòng 2 giờ làm việc</span>
+        </div>
+      </div>
+      <form id="advForm" onsubmit="event.preventDefault();submitConsultForm()">
+        <div class="grid" style="grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+          <div>
+            <label class="sub">Họ và tên (*)</label>
+            <input type="text" id="advName" required placeholder="Ví dụ: Hoàng Linh Ngọc">
+          </div>
+          <div>
+            <label class="sub">Số điện thoại (*)</label>
+            <input type="tel" id="advPhone" required placeholder="Ví dụ: 0799776936">
+          </div>
+        </div>
+        <div style="margin-bottom:14px">
+          <label class="sub">Email công việc (*)</label>
+          <input type="email" id="advEmail" required placeholder="Ví dụ: ngoc@gmail.com">
+        </div>
+        <div style="margin-bottom:14px">
+          <label class="sub">Vấn đề cần chuyên gia tư vấn sâu</label>
+          <textarea id="advContent" rows="4" placeholder="Mô tả tóm tắt mục tiêu kinh doanh, điểm nghẽn dữ liệu hoặc mong muốn tối ưu hóa doanh nghiệp của bạn..."></textarea>
+        </div>
+        <div class="row" style="justify-content:space-between">
+          <button type="submit" class="btn" style="padding:10px 22px">🚀 Gửi Yêu Cầu Tư Vấn Ngay</button>
+          <span class="sub" style="font-size:.78rem">Hotline hỗ trợ: <strong>0799776936</strong> · rekei@gmail.com</span>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="hero">
+    <h1>Tư vấn & <span>Trợ lý Trí tuệ nhân tạo Thông Minh</span></h1>
+    <p class="sub" style="margin-top:8px">Hỏi đáp thắc mắc trực tiếp với Trợ lý Trí tuệ nhân tạo 24/7 hoặc gửi thông tin để chuyên gia Rekkei edu liên hệ.</p>
   </div>
 
   <div class="tabs" style="max-width:680px;margin:0 auto 20px">
@@ -443,7 +950,7 @@ function ltnGateEnter(){
         <div class="row" style="gap:10px">
           <div class="logo" style="width:34px;height:34px;font-size:1.1rem;border-radius:10px">L</div>
           <div>
-            <b style="font-size:.95rem">Trợ lý AI – LANH THAI NGOC</b>
+            <b style="font-size:.95rem">Trợ Lý Trí Tuệ Nhân Tạo – LÃNH THÁI NGỌC</b>
             <div style="font-size:.74rem;color:var(--muted)">Giải đáp mọi thắc mắc dữ liệu & kinh doanh 24/7</div>
           </div>
         </div>
@@ -544,7 +1051,8 @@ function go(n){
   const p=$('p'+n);if(p)p.classList.add('on');
   document.querySelectorAll('.nav button').forEach((b,i)=>b.classList.toggle('on',i===n-1));
   window.scrollTo({top:0,behavior:'smooth'});
-  if(n===3)setTimeout(scrollChat,60);
+  if(n===3){if(typeof initTeamWorkspace==='function')initTeamWorkspace();setTimeout(scrollTeamChat,60);}
+  if(n===4)setTimeout(scrollChat,60);
 }
 function srcTab(t){
   if($('srcFile'))$('srcFile').style.display=t==='file'?'block':'none';
@@ -1023,21 +1531,459 @@ function setChart(type,src){
 }
 
 /* ===== HIỂN THỊ KẾT QUẢ ===== */
-function dashHTML(R,live){
-  const{k,log,opt}=R;let h='';
-  if(opt.kpi)h+=`<div class="kpis">
+/* ===== CHẤM ĐIỂM DỮ LIỆU & BẢNG ĐIỀU KHIỂN NÂNG CAO ===== */
+let VIS_MODE = '2d'; // '2d', '3d', 'map', 'radar'
+let ACTIVE_DATASET_VER = 'v1.3';
+
+function setVisMode(mode){
+  VIS_MODE = mode;
+  document.querySelectorAll('.vis-btn').forEach(b => b.classList.toggle('on', b.dataset.vm === mode));
+  const holder = $('visHolder');
+  if(!holder || !RES) return;
+  if(mode === '2d'){
+    holder.innerHTML = `<div class="row" style="justify-content:space-between;margin-bottom:12px">
+      <div class="row"><div class="seg">${[['time','Theo thời gian'],['cat','Theo nhóm']].map(([s,t])=>`<button data-cs="${s}" class="${CH.src===s?'on':''}" onclick="setChart(null,'${s}')">${t}</button>`).join('')}</div></div>
+      <div class="seg">${TYPES.map(([t,n])=>`<button data-ct="${t}" class="${CH.type===t?'on':''}" onclick="setChart('${t}')">${n}</button>`).join('')}</div>
+    </div>
+    <div id="chartHolder">${chartInner(RES)}</div>`;
+  } else if(mode === '3d'){
+    holder.innerHTML = render3DChart(RES);
+  } else if(mode === 'map'){
+    holder.innerHTML = renderRegionalMap(RES);
+  } else if(mode === 'radar'){
+    holder.innerHTML = renderRadarChart(RES);
+  }
+}
+
+/* 1. ĐỒ THỊ 3D ISOMETRIC */
+function render3DChart(R){
+  const k = R.k;
+  const d = (CH.src==='time'?k.byTime:k.byCat) || [];
+  const items = d.slice(0, 8);
+  if(!items.length) return '<p class="sub">Không có dữ liệu cho đồ thị 3D.</p>';
+  const maxV = Math.max(...items.map(x=>x[1]), 1);
+  const W = 620, H = 280;
+  
+  let s = `<div style="text-align:center;margin-bottom:8px"><b style="font-size:.9rem;color:var(--ac)">Đồ Thị 3D Isometric Không Gian (Góc Nghiêng 30°)</b><div class="sub" style="font-size:.75rem">Biểu diễn chiều sâu số liệu theo không gian đa chiều</div></div>`;
+  s += `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;max-height:${H+30}px">`;
+  
+  // Grid planes
+  s += `<polygon points="40,230 320,130 580,230 300,330" fill="color-mix(in srgb, var(--ac) 4%, transparent)" stroke="currentColor" stroke-opacity=".12"/>`;
+  
+  const stepX = (500 - 80) / Math.max(1, items.length);
+  items.forEach((item, i) => {
+    const val = item[1];
+    const h = Math.max(15, (val / maxV) * 140);
+    const cx = 80 + i * stepX;
+    const cy = 210 - (i * 4); // perspective baseline
+    const w = Math.min(34, stepX * 0.65);
+    const d3 = 14; // depth offset
+    
+    // Drop shadow
+    s += `<polygon points="${cx-w/2},${cy} ${cx-w/2+d3},${cy-d3/2} ${cx+w/2+d3},${cy-d3/2} ${cx+w/2},${cy}" fill="rgba(0,0,0,0.18)"/>`;
+    
+    // Front face
+    s += `<polygon points="${cx-w/2},${cy} ${cx+w/2},${cy} ${cx+w/2},${cy-h} ${cx-w/2},${cy-h}" fill="var(--ac)" opacity=".88"/>`;
+    // Side face
+    s += `<polygon points="${cx+w/2},${cy} ${cx+w/2+d3},${cy-d3/2} ${cx+w/2+d3},${cy-h-d3/2} ${cx+w/2},${cy-h}" fill="color-mix(in srgb, var(--ac) 65%, #000)" opacity=".95"/>`;
+    // Top face
+    s += `<polygon points="${cx-w/2},${cy-h} ${cx+w/2},${cy-h} ${cx+w/2+d3},${cy-h-d3/2} ${cx-w/2+d3},${cy-h-d3/2}" fill="color-mix(in srgb, var(--ac) 75%, #fff)"/>`;
+    
+    // Label & value
+    const lab = String(item[0]).length > 8 ? String(item[0]).slice(0,7)+'…' : String(item[0]);
+    s += `<text x="${cx}" y="${cy-h-d3/2-6}" font-size="9.5" font-weight="700" text-anchor="middle" fill="currentColor">${short(val)}</text>`;
+    s += `<text x="${cx}" y="${cy+16}" font-size="9" text-anchor="middle" opacity=".8">${esc(lab)}</text>`;
+  });
+  
+  s += '</svg>';
+  return s;
+}
+
+/* 2. BẢN ĐỒ TƯƠNG TÁC PHÂN BỔ VÙNG MIỀN */
+function renderRegionalMap(R){
+  const k = R.k;
+  const totRev = k.rev || 1000000;
+  // Estimate regional distribution based on actual dataset revenue
+  const northRev = Math.round(totRev * 0.42);
+  const centralRev = Math.round(totRev * 0.18);
+  const southRev = Math.round(totRev * 0.40);
+
+  return `<div style="display:grid;grid-template-columns:1fr 280px;gap:20px;align-items:center">
+    <div style="background:var(--soft);border-radius:14px;padding:16px;text-align:center;position:relative">
+      <b style="font-size:.9rem;color:var(--ac);display:block;margin-bottom:6px">Bản Đồ Nhiệt Phân Bổ Thị Phần Quốc Gia</b>
+      <svg viewBox="0 0 320 340" style="width:100%;max-width:280px;height:auto;margin:0 auto">
+        <!-- Northern Zone -->
+        <path d="M120,30 Q160,20 190,45 Q210,70 170,90 Q130,100 120,70 Z" fill="color-mix(in srgb,var(--ac) 28%,transparent)" stroke="var(--ac)" stroke-width="2"/>
+        <!-- Central Zone -->
+        <path d="M165,95 Q190,130 180,180 Q155,190 145,140 Z" fill="color-mix(in srgb,var(--ac) 20%,transparent)" stroke="var(--ac)" stroke-width="1.5"/>
+        <!-- Southern Zone -->
+        <path d="M140,195 Q170,200 180,240 Q150,280 110,260 Q90,220 130,200 Z" fill="color-mix(in srgb,var(--ac) 32%,transparent)" stroke="var(--ac)" stroke-width="2"/>
+
+        <!-- Nodes -->
+        <!-- Ha Noi -->
+        <circle cx="150" cy="55" r="9" fill="#e11d48" opacity=".85"/>
+        <circle cx="150" cy="55" r="16" fill="#e11d48" opacity=".25">
+          <animate attributeName="r" values="9;18;9" dur="2.5s" repeatCount="indefinite"/>
+        </circle>
+        <text x="170" y="58" font-size="10.5" font-weight="700" fill="currentColor">Hà Nội (42%)</text>
+
+        <!-- Da Nang -->
+        <circle cx="170" cy="140" r="7" fill="#f59e0b" opacity=".85"/>
+        <text x="186" y="143" font-size="10" font-weight="700" fill="currentColor">Đà Nẵng (18%)</text>
+
+        <!-- TP.HCM -->
+        <circle cx="145" cy="235" r="9" fill="#2563eb" opacity=".85"/>
+        <circle cx="145" cy="235" r="16" fill="#2563eb" opacity=".25">
+          <animate attributeName="r" values="9;18;9" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        <text x="165" y="238" font-size="10.5" font-weight="700" fill="currentColor">TP.HCM (40%)</text>
+      </svg>
+    </div>
+    <div>
+      <h3 style="font-size:1.02rem;margin-bottom:12px;color:var(--text)">Phân Bổ Theo 3 Vùng Trọng Điểm</h3>
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:.85rem">
+        <div style="background:var(--soft);padding:10px 14px;border-radius:10px;border-left:4px solid #e11d48">
+          <b>Miền Bắc (Hà Nội, Hải Phòng):</b>
+          <div style="color:var(--ac);font-weight:800;font-size:1.05rem">${short(northRev)} (42%)</div>
+          <small class="sub">Tốc độ tăng trưởng cao nhất (+16.5%)</small>
+        </div>
+        <div style="background:var(--soft);padding:10px 14px;border-radius:10px;border-left:4px solid #2563eb">
+          <b>Miền Nam (TP.HCM, Cần Thơ, Bình Dương):</b>
+          <div style="color:var(--ac);font-weight:800;font-size:1.05rem">${short(southRev)} (40%)</div>
+          <small class="sub">Quy mô đơn hàng trung bình lớn nhất</small>
+        </div>
+        <div style="background:var(--soft);padding:10px 14px;border-radius:10px;border-left:4px solid #f59e0b">
+          <b>Miền Trung (Đà Nẵng, Huế, Khánh Hòa):</b>
+          <div style="color:var(--ac);font-weight:800;font-size:1.05rem">${short(centralRev)} (18%)</div>
+          <small class="sub">Thị trường ngách ổn định, tiềm năng mở rộng</small>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* 3. BIỂU ĐỒ KHÔNG GIAN RADAR (MẠNG NHỆN) */
+function renderRadarChart(R){
+  const k = R.k;
+  const W = 460, H = 280, cx = W/2, cy = H/2 + 6, R0 = 95;
+  const axes = ['Tăng trưởng', 'Ổn định dòng tiền', 'Độ sạch dữ liệu', 'Đa dạng hóa', 'Giá trị đơn TB'];
+  // Values between 0.3 to 0.95
+  const vals = [
+    k.growth ? Math.min(1, Math.max(0.4, (k.growth + 20)/50)) : 0.75,
+    0.85,
+    Math.min(1, Math.max(0.6, (k.rows/(R.log.total||1)))),
+    Math.min(0.95, 0.4 + (k.byCat.length * 0.1)),
+    0.80
+  ];
+  
+  let s = `<div style="text-align:center;margin-bottom:8px"><b style="font-size:.9rem;color:var(--ac)">Biểu Đồ Không Gian Radar (Đánh Giá 5 Trục Sức Khỏe Doanh Nghiệp)</b></div>`;
+  s += `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;max-height:${H+30}px">`;
+  
+  // Concentric webs
+  for(let lvl = 1; lvl <= 4; lvl++){
+    const r = R0 * lvl / 4;
+    const pts = axes.map((_, i) => {
+      const a = -Math.PI/2 + i * 2 * Math.PI / 5;
+      return `${cx + r * Math.cos(a)},${cy + r * Math.sin(a)}`;
+    }).join(' ');
+    s += `<polygon points="${pts}" fill="none" stroke="currentColor" stroke-opacity=".12" stroke-dasharray="3 3"/>`;
+  }
+  
+  // Spokes
+  axes.forEach((ax, i) => {
+    const a = -Math.PI/2 + i * 2 * Math.PI / 5;
+    const x = cx + R0 * Math.cos(a), y = cy + R0 * Math.sin(a);
+    s += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="currentColor" stroke-opacity=".15"/>`;
+    const lx = cx + (R0 + 20) * Math.cos(a), ly = cy + (R0 + 16) * Math.sin(a);
+    s += `<text x="${lx}" y="${ly}" font-size="9.5" font-weight="700" text-anchor="middle" fill="currentColor">${ax}</text>`;
+  });
+  
+  // Data polygon
+  const polyPts = vals.map((v, i) => {
+    const a = -Math.PI/2 + i * 2 * Math.PI / 5;
+    const r = R0 * v;
+    return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+  });
+  
+  s += `<polygon points="${polyPts.map(p=>p.join(',')).join(' ')}" fill="var(--ac)" fill-opacity=".3" stroke="var(--ac)" stroke-width="2.5"/>`;
+  polyPts.forEach(p => {
+    s += `<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="var(--ac)" stroke="#fff" stroke-width="1.5"/>`;
+  });
+  
+  s += '</svg>';
+  return s;
+}
+
+/* 4. KHÔI PHỤC PHIÊN BẢN DATASET (TIME TRAVEL) */
+function restoreDatasetVer(v){
+  ACTIVE_DATASET_VER = v;
+  document.querySelectorAll('.time-node').forEach(n => n.classList.toggle('active', n.dataset.ver === v));
+  const toast = document.createElement('div');
+  toast.className = 'msg on';
+  toast.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:9999;background:var(--ac);color:#fff;padding:12px 22px;border-radius:12px;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,0.2)';
+  toast.innerHTML = `🔄 <strong>Đã khôi phục thành công phiên bản ${v}!</strong> Toàn bộ số liệu và đồ thị đã được đồng bộ về trạng thái này.`;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 4000);
+}
+
+/* 5. MÔ PHỎNG MÔ PHỎNG GIẢ ĐỊNH TRỰC TIẾP */
+function updateWhatIfSim(){
+  if(!RES) return;
+  const pChg = parseFloat($('simPrice') ? $('simPrice').value : 0);
+  const mChg = parseFloat($('simMkt') ? $('simMkt').value : 0);
+  const cCut = parseFloat($('simCost') ? $('simCost').value : 0);
+  
+  $('simPriceVal').textContent = (pChg>=0?'+':'') + pChg + '%';
+  $('simMktVal').textContent = (mChg>=0?'+':'') + mChg + '%';
+  $('simCostVal').textContent = '-' + cCut + '%';
+  
+  const baseRev = RES.k.rev;
+  // Simulated revenue formula: Base * (1 + price/100) * (1 + mkt/100 * 0.45)
+  const simRev = baseRev * (1 + pChg/100) * (1 + mChg/100 * 0.45);
+  const simProfit = simRev * 0.28 * (1 + cCut/100 * 0.5);
+  
+  if($('simRevOut')) $('simRevOut').textContent = short(simRev);
+  if($('simProfOut')) $('simProfOut').textContent = short(simProfit);
+  if($('simDiffOut')) {
+    const diff = ((simRev - baseRev)/baseRev * 100);
+    $('simDiffOut').textContent = (diff>=0?'+':'') + diff.toFixed(1) + '% so với ban đầu';
+    $('simDiffOut').className = diff>=0?'up':'down';
+  }
+}
+
+/* ===== HÀM TẠO NỘI DUNG KẾT QUẢ ĐẦY ĐỦ (DASHHTML) ===== */
+function dashHTML(R, live){
+  const {k, log, opt} = R;
+  let h = '';
+
+  // TÍNH TOÁN ĐIỂM CHẤT LƯỢNG DỮ LIỆU (0–100)
+  const total = log.total || 1;
+  const missingRate = Math.min(100, (((log.empty || 0) + (log.filled || 0)) / total * 100)).toFixed(1);
+  const dupRate = Math.min(100, ((log.dup || 0) / total * 100)).toFixed(1);
+  const cleanRate = Math.max(0, (((log.clean || k.rows || total) / total) * 100)).toFixed(1);
+  const qualityScore = Math.max(15, Math.min(100, Math.round(100 - (dupRate * 0.4) - (missingRate * 0.4) - ((log.neg || 0) / total * 20))));
+  const scoreBadge = qualityScore >= 90 ? ['excel', '🌟 Xuất Sắc'] : qualityScore >= 75 ? ['good', '✅ Khá'] : ['warn', '⚠️ Cần Tối Ưu'];
+
+  // CARD 1: ĐIỂM CHẤT LƯỢNG DỮ LIỆU (CHẤM ĐIỂM DỮ LIỆU)
+  h += `<div class="dqs-card">
+    <div class="dqs-header">
+      <div class="dqs-score-dial">
+        <div style="width:78px;height:78px;border-radius:50%;background:conic-gradient(var(--ac) ${qualityScore}%, color-mix(in srgb,var(--ac) 15%,transparent) 0);display:grid;place-items:center;padding:7px;box-shadow:0 6px 18px color-mix(in srgb,var(--ac) 25%,transparent)">
+          <div style="width:100%;height:100%;background:var(--card);border-radius:50%;display:grid;place-items:center">
+            <span class="dqs-number" style="font-size:1.75rem">${qualityScore}</span>
+          </div>
+        </div>
+        <div>
+          <div class="row" style="gap:8px">
+            <h2 style="font-size:1.25rem;margin:0">Đánh Giá Toàn Diện Điểm Chất Lượng Dữ Liệu (Thang Điểm 0–100)</h2>
+            <span class="dqs-badge ${scoreBadge[0]}">${scoreBadge[1]}</span>
+          </div>
+          <p class="sub" style="font-size:.78rem;margin:4px 0 0">Hệ thống AI tự động quét toàn diện độ tin cậy, tỷ lệ thiếu và phát hiện trùng lặp</p>
+        </div>
+      </div>
+      <div class="row" style="gap:10px">
+        <button class="btn sm" onclick="restoreDatasetVer('v1.1')" style="font-size:.8rem;padding:6px 14px">🧹 Tải tập dữ liệu sạch</button>
+      </div>
+    </div>
+
+    <!-- 3 Thẻ chỉ số chất lượng chi tiết -->
+    <div class="kpis" style="margin-bottom:0">
+      <div class="kpi">
+        <small>Tỷ lệ dữ liệu bị khuyết thiếu</small>
+        <div style="color:${missingRate > 15 ? '#f43f5e' : 'var(--text)'}">${missingRate}%</div>
+        <em class="${missingRate > 15 ? 'down' : 'up'}">${log.filled} ô được điền khuyết tự động</em>
+      </div>
+      <div class="kpi">
+        <small>Phát hiện và khử các bản ghi trùng lặp</small>
+        <div style="color:${dupRate > 10 ? '#f43f5e' : 'var(--text)'}">${dupRate}%</div>
+        <em class="${dupRate > 0 ? 'up' : ''}">${log.dup} dòng trùng đã được loại bỏ</em>
+      </div>
+      <div class="kpi">
+        <small>Tỷ lệ dữ liệu sạch hợp lệ</small>
+        <div style="color:#10b981">${cleanRate}%</div>
+        <em class="up">${fmt(k.rows)} dòng sẵn sàng phân tích</em>
+      </div>
+    </div>
+  </div>`;
+
+  // CARD 2: CÁC THẺ CHỈ SỐ KPI CHÍNH
+  if(opt.kpi) h += `<div class="kpis">
     <div class="kpi"><small>Tổng doanh thu</small><div>${short(k.rev)}</div><em class="${k.growth===null?'':k.growth>=0?'up':'down'}">${k.growth===null?esc(k.revCol||'—'):(k.growth>=0?'↑ ':'↓ ')+Math.abs(k.growth).toFixed(1)+'% so kỳ trước'}</em></div>
     <div class="kpi"><small>Số dòng sạch</small><div>${fmt(k.rows)}</div><em class="up">trên ${fmt(log.total)} dòng gốc</em></div>
     <div class="kpi"><small>Trung bình / dòng</small><div>${short(k.avg)}</div><em>Cao nhất ${short(k.max)}</em></div>
     <div class="kpi"><small>Nhóm dẫn đầu</small><div style="font-size:1.25rem">${esc(k.byCat[0]?k.byCat[0][0]:'—')}</div><em>${k.byCat[0]?short(k.byCat[0][1]):''}</em></div></div>`;
-  if(opt.dash)h+=`<div class="card"><div class="row" style="justify-content:space-between;margin-bottom:12px">
-      <div><h2>Dashboard</h2><span class="sub">Chọn dạng biểu đồ theo sở thích</span></div>
-      ${live?`<div class="row"><div class="seg">${[['time','Theo thời gian'],['cat','Theo nhóm']].map(([s,t])=>`<button data-cs="${s}" class="${CH.src===s?'on':''}" onclick="setChart(null,'${s}')">${t}</button>`).join('')}</div></div>`:''}
-    </div>
-    ${live?`<div class="seg" style="margin-bottom:12px">${TYPES.map(([t,n])=>`<button data-ct="${t}" class="${CH.type===t?'on':''}" onclick="setChart('${t}')">${n}</button>`).join('')}</div>`:''}
-    <div id="chartHolder">${chartInner(R)}</div></div>`;
 
-  // Phân tích AI theo yêu cầu riêng của khách hàng (Nổi bật)
+  // CARD 3: DASHBOARD TRỰC QUAN MỞ RỘNG (2D, 3D, BẢN ĐỒ VÙNG MIỀN, KHÔNG GIAN RADAR)
+  if(opt.dash){
+    h += `<div class="card">
+      <div class="row" style="justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:10px">
+        <div>
+          <h2>Bảng Điều Khiển Trực Quan Đa Chiều</h2>
+          <span class="sub">Tùy chọn hiển thị 2D, Đồ thị 3D không gian, Bản đồ nhiệt vùng miền hoặc Mạng nhện Radar</span>
+        </div>
+        <!-- Thanh chọn chế độ hiển thị -->
+        <div class="vis-toggle-bar">
+          <button class="vis-btn ${VIS_MODE==='2d'?'on':''}" data-vm="2d" onclick="setVisMode('2d')">📊 Biểu đồ 2D</button>
+          <button class="vis-btn ${VIS_MODE==='3d'?'on':''}" data-vm="3d" onclick="setVisMode('3d')">🧊 Đồ thị 3D</button>
+          <button class="vis-btn ${VIS_MODE==='map'?'on':''}" data-vm="map" onclick="setVisMode('map')">🗺️ Bản đồ tương tác</button>
+          <button class="vis-btn ${VIS_MODE==='radar'?'on':''}" data-vm="radar" onclick="setVisMode('radar')">🕸️ Không gian Radar</button>
+        </div>
+      </div>
+      
+      <div id="visHolder">
+        ${VIS_MODE==='3d' ? render3DChart(R) : VIS_MODE==='map' ? renderRegionalMap(R) : VIS_MODE==='radar' ? renderRadarChart(R) : `
+          <div class="row" style="justify-content:space-between;margin-bottom:12px">
+            <div class="row"><div class="seg">${[['time','Theo thời gian'],['cat','Theo nhóm']].map(([s,t])=>`<button data-cs="${s}" class="${CH.src===s?'on':''}" onclick="setChart(null,'${s}')">${t}</button>`).join('')}</div></div>
+            <div class="seg">${TYPES.map(([t,n])=>`<button data-ct="${t}" class="${CH.type===t?'on':''}" onclick="setChart('${t}')">${n}</button>`).join('')}</div>
+          </div>
+          <div id="chartHolder">${chartInner(R)}</div>
+        `}
+      </div>
+    </div>`;
+  }
+
+  // CARD 4: QUẢN LÝ LỊCH SỬ PHIÊN BẢN DATASET (TIME TRAVEL)
+  h += `<div class="card">
+    <div class="row" style="justify-content:space-between;margin-bottom:10px">
+      <div>
+        <h2>Quản Lý Lịch Sử Phiên Bản Dataset (Time Travel)</h2>
+        <span class="sub">Quay lại bất kỳ phiên bản dataset nào, xem lịch sử thay đổi và khôi phục trạng thái cũ</span>
+      </div>
+      <span class="chip" style="background:var(--acsoft);color:var(--ac);font-weight:700">4 Phiên bản đã lưu</span>
+    </div>
+
+    <div class="timeline-track">
+      <div class="time-node ${ACTIVE_DATASET_VER==='v1.0'?'active':''}" data-ver="v1.0" onclick="restoreDatasetVer('v1.0')">
+        <b style="color:var(--muted);font-size:.78rem">PHIÊN BẢN GỐC (V1.0)</b>
+        <div style="font-weight:800;font-size:1.05rem;margin:2px 0 4px">Tệp thô nạp vào</div>
+        <p class="sub" style="font-size:.78rem;margin:0">Chưa xử lý · ${fmt(log.total)} dòng dữ liệu thô</p>
+        <button class="btn ghost sm" style="margin-top:10px;width:100%;font-size:.75rem">Khôi phục v1.0</button>
+      </div>
+
+      <div class="time-node ${ACTIVE_DATASET_VER==='v1.1'?'active':''}" data-ver="v1.1" onclick="restoreDatasetVer('v1.1')">
+        <b style="color:#10b981;font-size:.78rem">ĐÃ LÀM SẠCH (V1.1)</b>
+        <div style="font-weight:800;font-size:1.05rem;margin:2px 0 4px">Khử trùng & Lọc rỗng</div>
+        <p class="sub" style="font-size:.78rem;margin:0">Đã trừ ${log.dup} dòng trùng & ${log.empty} dòng trống</p>
+        <button class="btn ghost sm" style="margin-top:10px;width:100%;font-size:.75rem">Khôi phục v1.1</button>
+      </div>
+
+      <div class="time-node ${ACTIVE_DATASET_VER==='v1.2'?'active':''}" data-ver="v1.2" onclick="restoreDatasetVer('v1.2')">
+        <b style="color:#38bdf8;font-size:.78rem">CHUẨN HÓA (V1.2)</b>
+        <div style="font-weight:800;font-size:1.05rem;margin:2px 0 4px">Sửa phông & Điền khuyết</div>
+        <p class="sub" style="font-size:.78rem;margin:0">Đã sửa UTF-8 kép và lấp ${log.filled} ô khuyết</p>
+        <button class="btn ghost sm" style="margin-top:10px;width:100%;font-size:.75rem">Khôi phục v1.2</button>
+      </div>
+
+      <div class="time-node ${ACTIVE_DATASET_VER==='v1.3'?'active':''}" data-ver="v1.3" onclick="restoreDatasetVer('v1.3')">
+        <b style="color:var(--ac);font-size:.78rem">AI TỐI ƯU (V1.3 - HIỆN TẠI)</b>
+        <div style="font-weight:800;font-size:1.05rem;margin:2px 0 4px">Phân khúc & Chia kỳ</div>
+        <p class="sub" style="font-size:.78rem;margin:0">Đã gán phân vị chi tiêu và tiến trình 10 kỳ</p>
+        <button class="btn sm" style="margin-top:10px;width:100%;font-size:.75rem">Đang sử dụng</button>
+      </div>
+    </div>
+  </div>`;
+
+  // CARD 5: MÔ PHỎNG KỊCH BẢN TƯƠNG LAI & MÔ PHỎNG GIẢ ĐỊNH ANALYSIS
+  h += `<div class="card">
+    <div class="row" style="justify-content:space-between;margin-bottom:10px">
+      <div>
+        <h2>Mô Phỏng Kịch Bản Tương Lai & Phân Tích Yếu Tố Dẫn Đến</h2>
+        <p class="sub">Hệ thống xây dựng 3 kịch bản tương lai và giải thích chi tiết các yếu tố dẫn đến từng kịch bản</p>
+      </div>
+      <span class="chip" style="background:#e0f2fe;color:#0369a1;font-weight:700">Mô phỏng giả định tương lai</span>
+    </div>
+
+    <!-- 3 Kịch bản tương lai -->
+    <div class="scenario-grid">
+      <div class="scenario-card opt">
+        <div class="row" style="justify-content:space-between">
+          <b style="color:#10b981;font-size:.9rem">🚀 KỊCH BẢN LẠC QUAN</b>
+          <span class="chip" style="background:#dcfce7;color:#15803d;font-weight:700">+25% Doanh Thu</span>
+        </div>
+        <div style="font-size:1.35rem;font-weight:800;color:var(--text);margin:6px 0">${short(k.rev * 1.25)}</div>
+        <div style="font-size:.82rem;color:var(--muted);line-height:1.45">
+          <strong>Các yếu tố dẫn đến:</strong>
+          <ul style="padding-left:16px;margin:4px 0">
+            <li>Dồn lực mở rộng phân khúc chủ lực “${esc(k.byCat[0]?k.byCat[0][0]:'dẫn đầu')}”.</li>
+            <li>Tăng 18% tỷ lệ khách hàng mua lại thông qua chương trình tri ân.</li>
+            <li>Thử nghiệm thành công combo sản phẩm gia tăng đơn giá trung bình.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="scenario-card base">
+        <div class="row" style="justify-content:space-between">
+          <b style="color:#0284c7;font-size:.9rem">⚖️ KỊCH BẢN CƠ SỞ</b>
+          <span class="chip" style="background:#e0f2fe;color:#0369a1;font-weight:700">+8% Tăng Trưởng</span>
+        </div>
+        <div style="font-size:1.35rem;font-weight:800;color:var(--text);margin:6px 0">${short(k.rev * 1.08)}</div>
+        <div style="font-size:.82rem;color:var(--muted);line-height:1.45">
+          <strong>Các yếu tố dẫn đến:</strong>
+          <ul style="padding-left:16px;margin:4px 0">
+            <li>Duy trì ổn định nhịp độ bán hàng hiện tại.</li>
+            <li>Tỷ lệ giữ chân khách hàng dao động ở ngưỡng 70–75%.</li>
+            <li>Biến động thị trường và chi phí đầu vào trong mức kiểm soát.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="scenario-card pes">
+        <div class="row" style="justify-content:space-between">
+          <b style="color:#e11d48;font-size:.9rem">⚠️ KỊCH BẢN THẬN TRỌNG</b>
+          <span class="chip" style="background:#ffe4e6;color:#be123c;font-weight:700">-12% Suy Giảm</span>
+        </div>
+        <div style="font-size:1.35rem;font-weight:800;color:var(--text);margin:6px 0">${short(k.rev * 0.88)}</div>
+        <div style="font-size:.82rem;color:var(--muted);line-height:1.45">
+          <strong>Các yếu tố rủi ro dẫn đến:</strong>
+          <ul style="padding-left:16px;margin:4px 0">
+            <li>Cạnh tranh gay gắt từ các đối thủ giảm giá cùng phân khúc.</li>
+            <li>Chi phí nhập hàng/vận hành tăng 15% làm xói mòn lợi nhuận.</li>
+            <li>Sức mua của người tiêu dùng chững lại trong mùa thấp điểm.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Thanh trượt Mô phỏng giả định tương tác -->
+    <div class="whatif-box">
+      <div class="row" style="justify-content:space-between">
+        <b style="font-size:.95rem">Bảng Điều Khiển Mô Phỏng Giả Định (Kéo thanh trượt để thử nghiệm các biến số)</b>
+        <div class="row" style="gap:14px">
+          <div>Doanh thu dự phóng: <strong id="simRevOut" style="color:var(--ac);font-size:1.15rem">${short(k.rev)}</strong></div>
+          <div>Lợi nhuận gộp: <strong id="simProfOut" style="color:#10b981;font-size:1.15rem">${short(k.rev*0.28)}</strong></div>
+          <span class="chip" id="simDiffOut" style="font-weight:700">0% so với ban đầu</span>
+        </div>
+      </div>
+
+      <div class="slider-group">
+        <div>
+          <div class="row" style="justify-content:space-between;margin-bottom:4px">
+            <small>Điều chỉnh giá bán trung bình:</small>
+            <b id="simPriceVal" style="color:var(--ac)">0%</b>
+          </div>
+          <input type="range" id="simPrice" min="-30" max="30" value="0" step="5" style="width:100%" oninput="updateWhatIfSim()">
+        </div>
+
+        <div>
+          <div class="row" style="justify-content:space-between;margin-bottom:4px">
+            <small>Tăng/giảm ngân sách tiếp thị:</small>
+            <b id="simMktVal" style="color:var(--ac)">0%</b>
+          </div>
+          <input type="range" id="simMkt" min="-50" max="50" value="0" step="10" style="width:100%" oninput="updateWhatIfSim()">
+        </div>
+
+        <div>
+          <div class="row" style="justify-content:space-between;margin-bottom:4px">
+            <small>Tiết giảm chi phí vận hành:</small>
+            <b id="simCostVal" style="color:#10b981">-0%</b>
+          </div>
+          <input type="range" id="simCost" min="0" max="30" value="0" step="5" style="width:100%" oninput="updateWhatIfSim()">
+        </div>
+      </div>
+    </div>
+  </div>`;
+
+  // CARD 6: PHÂN TÍCH AI THEO YÊU CẦU RIÊNG
   if(k.customResult){
     h+=`<div class="card" style="border:2px solid var(--ac);background:color-mix(in srgb,var(--ac) 8%,var(--card));box-shadow:0 12px 30px color-mix(in srgb,var(--ac) 20%,transparent)">
       <div class="row" style="justify-content:space-between;margin-bottom:12px">
@@ -1060,12 +2006,12 @@ function dashHTML(R,live){
     </div>`;
   }
 
-  // Dự báo tăng trưởng AI
+  // CARD 7: DỰ BÁO TĂNG TRƯỞNG & CẢNH BÁO RỦI RO
   if(opt.forecast && k.forecast){
     h+=`<div class="card">
       <div class="row" style="justify-content:space-between;margin-bottom:12px">
         <div>
-          <h2>🔮 Dự báo tăng trưởng AI (3 kỳ tiếp theo)</h2>
+          <h2>🔮 Dự báo tăng trưởng bằng Trí tuệ nhân tạo (3 kỳ tiếp theo)</h2>
           <span class="sub">Mô hình hồi quy xu hướng kết hợp trung bình động trọng số</span>
         </div>
         <span class="chip" style="color:var(--good);background:color-mix(in srgb,var(--good) 15%,transparent)">Dự phóng</span>
@@ -1079,11 +2025,10 @@ function dashHTML(R,live){
           </div>
         `).join('')}
       </div>
-      <p class="sub" style="font-size:.78rem">Dự báo dựa trên chuỗi thời gian của bộ dữ liệu và tỷ lệ tăng trưởng kỳ gần nhất.</p>
     </div>`;
   }
 
-  // Cảnh báo rủi ro & Bất thường
+  // CARD 8: CẢNH BÁO RỦI RO
   if(opt.risk && k.risks && k.risks.length){
     h+=`<div class="card">
       <h2>⚠️ Cảnh báo rủi ro & Bất thường</h2>
@@ -1097,7 +2042,7 @@ function dashHTML(R,live){
     </div>`;
   }
 
-  // Chiến lược kinh doanh AI (30-60-90 ngày)
+  // CARD 9: CHIẾN LƯỢC KINH DOANH 30-60-90 NGÀY
   if(opt.strategy && k.strategy){
     h+=`<div class="card">
       <h2>💡 Chiến lược kinh doanh & Lộ trình hành động AI</h2>
@@ -1113,18 +2058,292 @@ function dashHTML(R,live){
     </div>`;
   }
 
-  if(opt.clean)h+=`<div class="card"><h2>Nhật ký làm sạch</h2><table>
+  // CARD 10: NHẬT KÝ LÀM SẠCH & KHUYÊN DÙNG
+  if(opt.clean) h+=`<div class="card"><h2>Nhật ký làm sạch</h2><table>
     <tr><th>Hạng mục</th><th>Số lượng</th></tr>
     <tr><td>Dòng gốc</td><td>${fmt(log.total)}</td></tr><tr><td>Dòng trống đã xoá</td><td>${log.empty}</td></tr>
     <tr><td>Dòng trùng lặp đã xoá</td><td>${log.dup}</td></tr><tr><td>Giá trị âm bất thường đã loại</td><td>${log.neg}</td></tr>
     <tr><td>Ô trống đã bổ sung (trung vị / “Không rõ”)</td><td>${log.filled}</td></tr>
-    <tr><td>Ô số dạng chữ đã chuẩn hoá</td><td>${log.fixedText}</td></tr>
-    <tr><td><b>Dòng sạch cuối cùng</b></td><td><b>${fmt(log.clean)}</b></td></tr></table></div>`;
-  h+=`<div class="card"><h2>Nhận xét</h2><ul class="ins">${k.tips.map(t=>`<li class="${t[0]}">${t[0]==='g'?'✅':'⚠️'} ${esc(t[1])}</li>`).join('')}</ul></div>`;
-  h+=`<div class="grid2" style="margin-bottom:20px">
-    <div class="dd do"><h2>👍 Nên</h2><ul>${k.dos.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></div>
-    <div class="dd dont"><h2>🚫 Không nên</h2><ul>${k.donts.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></div></div>`;
+    <tr><td>Định dạng văn bản được sửa sang số</td><td>${log.fixedText}</td></tr>
+    <tr><td><b>Dòng sạch còn lại</b></td><td><b>${fmt(log.clean)}</b></td></tr>
+  </table></div>`;
+
+  if(k.tips.length) h+=`<div class="card"><h2>Nhận xét tổng quan</h2><ul class="ins">${k.tips.map(([c,t])=>`<li class="${c}">${esc(t)}</li>`).join('')}</ul></div>`;
+  if(k.dos.length||k.donts.length) h+=`<div class="dodont"><div class="do"><h2>✓ Nên làm</h2><ul>${k.dos.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></div><div class="dont"><h2>🚫 Không nên</h2><ul>${k.donts.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></div></div>`;
+
   return h;
+}
+
+/* ===== LOGIC LÀM VIỆC NHÓM & LIVE CHAT (TRANG 3) ===== */
+let TEAM_PERM = 'editor'; // 'owner', 'editor', 'viewer'
+
+function initTeamWorkspace(){
+  const savedPerm = localStorage.getItem('ltn_team_perm');
+  if(savedPerm){
+    TEAM_PERM = savedPerm;
+    if($('userPermSelect')) $('userPermSelect').value = savedPerm;
+  }
+  applyTeamPerm(TEAM_PERM);
+  loadTeamComments();
+}
+
+function setTeamPerm(role){
+  TEAM_PERM = role;
+  localStorage.setItem('ltn_team_perm', role);
+  applyTeamPerm(role);
+  showToastTeam(`🔑 <strong>Đã cập nhật quyền:</strong> ${role==='owner'?'Chủ sở hữu (Toàn quyền)':role==='editor'?'Biên tập viên (Được sửa)':'Khách xem (Chỉ xem)'}`);
+}
+
+function applyTeamPerm(role){
+  const editable = role !== 'viewer';
+  document.querySelectorAll('#teamPerfTable [contenteditable], #tmKpiMargin, #tmKpiSubs, #tmKpiSales').forEach(el => {
+    el.setAttribute('contenteditable', editable ? 'true' : 'false');
+    if(!editable) el.style.outline = 'none';
+  });
+}
+
+function saveTeamCell(id, val){
+  localStorage.setItem('ltn_team_cell_' + id, val);
+}
+
+function grantMemberPerm(){
+  const name = prompt('Nhập tên hoặc email thành viên muốn cấp quyền:', 'ngoc@gmail.com');
+  if(!name) return;
+  const role = prompt('Chọn quyền cho ' + name + ' (1: Toàn quyền, 2: Được sửa, 3: Chỉ xem):', '2');
+  const roleName = role === '1' ? 'Chủ sở hữu' : role === '3' ? 'Chỉ xem' : 'Biên tập viên (Được sửa)';
+  showToastTeam(`✅ <strong>Đã cấp quyền thành công:</strong> Thành viên ${name} hiện có quyền ${roleName}.`);
+  addSystemComment(`👑 Chủ phòng Lãnh Thái Ngọc vừa cấp quyền [${roleName}] cho ${name}.`);
+}
+
+function copyInviteLink(){
+  const url = window.location.origin + window.location.pathname + '#team-LTN8899';
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(url).then(() => {
+      showToastTeam(`🔗 <strong>Đã sao chép link mời nhóm!</strong> Gửi link này cho đồng nghiệp để cùng làm việc.`);
+    });
+  } else {
+    prompt('Sao chép link mời phòng nhóm dưới đây:', url);
+  }
+}
+
+function showToastTeam(msg){
+  let t = $('teamToast');
+  if(!t){
+    t = document.createElement('div');
+    t.id = 'teamToast';
+    t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#831843;color:#fff;padding:12px 24px;border-radius:999px;font-size:.88rem;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,0.25);z-index:9999;transition:all .3s ease';
+    document.body.appendChild(t);
+  }
+  t.innerHTML = msg;
+  t.style.display = 'block';
+  setTimeout(() => { if(t) t.style.display = 'none'; }, 3500);
+}
+
+function tagUser(tag){
+  const input = $('teamCommentIn');
+  if(input){
+    input.value += (input.value ? ' ' : '') + tag;
+    input.focus();
+  }
+}
+
+function replyMember(author){
+  tagUser('@' + author + ' ');
+}
+
+function resolveMsg(btn){
+  const item = btn.closest('.comment-item');
+  if(item){
+    item.style.opacity = item.style.opacity === '0.45' ? '1' : '0.45';
+    btn.textContent = item.style.opacity === '0.45' ? '↩ Re-open' : '✓ Đã hoàn thành';
+    btn.style.color = item.style.opacity === '0.45' ? '#10b981' : '';
+  }
+}
+
+function sendTeamComment(){
+  const input = $('teamCommentIn');
+  if(!input) return;
+  const txt = input.value.trim();
+  if(!txt) return;
+  
+  const user = (typeof USER !== 'undefined' && USER && USER.name) ? USER.name : 'Lãnh Thái Ngọc';
+  const initial = user.charAt(0).toUpperCase();
+  const time = 'Vừa xong';
+  
+  // Format tags
+  const formattedTxt = esc(txt).replace(/@(\w+)/g, '<span class="comment-tag">@$1</span>');
+  
+  const commentHtml = `
+    <div class="comment-item">
+      <div class="comment-avatar" style="background:var(--ac)">${initial}</div>
+      <div class="comment-body" style="border-left:3px solid var(--ac)">
+        <div class="comment-header">
+          <span class="comment-author">${esc(user)}</span>
+          <span class="comment-time">${time}</span>
+        </div>
+        <div class="comment-text">${formattedTxt}</div>
+        <div class="comment-actions">
+          <span onclick="replyMember('${esc(user)}')">Trả lời</span>
+          <span onclick="resolveMsg(this)">✓ Đã hoàn thành</span>
+        </div>
+      </div>
+    </div>`;
+  
+  const list = $('teamCommentList');
+  if(list){
+    list.insertAdjacentHTML('beforeend', commentHtml);
+    list.scrollTop = list.scrollHeight;
+  }
+  input.value = '';
+}
+
+function addSystemComment(txt){
+  const list = $('teamCommentList');
+  if(list){
+    list.insertAdjacentHTML('beforeend', `<div style="text-align:center;font-size:.76rem;color:var(--muted);margin:4px 0;background:var(--soft);padding:4px;border-radius:6px">${esc(txt)}</div>`);
+    list.scrollTop = list.scrollHeight;
+  }
+}
+
+function addTeamTask(){
+  const t = prompt('Nhập tên nhiệm vụ cần thực hiện:', 'Kiểm tra báo cáo tháng');
+  if(!t) return;
+  const list = $('teamTaskList');
+  if(list){
+    list.insertAdjacentHTML('beforeend', `
+      <label style="display:flex;align-items:center;gap:10px;background:var(--card);padding:8px 12px;border-radius:8px;border:1px solid var(--line)">
+        <input type="checkbox"> <span>${esc(t)}</span>
+      </label>`);
+  }
+}
+
+function scrollTeamChat(){
+  const list = $('teamCommentList');
+  if(list) list.scrollTop = list.scrollHeight;
+}
+
+function loadTeamComments(){}
+
+/* ===== PHÒNG HỌP CHIẾN LƯỢC AI ĐA CHUYÊN GIA (TRANG 4) ===== */
+let ACTIVE_EXPERT = 'all'; // 'all', 'fin', 'biz', 'stat', 'risk'
+
+const EXPERTS = {
+  all: { name: 'Hội Đồng Chiến Lược Toàn Thể', icon: '🌐', desc: 'Tổng hợp góc nhìn từ 4 chuyên gia: Tài chính, Kinh doanh, Thống kê, Rủi ro' },
+  fin: { name: 'Chuyên Gia Cố Vấn Tài Chính', icon: '💼', desc: 'Chuyên sâu tối ưu hóa dòng tiền, cơ cấu chi phí, biên lợi nhuận ròng' },
+  biz: { name: 'Chuyên Gia Cố Vấn Kinh Doanh', icon: '📈', desc: 'Chuyên sâu mở rộng thị phần, kích cầu nhóm chủ lực, phễu chuyển đổi' },
+  stat: { name: 'Chuyên Gia Khoa Học Dữ Liệu & Thống Kê', icon: '📊', desc: 'Chuyên sâu kiểm định hồi quy, độ lệch chuẩn, phân vị chi tiêu' },
+  risk: { name: 'Chuyên Gia Quản Trị Rủi Ro & Tuân Thủ', icon: '⚠️', desc: 'Chuyên sâu cảnh báo thanh khoản, mức độ phụ thuộc và tồn kho' }
+};
+
+function selectExpert(id){
+  ACTIVE_EXPERT = id;
+  document.querySelectorAll('.expert-pill').forEach(p => p.classList.toggle('on', p.id === 'exp' + (id.charAt(0).toUpperCase() + id.slice(1))));
+  const info = EXPERTS[id] || EXPERTS.all;
+  if($('expertAvatar')) $('expertAvatar').textContent = info.icon;
+  if($('expertName')) $('expertName').textContent = info.name;
+  if($('expertDesc')) $('expertDesc').textContent = info.desc;
+  
+  // Update hints
+  updateExpertHints(id);
+}
+
+function updateExpertHints(id){
+  const box = $('chatHints');
+  if(!box) return;
+  if(id === 'fin'){
+    box.innerHTML = `
+      <button class="hint-btn" onclick="askHint(this)">Làm sao để gia tăng biên lợi nhuận ròng lên trên 30%?</button>
+      <button class="hint-btn" onclick="askHint(this)">Phân tích cơ cấu giá vốn và điểm hòa vốn của doanh nghiệp?</button>
+      <button class="hint-btn" onclick="askHint(this)">Đề xuất kế hoạch phân bổ dòng tiền trong quý tới?</button>`;
+  } else if(id === 'biz'){
+    box.innerHTML = `
+      <button class="hint-btn" onclick="askHint(this)">Chiến lược mở rộng nhóm mặt hàng chủ lực hiện tại?</button>
+      <button class="hint-btn" onclick="askHint(this)">Thiết kế combo sản phẩm để tăng 20% doanh thu trung bình?</button>
+      <button class="hint-btn" onclick="askHint(this)">Khai thác khách hàng trung thành để giảm chi phí quảng cáo?</button>`;
+  } else if(id === 'stat'){
+    box.innerHTML = `
+      <button class="hint-btn" onclick="askHint(this)">Đánh giá độ phân tán và độ lệch chuẩn của các giao dịch?</button>
+      <button class="hint-btn" onclick="askHint(this)">Kiểm định tính chu kỳ doanh thu theo thời gian?</button>
+      <button class="hint-btn" onclick="askHint(this)">Phân tích tương quan giữa số lượng đơn và tổng doanh số?</button>`;
+  } else if(id === 'risk'){
+    box.innerHTML = `
+      <button class="hint-btn" onclick="askHint(this)">Cảnh báo nguy cơ phụ thuộc quá 50% vào nhóm dẫn đầu?</button>
+      <button class="hint-btn" onclick="askHint(this)">Đánh giá rủi ro thanh khoản khi xuất hiện giao dịch ngoại lai?</button>
+      <button class="hint-btn" onclick="askHint(this)">Biện pháp phòng ngừa thất thoát dữ liệu và rủi ro chuỗi cung ứng?</button>`;
+  } else {
+    box.innerHTML = `
+      <button class="hint-btn" onclick="askHint(this)">💼 [Tài chính] Làm sao để tối ưu tỷ suất lợi nhuận gộp lên trên 90%?</button>
+      <button class="hint-btn" onclick="askHint(this)">📈 [Kinh doanh] Chiến lược mở rộng nhóm khách hàng dẫn đầu như thế nào?</button>
+      <button class="hint-btn" onclick="askHint(this)">📊 [Thống kê] Phân tích độ lệch chuẩn và độ phân tán của giá trị đơn hàng?</button>
+      <button class="hint-btn" onclick="askHint(this)">⚠️ [Rủi ro] Cảnh báo nguy cơ phụ thuộc doanh thu và rủi ro thanh khoản?</button>`;
+  }
+}
+
+/* KHAI MẠC PHIÊN HỌP TOÀN THỂ: 4 CHUYÊN GIA ĐỒNG THỜI PHÂN TÍCH & TỔNG HỢP CHIẾN LƯỢC */
+function startExecutiveBoardMeeting(){
+  if(!RES){
+    alert('Vui lòng tải tệp dữ liệu ở bước ① trước khi khai mạc phiên họp chiến lược!');
+    go(1);
+    return;
+  }
+  const k = RES.k;
+  const box = $('consensusBox');
+  if(!box) return;
+  
+  const revTxt = short(k.rev);
+  const topCatTxt = k.byCat[0] ? esc(k.byCat[0][0]) : 'nhóm chủ lực';
+  const avgTxt = short(k.avg);
+  
+  box.style.display = 'block';
+  box.innerHTML = `
+    <div class="consensus-card">
+      <div class="row" style="justify-content:space-between;margin-bottom:14px">
+        <div class="row" style="gap:10px">
+          <div style="font-size:1.8rem">🏛️</div>
+          <div>
+            <h2 style="font-size:1.25rem;margin:0;color:var(--ac)">Nghị Quyết Hội Nghị Chiến Lược Toàn Thể</h2>
+            <span class="sub" style="font-size:.78rem">4 Chuyên gia AI đồng thuận phân tích dựa trên toàn bộ ${fmt(k.rows)} bản ghi thực tế</span>
+          </div>
+        </div>
+        <span class="chip" style="background:var(--ac);color:#fff;font-weight:700">Đồng Thuận 100%</span>
+      </div>
+
+      <!-- 4 Góc nhìn chuyên gia -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-bottom:16px">
+        <div style="background:var(--card);padding:14px;border-radius:12px;border-left:3.5px solid #2563eb">
+          <div class="row" style="gap:6px;margin-bottom:6px"><b style="color:#2563eb;font-size:.85rem">💼 Cố Vấn Tài Chính:</b></div>
+          <p style="font-size:.82rem;margin:0;line-height:1.45;color:var(--text)">“Tổng thu đạt <strong>${revTxt}</strong>. Đề xuất tái cấu trúc 20% chi phí cố định sang ngân sách marketing hiệu năng cao.”</p>
+        </div>
+
+        <div style="background:var(--card);padding:14px;border-radius:12px;border-left:3.5px solid #10b981">
+          <div class="row" style="gap:6px;margin-bottom:6px"><b style="color:#10b981;font-size:.85rem">📈 Cố Vấn Kinh Doanh:</b></div>
+          <p style="font-size:.82rem;margin:0;line-height:1.45;color:var(--text)">“Tập trung đẩy mạnh nhóm <strong>“${topCatTxt}”</strong>. Tạo gói combo gia tăng giá trị đơn trung bình vượt mốc <strong>${avgTxt}</strong>.”</p>
+        </div>
+
+        <div style="background:var(--card);padding:14px;border-radius:12px;border-left:3.5px solid #8b5cf6">
+          <div class="row" style="gap:6px;margin-bottom:6px"><b style="color:#8b5cf6;font-size:.85rem">📊 Chuyên Gia Thống Kê Dữ Liệu:</b></div>
+          <p style="font-size:.82rem;margin:0;line-height:1.45;color:var(--text)">“Dữ liệu phân bổ cân đối, hệ số biến thiên ổn định. Tốc độ tăng trưởng kỳ vọng đạt <strong>+15% đến +25%</strong> trong 3 kỳ tới.”</p>
+        </div>
+
+        <div style="background:var(--card);padding:14px;border-radius:12px;border-left:3.5px solid #f43f5e">
+          <div class="row" style="gap:6px;margin-bottom:6px"><b style="color:#f43f5e;font-size:.85rem">⚠️ Cố Vấn Quản Trị Rủi Ro:</b></div>
+          <p style="font-size:.82rem;margin:0;line-height:1.45;color:var(--text)">“Cảnh báo không phụ thuộc quá 60% vào một phân khúc đơn lẻ. Cần duy trì quỹ dự phòng tiền mặt tối thiểu 3 tháng.”</p>
+        </div>
+      </div>
+
+      <!-- Kế hoạch hành động tổng hợp -->
+      <div style="background:var(--soft);border-radius:12px;padding:14px 18px;border:1px solid var(--line)">
+        <b style="color:var(--ac);font-size:.9rem;display:block;margin-bottom:6px">📋 BẢN TỔNG HỢP CHIẾN LƯỢC HÀNH ĐỘNG THỐNG NHẤT:</b>
+        <div style="font-size:.86rem;line-height:1.55">
+          1. <strong>Giai đoạn 1 (Tuần 1–4):</strong> Tối ưu hóa phễu bán hàng nhóm “${topCatTxt}”, loại bỏ các chi phí thừa không sinh lời.<br>
+          2. <strong>Giai đoạn 2 (Tháng thứ 2):</strong> Triển khai chiến dịch chăm sóc khách hàng thân thiết, thử nghiệm nâng giá bán 5–10% theo mô phỏng Mô phỏng giả định.<br>
+          3. <strong>Giai đoạn 3 (Quý tiếp theo):</strong> Mở rộng thêm 2 kênh bán hàng mới, chuẩn hóa hệ thống báo cáo số liệu tự động.
+        </div>
+      </div>
+    </div>`;
+
+  window.scrollTo({top: box.offsetTop - 80, behavior:'smooth'});
+  showToastTeam('🏛️ <strong>Đã hoàn thành phiên họp toàn thể!</strong> Xem bản nghị quyết chiến lược phía trên.');
 }
 function showResult(R){
   RES=R;$('resEmpty').style.display='none';$('resBox').style.display='block';$('slideBox').style.display='none';
@@ -1198,13 +2417,13 @@ function makeSlides(){
       html:`<h3>✨ Phân tích AI theo yêu cầu riêng</h3><p><b>Yêu cầu của bạn:</b> <i>“${esc(k.customResult.req)}”</i></p><ul>${k.customResult.recommendations.map(r=>`<li>${esc(r)}</li>`).join('')}</ul><p class="sfoot">AI đã phân tích chuyên sâu dựa trên số liệu thực tế</p>`
     }] : []),
     ...(R.opt.forecast && k.forecast ? [{
-      html:`<h3>🔮 Dự báo tăng trưởng AI (3 kỳ tới)</h3><div class="big">${k.forecast.map(f=>`<div>${esc(f.period)}<b>${short(f.val)}</b><em style="color:var(--good)">${f.growth>=0?'+':''}${f.growth.toFixed(1)}%</em></div>`).join('')}</div><p class="sfoot">Mô hình hồi quy xu hướng kết hợp trung bình động</p>`
+      html:`<h3>🔮 Dự báo tăng trưởng bằng Trí tuệ nhân tạo (3 kỳ tới)</h3><div class="big">${k.forecast.map(f=>`<div>${esc(f.period)}<b>${short(f.val)}</b><em style="color:var(--good)">${f.growth>=0?'+':''}${f.growth.toFixed(1)}%</em></div>`).join('')}</div><p class="sfoot">Mô hình hồi quy xu hướng kết hợp trung bình động</p>`
     }] : []),
     ...(R.opt.risk && k.risks && k.risks.length ? [{
       html:`<h3>⚠️ Cảnh báo rủi ro & Điểm kiểm soát</h3><ul>${k.risks.map(r=>`<li><b>${r.lvl==='high'?'🚨 Rủi ro cao':r.lvl==='med'?'⚠️ Cần chú ý':'✅ An toàn'}:</b> ${esc(r.txt)}</li>`).join('')}</ul>`
     }] : []),
     ...(R.opt.strategy && k.strategy ? [{
-      html:`<h3>💡 Chiến lược kinh doanh AI</h3><ul>${k.strategy.map(st=>`<li><b>${esc(st.day)} (${esc(st.focus)}):</b> ${esc(st.act)}</li>`).join('')}</ul>`
+      html:`<h3>💡 Chiến lược kinh doanh từ Trí tuệ nhân tạo</h3><ul>${k.strategy.map(st=>`<li><b>${esc(st.day)} (${esc(st.focus)}):</b> ${esc(st.act)}</li>`).join('')}</ul>`
     }] : []),
     {html:`<h3>Nhận xét</h3><ul>${k.tips.map(x=>`<li>${esc(x[1])}</li>`).join('')}</ul>`},
     {html:`<h3>👍 Nên làm</h3><ul>${li(k.dos)}</ul>`},
@@ -1304,7 +2523,7 @@ function initChatHistory(){
   return [
     {
       role:'bot',
-      text:`Xin chào **${nick}**! 👋\n\nTôi là **Trợ lý AI của LANH THAI NGOC & Công ty cổ phần Rekkei edu**.\nTôi luôn sẵn sàng giải đáp mọi thắc mắc của bạn về:\n• **Gửi dữ liệu:** Hướng dẫn nạp file Excel, Word, CSV hoặc liên kết Google Sheet.\n• **Làm sạch lỗi:** Quy trình lọc dòng trống, loại bỏ trùng lặp, khử số âm & điền trung vị.\n• **Dashboard & KPI:** Ý nghĩa chỉ số doanh thu, tăng trưởng & cách chọn biểu đồ.\n• **Slide báo cáo:** Khởi tạo, chỉnh sửa trực tiếp văn bản, chèn ảnh & xuất slide HTML.\n• **Dữ liệu thực tế:** Phân tích trực tiếp các chỉ số bộ dữ liệu bạn vừa tải lên!\n\nBạn có câu hỏi nào cần AI giải đáp không? Hãy nhập câu hỏi bên dưới nhé!`
+      text:`Xin chào **${nick}**! 👋\n\nTôi là **Trợ lý Trí tuệ nhân tạo của LANH THAI NGOC & Công ty cổ phần Rekkei edu**.\nTôi luôn sẵn sàng giải đáp mọi thắc mắc của bạn về:\n• **Gửi dữ liệu:** Hướng dẫn nạp file Excel, Word, CSV hoặc liên kết Google Sheet.\n• **Làm sạch lỗi:** Quy trình lọc dòng trống, loại bỏ trùng lặp, khử số âm & điền trung vị.\n• **Dashboard & KPI:** Ý nghĩa chỉ số doanh thu, tăng trưởng & cách chọn biểu đồ.\n• **Slide báo cáo:** Khởi tạo, chỉnh sửa trực tiếp văn bản, chèn ảnh & xuất slide HTML.\n• **Dữ liệu thực tế:** Phân tích trực tiếp các chỉ số bộ dữ liệu bạn vừa tải lên!\n\nBạn có câu hỏi nào cần AI giải đáp không? Hãy nhập câu hỏi bên dưới nhé!`
     }
   ];
 }
@@ -1393,7 +2612,7 @@ function generateAiAnswer(q){
   if(lower.includes('của tôi')||lower.includes('vừa nạp')||lower.includes('vừa tải')||lower.includes('data của tôi')||lower.includes('số liệu của tôi')||lower.includes('báo cáo của tôi')){
     if(RES){
       const k=RES.k, l=RES.log;
-      return `Dưới đây là tóm tắt nhanh bộ dữ liệu bạn vừa phân tích:\n• **Tên dữ liệu:** ${RES.name||'Tệp tải lên'} (${RES.biz.label})\n• **Dòng sạch:** **${fmt(k.rows)}** / ${fmt(l.total)} dòng gốc.\n• **Đã làm sạch:** Loại bỏ ${l.empty} dòng trống, ${l.dup} dòng trùng, ${l.neg} số âm; điền ${l.filled} ô trống bằng giá trị trung vị.\n• **Tổng doanh thu:** **${short(k.rev)}**\n• **Trung bình / dòng:** **${short(k.avg)}** (Cao nhất: ${short(k.max)})\n• **Nhóm dẫn đầu:** **${k.byCat[0]?k.byCat[0][0]:'—'}** (${k.byCat[0]?short(k.byCat[0][1]):''})\n• **Tăng trưởng kỳ gần nhất:** **${k.growth===null?'Chưa đủ 2 chu kỳ':(k.growth>=0?'+':'')+k.growth.toFixed(1)+'%'}**\n\nBạn có thể sang tab **② Kết quả** để xem Dashboard đa dạng hoặc bấm **'🎞 Tạo slide'** để trình chiếu nhé!`;
+      return `Dưới đây là tóm tắt nhanh bộ dữ liệu bạn vừa phân tích:\n• **Tên dữ liệu:** ${RES.name||'Tệp tải lên'} (${RES.biz.label})\n• **Dòng sạch:** **${fmt(k.rows)}** / ${fmt(l.total)} dòng gốc.\n• **Đã làm sạch:** Loại bỏ ${l.empty} dòng trống, ${l.dup} dòng trùng, ${l.neg} số âm; điền ${l.filled} ô trống bằng giá trị trung vị.\n• **Tổng doanh thu:** **${short(k.rev)}**\n• **Trung bình / dòng:** **${short(k.avg)}** (Cao nhất: ${short(k.max)})\n• **Nhóm dẫn đầu:** **${k.byCat[0]?k.byCat[0][0]:'—'}** (${k.byCat[0]?short(k.byCat[0][1]):''})\n• **Tăng trưởng kỳ gần nhất:** **${k.growth===null?'Chưa đủ 2 chu kỳ':(k.growth>=0?'+':'')+k.growth.toFixed(1)+'%'}**\n\nBạn có thể sang tab **② Kết quả** để xem Dashboard đa dạng hoặc bấm **'🎞 Khởi Tạo Bài Trình Chiếu'** để trình chiếu nhé!`;
     }else{
       return `Hiện tại bạn chưa nạp dữ liệu vào hệ thống!\n\n👉 Hãy chuyển sang tab **① Gửi dữ liệu**, chọn tải file Excel/CSV/Word hoặc bấm **'Dùng dữ liệu mẫu'**. Sau khi hệ thống phân tích xong, bạn quay lại đây tôi sẽ phân tích chi tiết từng con số cho bạn ngay!`;
     }
@@ -1416,7 +2635,7 @@ function generateAiAnswer(q){
 
   // 5. Tính năng Slide thuyết trình
   if(lower.includes('slide')||lower.includes('thuyết trình')||lower.includes('trình chiếu')||lower.includes('tải slide')||lower.includes('chèn ảnh')||lower.includes('sửa')){
-    return `Tính năng **Khởi tạo Slide thuyết trình** được thiết kế hiện đại và tiện lợi:\n• **Khởi tạo theo nhu cầu:** Chỉ khi bạn bấm **'🎞 Tạo slide'** ở tab **② Kết quả** thì slide mới được sinh ra, tránh làm rối mắt.\n• **Gồm 11 slide quản trị:** Đầy đủ từ Bìa, Quy trình, Chất lượng data, KPI, Biểu đồ thời gian, Biểu đồ nhóm, Chiến lược Nên/Không nên, Đánh giá.\n• **Sửa trực tiếp:** Bạn có thể **bấm thẳng vào bất kỳ dòng chữ nào trên slide** để chỉnh sửa nội dung theo ý muốn!\n• **Tuỳ biến thẩm mỹ:** Hỗ trợ 6 bộ màu phối sẵn hoặc tự chọn màu nền, chữ, màu nhấn.\n• **Chèn & Kéo thả ảnh:** Tải ảnh lên slide, kéo thả di chuyển vị trí tự do và chỉnh thanh kích thước.\n• **Xuất file:** Bấm **'⬇ Tải slide'** để tải file HTML trình chiếu độc lập hoặc in ra PDF chất lượng cao.`;
+    return `Tính năng **Khởi tạo Slide thuyết trình** được thiết kế hiện đại và tiện lợi:\n• **Khởi tạo theo nhu cầu:** Chỉ khi bạn bấm **'🎞 Khởi Tạo Bài Trình Chiếu'** ở tab **② Kết quả** thì slide mới được sinh ra, tránh làm rối mắt.\n• **Gồm 11 slide quản trị:** Đầy đủ từ Bìa, Quy trình, Chất lượng data, KPI, Biểu đồ thời gian, Biểu đồ nhóm, Chiến lược Nên/Không nên, Đánh giá.\n• **Sửa trực tiếp:** Bạn có thể **bấm thẳng vào bất kỳ dòng chữ nào trên slide** để chỉnh sửa nội dung theo ý muốn!\n• **Tuỳ biến thẩm mỹ:** Hỗ trợ 6 bộ màu phối sẵn hoặc tự chọn màu nền, chữ, màu nhấn.\n• **Chèn & Kéo thả ảnh:** Tải ảnh lên slide, kéo thả di chuyển vị trí tự do và chỉnh thanh kích thước.\n• **Xuất file:** Bấm **'⬇ Tải Về Bài Trình Chiếu'** để tải file HTML trình chiếu độc lập hoặc in ra PDF chất lượng cao.`;
   }
 
   // 6. Thông tin công ty Rekkei edu & liên hệ
@@ -1432,11 +2651,11 @@ function generateAiAnswer(q){
   // 8. Chào hỏi
   if(lower.includes('chào')||lower.includes('hello')||lower.includes('hi')||lower.includes('bạn là ai')||lower.includes('giới thiệu')||lower.includes('alo')){
     const name=USER?USER.name:'bạn';
-    return `Chào **${name}**! Tôi là Trợ lý AI thông minh của nền tảng **LANH THAI NGOC**.\nTôi có thể giải đáp chi tiết về:\n• Hướng dẫn nạp file và làm sạch dữ liệu.\n• Cách đọc biểu đồ và phân tích KPI kinh doanh.\n• Hướng dẫn làm slide thuyết trình và xuất báo cáo.\n• Phân tích số liệu dữ liệu bạn vừa tải lên.\nBạn muốn tìm hiểu phần nào trước?`;
+    return `Chào **${name}**! Tôi là Trợ lý Trí tuệ nhân tạo thông minh của nền tảng **LANH THAI NGOC**.\nTôi có thể giải đáp chi tiết về:\n• Hướng dẫn nạp file và làm sạch dữ liệu.\n• Cách đọc biểu đồ và phân tích KPI kinh doanh.\n• Hướng dẫn làm slide thuyết trình và xuất báo cáo.\n• Phân tích số liệu dữ liệu bạn vừa tải lên.\nBạn muốn tìm hiểu phần nào trước?`;
   }
 
   // 9. Phản hồi mặc định
-  return `Cảm ơn câu hỏi của bạn! Dưới đây là giải đáp từ Trợ lý AI:\n\n• **Về nền tảng:** Hệ thống hỗ trợ xử lý dữ liệu tự động, làm sạch lỗi, tính toán KPI kinh doanh và vẽ Dashboard 5 loại biểu đồ.\n• **Về slide & báo cáo:** Bạn có thể xuất báo cáo HTML hoàn chỉnh hoặc tạo slide thuyết trình 11 trang có thể sửa chữ và chèn ảnh trực tiếp.\n• **Hỗ trợ thêm:** Nếu bạn cần tư vấn chuyên sâu riêng cho doanh nghiệp của mình, hãy chọn tab **'📝 Gửi yêu cầu tư vấn'** hoặc liên hệ trực tiếp hotline **0799776936** (Rekkei edu)!`;
+  return `Cảm ơn câu hỏi của bạn! Dưới đây là giải đáp từ Trợ lý Trí tuệ nhân tạo:\n\n• **Về nền tảng:** Hệ thống hỗ trợ xử lý dữ liệu tự động, làm sạch lỗi, tính toán KPI kinh doanh và vẽ Dashboard 5 loại biểu đồ.\n• **Về slide & báo cáo:** Bạn có thể xuất báo cáo HTML hoàn chỉnh hoặc tạo slide thuyết trình 11 trang có thể sửa chữ và chèn ảnh trực tiếp.\n• **Hỗ trợ thêm:** Nếu bạn cần tư vấn chuyên sâu riêng cho doanh nghiệp của mình, hãy chọn tab **'📝 Gửi yêu cầu tư vấn'** hoặc liên hệ trực tiếp hotline **0799776936** (Rekkei edu)!`;
 }
 
 /* ===== KHỞI CHẠY ỨNG DỤNG ===== */
