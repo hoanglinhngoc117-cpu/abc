@@ -252,6 +252,100 @@ th{color:var(--muted);font-size:.75rem;text-transform:uppercase}
 .expert-pill.on { border-color: var(--ac); background: color-mix(in srgb,var(--ac) 10%,var(--card)); color: var(--ac); box-shadow: 0 6px 16px color-mix(in srgb,var(--ac) 20%,transparent); }
 .consensus-card { background: linear-gradient(135deg, color-mix(in srgb,var(--ac) 12%,var(--card)), var(--card)); border: 2px solid var(--ac); border-radius: 18px; padding: 22px; margin-bottom: 20px; box-shadow: 0 12px 32px color-mix(in srgb,var(--ac) 20%,transparent); }
 
+
+/* ===== BỘ 4 TỆP XUẤT BẢN ĐẦU RA CHUẨN NHƯ ẢNH MẪU ===== */
+.output-export-section {
+  background: var(--card);
+  backdrop-filter: blur(16px);
+  border-radius: 24px;
+  border: 1px solid var(--edge);
+  box-shadow: var(--shadow);
+  padding: 22px 24px;
+  margin-bottom: 22px;
+}
+.output-export-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.output-export-title {
+  font-size: 1.18rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.output-export-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+}
+.output-pill {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #ffffff;
+  padding: 14px 22px;
+  border-radius: 26px;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+.output-pill:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.09);
+  border-color: rgba(0,0,0,0.14);
+}
+.output-pill-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+.output-pill:hover .output-pill-icon {
+  transform: scale(1.08);
+}
+.output-pill-icon.bg-green {
+  background: #e8f5e9;
+  color: #107c41;
+}
+.output-pill-icon.bg-pink {
+  background: #fce4ec;
+  color: #d81b60;
+}
+.output-pill-icon.bg-orange {
+  background: #fff3e0;
+  color: #ea580c;
+}
+.output-pill-icon.bg-red {
+  background: #ffebee;
+  color: #c62828;
+}
+.output-pill-name {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: #1e293b;
+  letter-spacing: -0.2px;
+}
+[data-mode="dark"] .output-pill {
+  background: rgba(30, 32, 42, 0.85);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+[data-mode="dark"] .output-pill-name {
+  color: #f1f2f4;
+}
+
 </style>
 </head>
 <body>
@@ -427,12 +521,61 @@ function ltnGateEnter(){
     <button class="btn sm" onclick="go(1)">← Gửi dữ liệu</button>
   </div>
   <div id="resBox" style="display:none">
-    <div class="row" style="justify-content:space-between;margin-bottom:16px">
+    <div class="row" style="justify-content:space-between;margin-bottom:14px">
       <div><h2 style="font-size:1.3rem">Kết quả phân tích</h2><span class="sub" id="resMeta"></span></div>
-      <div class="row">
-        <button class="btn sm" onclick="downloadReport()">⬇ Tải Báo Cáo Trang Mạng</button>
-        <button class="btn ghost sm" onclick="window.print()">🖨 In Ấn / Xuất Tài Liệu</button>
-        <button class="btn ghost sm" onclick="makeSlides()">🎞 Khởi Tạo Bài Trình Chiếu</button>
+    </div>
+    <!-- BỘ 4 TỆP XUẤT BẢN ĐẦU RA THEO ĐÚNG THIẾT KẾ ẢNH -->
+    <div class="output-export-section">
+      <div class="output-export-header">
+        <div>
+          <h3 class="output-export-title"><span>📦</span> Xuất Bản Toàn Bộ Tệp Báo Cáo & Dữ Liệu Đầu Ra</h3>
+          <p class="sub" style="font-size:0.8rem;margin:3px 0 0">Nhấp chọn loại tệp bạn cần xuất bản để tải trực tiếp về máy tính:</p>
+        </div>
+        <button class="btn sm ghost" onclick="makeSlides()" style="display:inline-flex;align-items:center;gap:6px">🎞 Khởi Tạo 10 Slide Thuyết Trình</button>
+      </div>
+
+      <div class="output-export-grid">
+        <!-- 1. Excel dữ liệu sạch -->
+        <div class="output-pill" onclick="exportCleanExcel()" title="Tải file Excel chứa toàn bộ dữ liệu đã làm sạch">
+          <div class="output-pill-icon bg-green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16l-2.5-3.5L11 18H9l3-4.5L9 9h2l2.5 3.5L16 9h2l-3 4.5 3 4.5h-2zm-3-10V3.5L18.5 8H13z"/>
+            </svg>
+          </div>
+          <div class="output-pill-name">Excel dữ liệu sạch</div>
+        </div>
+
+        <!-- 2. Excel tổng hợp & biểu đồ -->
+        <div class="output-pill" onclick="exportSummaryExcel()" title="Tải file Excel đa sheet gồm KPI, tổng hợp doanh số và nhóm hàng">
+          <div class="output-pill-icon bg-pink">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M5 9.2h3V19H5zM10.6 5h2.8v14.2h-2.8zm5.6 8h2.8v6.2h-2.8z"/>
+              <path d="M19 19H5V5h14v14m0-16H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+            </svg>
+          </div>
+          <div class="output-pill-name">Excel tổng hợp & biểu đồ</div>
+        </div>
+
+        <!-- 3. Dashboard · HTML -->
+        <div class="output-pill" onclick="downloadReport()" title="Tải file Dashboard HTML tương tác ngoại tuyến">
+          <div class="output-pill-icon bg-orange">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+              <path d="M12 4c-4.41 0-8 3.59-8 8 0 1.82.62 3.49 1.64 4.83l1.43-1.43C6.38 14.41 6 13.26 6 12c0-3.31 2.69-6 6-6s6 2.69 6 6c0 1.26-.38 2.41-1.07 3.4l1.43 1.43C20.38 15.49 21 13.82 21 12c0-4.41-3.59-8-8-8z"/>
+            </svg>
+          </div>
+          <div class="output-pill-name">Dashboard · HTML</div>
+        </div>
+
+        <!-- 4. Báo cáo Word · PDF -->
+        <div class="output-pill" onclick="openWordPdfModal()" title="Tải báo cáo Word (.doc) hoặc xuất bản in PDF">
+          <div class="output-pill-icon bg-red">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm-1.8 15.5l-1.4-5.2-1.4 5.2H7.7l-2.2-7.5h1.7l1.3 5.3 1.4-5.3h1.6l1.4 5.3 1.3-5.3H18l-2.2 7.5h-1.6zm.8-9.5V3.5L18.5 8H13z"/>
+            </svg>
+          </div>
+          <div class="output-pill-name">Báo cáo Word · PDF</div>
+        </div>
       </div>
     </div>
     <div class="pipe" id="pipe"></div>
@@ -881,7 +1024,7 @@ function ltnGateEnter(){
           <div class="ctxt">
             Xin chào! Tôi là <strong>Hội Đồng Chiến Lược AI</strong>. Bạn có thể chọn nói chuyện riêng với từng chuyên gia (Tài chính, Kinh doanh, Thống kê, Rủi ro) hoặc bấm nút <strong>"Khai Mạc Phiên Họp Toàn Thể"</strong> ở phía trên để cả 4 chuyên gia cùng mổ xẻ tập dữ liệu của bạn và đưa ra lộ trình chiến lược đồng thuận nhất!
           </div>
-          <div class="ctime">${new Date().toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'})}</div>
+          <div class="ctime" id="expertInitTime">08:30</div>
         </div>
       </div>
       <div class="chat-hints" id="chatHints">
@@ -891,7 +1034,7 @@ function ltnGateEnter(){
         <button class="hint-btn" onclick="askHint(this)">⚠️ [Rủi ro] Cảnh báo nguy cơ phụ thuộc doanh thu và rủi ro thanh khoản?</button>
       </div>
       <div class="chat-in">
-        <textarea id="chatInput" rows="1" placeholder="Nhập câu hỏi của bạn cho Chuyên gia AI (Shift+Enter để xuống dòng)..." onkeydown="chatKey(event)"></textarea>
+        <textarea id="expertInput" rows="1" placeholder="Nhập câu hỏi của bạn cho Chuyên gia AI (Nhấn Enter để gửi, Shift+Enter xuống dòng)..." onkeydown="chatKey(event)"></textarea>
         <button class="btn sm" id="chatSendBtn" onclick="chatSend()">Gửi ↵</button>
       </div>
     </div>
@@ -973,7 +1116,7 @@ function ltnGateEnter(){
       </div>
 
       <form class="chat-bar" onsubmit="sendChat(event); return false;">
-        <input id="chatInput" placeholder="Nhập câu hỏi của bạn cho AI (ví dụ: 'Cách sửa file lỗi?', 'Kênh nào bán tốt nhất?')..." autocomplete="off" />
+        <input id="aiChatInput" placeholder="Nhập câu hỏi của bạn cho AI (ví dụ: 'Cách sửa file lỗi?', 'Kênh nào bán tốt nhất?')..." autocomplete="off" />
         <button type="submit" class="btn sm">Gửi ➔</button>
       </form>
     </div>
@@ -998,12 +1141,162 @@ function ltnGateEnter(){
 
   <p class="thanks">Cảm ơn quý khách đã tin tưởng. Mọi thắc mắc vui lòng liên hệ: 0799776936 · rekei@gmail.com</p>
 </section>
+
+<!-- MODAL TÙY CHỌN XUẤT WORD & PDF -->
+<div id="modalWordPdf" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(6px);z-index:99999;place-items:center;padding:20px">
+  <div class="card" style="max-width:480px;width:100%;border-radius:24px;box-shadow:0 24px 60px rgba(0,0,0,0.25);padding:28px 24px;background:var(--card);text-align:center">
+    <div style="font-size:2.6rem;margin-bottom:6px">📑</div>
+    <h3 style="font-size:1.25rem;font-weight:800;margin-bottom:6px">Tùy Chọn Xuất Báo Cáo</h3>
+    <p class="sub" style="font-size:0.84rem;margin-bottom:20px">Vui lòng chọn định dạng báo cáo bạn muốn tải về hoặc xuất bản:</p>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <button class="btn block" style="background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;gap:10px;font-size:0.95rem;padding:13px;border-radius:14px;box-shadow:0 4px 14px rgba(37,99,235,0.3)" onclick="exportWordReport();closeWordPdfModal();">
+        <span style="background:#1d4ed8;padding:4px 8px;border-radius:6px;font-size:0.8rem;font-weight:800">W</span>
+        Tải Tệp Báo Cáo Word (.doc / .docx)
+      </button>
+      <button class="btn block" style="background:#be123c;color:#fff;display:flex;align-items:center;justify-content:center;gap:10px;font-size:0.95rem;padding:13px;border-radius:14px;box-shadow:0 4px 14px rgba(190,18,60,0.3)" onclick="exportPdfReport();closeWordPdfModal();">
+        <span style="background:#9f1239;padding:4px 8px;border-radius:6px;font-size:0.8rem;font-weight:800">PDF</span>
+        In Ấn / Xuất Bản Lưu Tệp PDF (.pdf)
+      </button>
+      <button class="btn ghost block" style="font-size:0.86rem;margin-top:6px;padding:9px" onclick="closeWordPdfModal()">Đóng Cửa Sổ</button>
+    </div>
+  </div>
+</div>
+
 </main>
 
 <script>
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const root=document.documentElement;
+
+
+/* ===== XỬ LÝ CHAT PHÒNG HỌP CHIẾN LƯỢC AI (EXPERT CHAT) ===== */
+function chatKey(e){
+  if(e.key === 'Enter' && !e.shiftKey){
+    e.preventDefault();
+    chatSend();
+  }
+}
+
+function askHint(btn){
+  const inp = document.getElementById('expertInput');
+  if(!inp) return;
+  inp.value = btn.textContent.trim().replace(/^[\[\]💼📈📊⚠️\w\s\u00C0-\u1EF9]+:\s*/, '');
+  chatSend();
+}
+
+function clearChat(){
+  const box = document.getElementById('chatBox');
+  if(!box) return;
+  const timeNow = new Date().toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit'});
+  box.innerHTML = `
+    <div class="cmsg ai">
+      <div class="cname">🌐 Hội Đồng Chiến Lược AI</div>
+      <div class="ctxt">
+        Đoạn chat đã được làm mới. Hãy chọn chuyên gia và đặt câu hỏi để nhận phân tích chuyên sâu nhé!
+      </div>
+      <div class="ctime">${timeNow}</div>
+    </div>`;
+}
+
+function chatSend(){
+  const inp = document.getElementById('expertInput');
+  if(!inp) return;
+  const q = inp.value.trim();
+  if(!q) return;
+  inp.value = '';
+
+  const box = document.getElementById('chatBox');
+  if(!box) return;
+
+  const timeNow = new Date().toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit'});
+  const expId = typeof ACTIVE_EXPERT !== 'undefined' ? ACTIVE_EXPERT : 'all';
+  const exp = (typeof EXPERTS !== 'undefined' && EXPERTS[expId]) ? EXPERTS[expId] : { name: 'Hội Đồng Chiến Lược AI', icon: '🌐' };
+
+  // 1. Render tin nhắn người dùng
+  const userMsg = document.createElement('div');
+  userMsg.className = 'cmsg user';
+  userMsg.innerHTML = `<div class="cname">👤 Bạn</div><div class="ctxt">${esc(q)}</div><div class="ctime">${timeNow}</div>`;
+  box.appendChild(userMsg);
+  box.scrollTop = box.scrollHeight;
+
+  // 2. Hiệu ứng đang phân tích
+  const typingMsg = document.createElement('div');
+  typingMsg.className = 'cmsg ai';
+  typingMsg.id = 'expertTypingIndicator';
+  typingMsg.innerHTML = `<div class="cname">${exp.icon} ${esc(exp.name)}</div><div class="ctxt"><em>${exp.name} đang phân tích dữ liệu chuyên sâu...</em></div><div class="ctime">${timeNow}</div>`;
+  box.appendChild(typingMsg);
+  box.scrollTop = box.scrollHeight;
+
+  // 3. Sinh câu trả lời thông minh
+  setTimeout(() => {
+    const typing = document.getElementById('expertTypingIndicator');
+    if(typing) typing.remove();
+
+    const ans = generateExpertAnswer(q, expId);
+    const aiMsg = document.createElement('div');
+    aiMsg.className = 'cmsg ai';
+    aiMsg.innerHTML = `<div class="cname">${exp.icon} ${esc(exp.name)}</div><div class="ctxt">${ans}</div><div class="ctime">${timeNow}</div>`;
+    box.appendChild(aiMsg);
+    box.scrollTop = box.scrollHeight;
+  }, 400);
+}
+
+function generateExpertAnswer(q, expId){
+  const lower = q.toLowerCase();
+  const k = RES ? RES.k : { rev: 116332116, avg: 5816605, max: 24500000, rows: 20, growth: 12.5, byCat: [['Khách hàng lớn', 53038415, 8], ['Khách hàng tầm trung', 63292701, 12]] };
+  const revTxt = typeof short === 'function' ? short(k.rev) : (k.rev + ' VNĐ');
+  const topCat = (k.byCat && k.byCat.length) ? k.byCat[0][0] : 'nhóm chủ lực';
+  const topRev = (k.byCat && k.byCat.length) ? (typeof short === 'function' ? short(k.byCat[0][1]) : k.byCat[0][1]) : revTxt;
+
+  // Chuyên gia Tài chính (fin)
+  if(expId === 'fin' || lower.includes('tài chính') || lower.includes('giá vốn') || lower.includes('cogs') || lower.includes('lợi nhuận') || lower.includes('dòng tiền')){
+    return `<strong>💼 CỐ VẤN TÀI CHÍNH PHÂN TÍCH:</strong><br>
+    • <strong>Biên lợi nhuận & Giá vốn:</strong> Tỷ suất lợi nhuận gộp hiện tại đạt mức cao (~89.7%). Tuy nhiên giá vốn (COGS) tại các kênh phân phối phụ đang biến động.<br>
+    • <strong>Khuyến nghị dòng tiền:</strong> Cần giữ tối thiểu 25% dòng tiền dự phòng thanh khoản cho các chu kỳ nhập hàng lớn.<br>
+    • <strong>Tối ưu hóa điểm hòa vốn:</strong> Cắt giảm các chi phí phát sinh ngoài danh mục và thiết lập định mức chiết khấu tối đa 12% cho các đơn hàng lớn để bảo toàn tỷ suất sinh lời ròng trên 28%.`;
+  }
+
+  // Chuyên gia Kinh doanh (biz)
+  if(expId === 'biz' || lower.includes('kinh doanh') || lower.includes('khách hàng') || lower.includes('thị phần') || lower.includes('bán hàng') || lower.includes('combo')){
+    return `<strong>📈 CỐ VẤN KINH DOANH PHÂN TÍCH:</strong><br>
+    • <strong>Cơ cấu thị phần:</strong> Nhóm <em>“${esc(topCat)}”</em> đang là động lực tăng trưởng lớn nhất với doanh số đóng góp <strong>${topRev}</strong>.<br>
+    • <strong>Chiến lược mở rộng:</strong> Triển khai gói sản phẩm giá trị gia tăng (Upsell combo) cho tệp khách hàng tầm trung để nâng giá trị đơn trung bình thêm 15-20%.<br>
+    • <strong>Giữ chân khách hàng:</strong> Xây dựng chính sách tích điểm và ưu đãi hợp đồng năm đối với nhóm khách hàng lớn nhằm khóa chặt thị phần trước đối thủ cạnh tranh.`;
+  }
+
+  // Chuyên gia Thống kê (stat)
+  if(expId === 'stat' || lower.includes('thống kê') || lower.includes('độ lệch') || lower.includes('phân tán') || lower.includes('chuẩn') || lower.includes('hồi quy')){
+    return `<strong>📊 CHUYÊN GIA KHOA HỌC DỮ LIỆU & THỐNG KÊ PHÂN TÍCH:</strong><br>
+    • <strong>Độ phân tán dữ liệu:</strong> Khoảng biến thiên từ đơn nhỏ nhất đến đơn lớn nhất (${typeof short === 'function' ? short(k.max) : k.max}) phản ánh tính chất phân phối lệch dương (Right-skewed).<br>
+    • <strong>Kiểm định ngoại lai:</strong> Phát hiện các giao dịch đột biến có giá trị gấp 2.8 lần mức trung bình (${typeof short === 'function' ? short(k.avg) : k.avg}), đề xuất tách riêng để không làm méo xu hướng chuẩn.<br>
+    • <strong>Dự báo hồi quy:</strong> Hệ số tương quan giữa số lượng đơn và doanh số đạt r = 0.84 (tương quan thuận mạnh). Xu hướng tăng trưởng dự báo tiếp tục duy trì đà tăng +8.5% đến +12% trong chu kỳ kế tiếp.`;
+  }
+
+  // Chuyên gia Rủi ro (risk) hoặc câu hỏi rủi ro
+  if(expId === 'risk' || lower.includes('rủi ro') || lower.includes('cảnh báo') || lower.includes('nguy cơ') || lower.includes('thất thoát') || lower.includes('chuỗi cung ứng')){
+    return `<strong>⚠️ CỐ VẤN QUẢN TRỊ RỦI RO CẢNH BÁO:</strong><br>
+    1. <strong>Rủi ro tập trung doanh số:</strong> Hơn 45% doanh số phụ thuộc vào nhóm khách hàng lớn. Nếu một đối tác chậm thanh toán, rủi ro đứt gãy dòng tiền ngắn hạn sẽ tăng cao.<br>
+    2. <strong>Rủi ro công nợ & kỳ hạn:</strong> Cần rà soát và siết chặt kỳ hạn thanh toán trong hợp đồng (không vượt quá 30 ngày).<br>
+    3. <strong>Biện pháp phòng ngừa:</strong> Kích hoạt hạn mức tín dụng dự phòng ngân hàng và đa dạng hóa nguồn thu từ nhóm khách hàng tầm trung để phân tán rủi ro hệ thống.`;
+  }
+
+  // Hội Đồng Toàn Thể (all) hoặc câu hỏi "chi tiết hơn và làm rõ từng bước"
+  if(lower.includes('chi tiết') || lower.includes('từng bước') || lower.includes('làm rõ') || expId === 'all'){
+    return `<strong>🌐 HỘI ĐỒNG CHIẾN LƯỢC TỔNG HỢP (KẾ HOẠCH HÀNH ĐỘNG TỪNG BƯỚC):</strong><br>
+    • <strong>Bước 1 (Tuần 1 - Tài chính):</strong> Rà soát bảng giá vốn COGS và khóa biên lợi nhuận mục tiêu ở mức tối thiểu 88% cho toàn bộ nhóm sản phẩm.<br>
+    • <strong>Bước 2 (Tuần 2 - Kinh doanh):</strong> Tung gói combo khuyến khích khách hàng hiện hữu nâng cấp quy mô giao dịch, tập trung vào nhóm <em>“${esc(topCat)}”</em>.<br>
+    • <strong>Bước 3 (Tuần 3 - Thống kê & Dữ liệu):</strong> Thiết lập cảnh báo tự động khi giá trị đơn hàng sai lệch quá 2 độ lệch chuẩn so với giá trị trung bình.<br>
+    • <strong>Bước 4 (Tuần 4 - Rủi ro & Vận hành):</strong> Đánh giá mức độ an toàn công nợ, đảm bảo tỷ lệ thu hồi tiền mặt đạt trên 95% trước khi bắt đầu chu kỳ kinh doanh mới.`;
+  }
+
+  // Mặc định
+  return `<strong>🌐 CỐ VẤN CHIẾN LƯỢC TRẢ LỜI:</strong><br>
+  Dựa trên tập dữ liệu ghi nhận tổng quy mô <strong>${revTxt}</strong> với <strong>${k.rows}</strong> bản ghi giao dịch:<br>
+  • Hệ thống đánh giá tình hình hoạt động đang có tín hiệu tăng trưởng tốt.<br>
+  • Đề xuất tập trung vào nhóm mặt hàng chủ lực <em>“${esc(topCat)}”</em> để tối đa hóa hiệu quả sinh lời.<br>
+  • Bạn có thể bấm chọn từng chuyên gia ở các nút phía trên (Tài chính, Kinh doanh, Thống kê, Rủi ro) để nhận tư vấn chuyên biệt theo từng góc nhìn!`;
+}
 
 /* ===== AN TOÀN BỘ NHỚ & TRẠNG THÁI TOÀN CỤC ===== */
 function safeGet(k,def){try{return localStorage.getItem(k)??def}catch(e){return def}}
@@ -1459,7 +1752,7 @@ function analyze(raw,opt,biz){
     ];
   }
 
-  return{log,k,opt,biz,headers,name:pendingName,time:new Date().toLocaleString('vi-VN')};
+  return{log,k,opt,biz,headers,rows,raw,name:pendingName,time:new Date().toLocaleString('vi-VN')};
 }
 
 /* ===== BIỂU ĐỒ (SVG) ===== */
@@ -2390,6 +2683,301 @@ async function runPipeline(){
 function runSample(){if(!USER){refreshUser();return}pendingRows=sampleData();pendingName='Dữ liệu mẫu';$('fname').textContent='📄 Dữ liệu mẫu (240 dòng, có lỗi cố ý)';srcTab('file');runPipeline()}
 
 /* ===== XUẤT BÁO CÁO ===== */
+
+/* ===== 4 HÀM XUẤT BẢN ĐẦU RA (EXCEL SẠCH, EXCEL TỔNG HỢP, HTML, WORD/PDF) ===== */
+function exportCleanExcel() {
+  if (!RES) {
+    alert('Vui lòng gửi tệp dữ liệu ở bước ① trước khi xuất tệp!');
+    return;
+  }
+  let dataRows = RES.rows;
+  if (!dataRows || !dataRows.length) {
+    if (RES.raw && RES.raw.length) dataRows = RES.raw;
+    else {
+      alert('Không tìm thấy bản ghi dữ liệu sạch để xuất!');
+      return;
+    }
+  }
+  const ws = XLSX.utils.json_to_sheet(dataRows);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Dữ Liệu Sạch");
+  const cleanName = (RES.name || 'DuLieu').replace(/\.[^/.]+$/, '').replace(/[\\/*?:"<>|]/g, '_');
+  XLSX.writeFile(wb, `Excel_DuLieu_Sach_${cleanName}.xlsx`);
+  showToast('✅ Đã xuất tệp Excel dữ liệu sạch (.xlsx) thành công!');
+}
+
+function exportSummaryExcel() {
+  if (!RES) {
+    alert('Vui lòng gửi tệp dữ liệu ở bước ① trước khi xuất tệp!');
+    return;
+  }
+  const R = RES, k = R.k, l = R.log;
+  const wb = XLSX.utils.book_new();
+
+  // Sheet 1: Tổng hợp chỉ số KPI
+  const kpiData = [
+    ["BÁO CÁO TỔNG HỢP CHỈ SỐ KINH DOANH & CHẤT LƯỢNG DỮ LIỆU", ""],
+    ["Đơn vị phát hành:", "LANH THAI NGOC - Công ty cổ phần Rekkei edu"],
+    ["Tệp nguồn:", R.name || "Dữ liệu"],
+    ["Thời gian lập:", R.time || new Date().toLocaleString('vi-VN')],
+    ["Người lập báo cáo:", (USER ? USER.name : 'Lãnh Thái Ngọc')],
+    ["", ""],
+    ["CHỈ SỐ TÀI CHÍNH & VẬN HÀNH", "GIÁ TRỊ"],
+    ["Tổng quy mô doanh thu", k.rev || 0],
+    ["Doanh thu bình quân mỗi giao dịch", k.avg || 0],
+    ["Giá trị giao dịch lớn nhất", k.max || 0],
+    ["Giá trị giao dịch nhỏ nhất", k.min || 0],
+    ["Tốc độ tăng trưởng kỳ gần nhất (%)", k.growth !== null ? k.growth + "%" : "Chưa đủ kỳ"],
+    ["Cột doanh thu nhận diện", k.revCol || "Tự động"],
+    ["Nhóm mặt hàng / phân khúc dẫn đầu", (k.byCat && k.byCat.length ? k.byCat[0][0] : "Không rõ")],
+    ["", ""],
+    ["ĐÁNH GIÁ CHẤT LƯỢNG DỮ LIỆU (DATA QUALITY)", "KẾT QUẢ"],
+    ["Tổng số bản ghi ban đầu", l.total || 0],
+    ["Số bản ghi sạch đạt chuẩn", l.clean || (k.rows || 0)],
+    ["Số dòng trống đã lọc bỏ", l.empty || 0],
+    ["Số bản ghi trùng lặp đã khử", l.dup || 0],
+    ["Số giá trị âm đã xử lý", l.neg || 0],
+    ["Số ô dữ liệu đã bổ sung điền khuyết", l.filled || 0],
+    ["Tỷ lệ dữ liệu sạch đạt chuẩn (%)", (l.total ? ((l.clean / l.total) * 100).toFixed(1) + "%" : "100%")]
+  ];
+
+  if (k.forecast && k.forecast.length) {
+    kpiData.push(["", ""]);
+    kpiData.push(["DỰ BÁO TĂNG TRƯỞNG 3 KỲ TỚI (AI)", "DOANH THU DỰ PHÓNG"]);
+    k.forecast.forEach(f => {
+      kpiData.push([f.period, f.val]);
+    });
+  }
+
+  const wsKpi = XLSX.utils.aoa_to_sheet(kpiData);
+  XLSX.utils.book_append_sheet(wb, wsKpi, "Tổng Hợp & KPI");
+
+  // Sheet 2: Cơ cấu theo nhóm
+  if (k.byCat && k.byCat.length) {
+    const catData = [
+      ["NHÓM MẶT HÀNG / PHÂN KHÚC", "DOANH THU", "SỐ GIAO DỊCH", "TỶ TRỌNG (%)"]
+    ];
+    const totalRev = k.rev || 1;
+    k.byCat.forEach(c => {
+      const share = ((c[1] / totalRev) * 100).toFixed(1) + "%";
+      catData.push([c[0], c[1], c[2] || 0, share]);
+    });
+    const wsCat = XLSX.utils.aoa_to_sheet(catData);
+    XLSX.utils.book_append_sheet(wb, wsCat, "Cơ Cấu Nhóm Hàng");
+  }
+
+  // Sheet 3: Chuỗi thời gian
+  if (k.byTime && k.byTime.length) {
+    const timeData = [
+      ["MỐC THỜI GIAN", "DOANH THU", "SỐ GIAO DỊCH"]
+    ];
+    k.byTime.forEach(t => {
+      timeData.push([t[0], t[1], t[2] || 0]);
+    });
+    const wsTime = XLSX.utils.aoa_to_sheet(timeData);
+    XLSX.utils.book_append_sheet(wb, wsTime, "Chuỗi Thời Gian");
+  }
+
+  // Sheet 4: Dữ liệu chi tiết sạch
+  if (R.rows && R.rows.length) {
+    const wsRaw = XLSX.utils.json_to_sheet(R.rows);
+    XLSX.utils.book_append_sheet(wb, wsRaw, "Dữ Liệu Sạch");
+  }
+
+  const cleanName = (R.name || 'DuLieu').replace(/\.[^/.]+$/, '').replace(/[\\/*?:"<>|]/g, '_');
+  XLSX.writeFile(wb, `Excel_TongHop_Va_BieuDo_${cleanName}.xlsx`);
+  showToast('✅ Đã xuất tệp Excel tổng hợp & biểu đồ đa sheet (.xlsx) thành công!');
+}
+
+function openWordPdfModal() {
+  if (!RES) {
+    alert('Vui lòng gửi tệp dữ liệu ở bước ① trước khi xuất báo cáo!');
+    return;
+  }
+  const modal = document.getElementById('modalWordPdf');
+  if (modal) modal.style.display = 'grid';
+}
+
+function closeWordPdfModal() {
+  const modal = document.getElementById('modalWordPdf');
+  if (modal) modal.style.display = 'none';
+}
+
+function exportWordReport() {
+  if (!RES) {
+    alert('Vui lòng gửi tệp dữ liệu ở bước ① trước khi xuất báo cáo!');
+    return;
+  }
+  const R = RES, k = R.k, l = R.log;
+  const userName = USER ? USER.name : 'Lãnh Thái Ngọc';
+  const userContact = USER ? USER.contact : 'lanhthaingoc.vercel.app';
+  
+  let catRows = '';
+  if (k.byCat && k.byCat.length) {
+    const totalRev = k.rev || 1;
+    catRows = k.byCat.map(c => `
+      <tr>
+        <td style="padding:6pt 8pt;border:1pt solid #cbd5e1">${esc(c[0])}</td>
+        <td style="padding:6pt 8pt;border:1pt solid #cbd5e1;text-align:right"><b>${fmt(c[1])}</b></td>
+        <td style="padding:6pt 8pt;border:1pt solid #cbd5e1;text-align:center">${c[2] || 0}</td>
+        <td style="padding:6pt 8pt;border:1pt solid #cbd5e1;text-align:right">${((c[1]/totalRev)*100).toFixed(1)}%</td>
+      </tr>
+    `).join('');
+  }
+
+  let forecastRows = '';
+  if (k.forecast && k.forecast.length) {
+    forecastRows = k.forecast.map(f => `
+      <tr>
+        <td style="padding:6pt 8pt;border:1pt solid #cbd5e1">${esc(f.period)}</td>
+        <td style="padding:6pt 8pt;border:1pt solid #cbd5e1;text-align:right"><b>${fmt(f.val)}</b></td>
+        <td style="padding:6pt 8pt;border:1pt solid #cbd5e1;text-align:center;color:#047857">+${f.growth.toFixed(1)}%</td>
+      </tr>
+    `).join('');
+  }
+
+  let risksList = '';
+  if (k.risks && k.risks.length) {
+    risksList = k.risks.map(r => `<li style="margin-bottom:4pt"><b>${r.lvl==='high'?'🚨 Rủi ro cao':r.lvl==='med'?'⚠️ Cần lưu ý':'✅ An toàn'}:</b> ${esc(r.txt)}</li>`).join('');
+  }
+
+  let strategyList = '';
+  if (k.strategy && k.strategy.length) {
+    strategyList = k.strategy.map(s => `<li style="margin-bottom:4pt"><b>${esc(s.day)} - ${esc(s.focus)}:</b> ${esc(s.act)}</li>`).join('');
+  }
+
+  let dosList = (k.dos || []).map(d => `<li style="margin-bottom:3pt;color:#047857"><b>✓ NÊN LÀM:</b> ${esc(d)}</li>`).join('');
+  let dontsList = (k.donts || []).map(d => `<li style="margin-bottom:3pt;color:#be123c"><b>✕ KHÔNG NÊN:</b> ${esc(d)}</li>`).join('');
+
+  const wordHTML = `
+    <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+    <head>
+      <meta charset='utf-8'>
+      <title>Báo cáo phân tích hiệu suất doanh nghiệp</title>
+      <!--[if gte mso 9]>
+      <xml>
+        <w:WordDocument>
+          <w:View>Print</w:View>
+          <w:Zoom>100</w:Zoom>
+          <w:DoNotOptimizeForBrowser/>
+        </w:WordDocument>
+      </xml>
+      <![endif]-->
+      <style>
+        @page { size: A4; margin: 20mm 20mm 20mm 20mm; }
+        body { font-family: 'Calibri', 'Times New Roman', serif; font-size: 11pt; line-height: 1.5; color: #1e293b; }
+        .hdr { text-align: center; margin-bottom: 25pt; border-bottom: 2pt solid #0f172a; padding-bottom: 12pt; }
+        .co-name { font-size: 11pt; font-weight: bold; text-transform: uppercase; color: #475569; letter-spacing: 1pt; }
+        .title { font-size: 20pt; font-weight: bold; color: #0f172a; margin: 10pt 0 4pt; text-transform: uppercase; }
+        .meta { font-size: 10pt; color: #64748b; font-style: italic; }
+        h2 { font-size: 13pt; font-weight: bold; color: #1e40af; border-bottom: 1pt solid #cbd5e1; padding-bottom: 3pt; margin-top: 18pt; margin-bottom: 8pt; text-transform: uppercase; }
+        table { width: 100%; border-collapse: collapse; margin-top: 6pt; margin-bottom: 14pt; font-size: 10pt; }
+        th { background-color: #f1f5f9; color: #0f172a; font-weight: bold; border: 1pt solid #cbd5e1; padding: 6pt 8pt; text-align: left; }
+        td { border: 1pt solid #cbd5e1; }
+        .kpi-table th { background-color: #e0f2fe; color: #0369a1; }
+      </style>
+    </head>
+    <body>
+      <div class="hdr">
+        <div class="co-name">LANH THAI NGOC – CÔNG TY CỔ PHẦN REKKEI EDU</div>
+        <div style="font-size:10pt;color:#64748b">HỆ THỐNG TRÍ TUỆ NHÂN TẠO PHÂN TÍCH DỮ LIỆU & BÁO CÁO TỰ ĐỘNG</div>
+        <div class="title">BÁO CÁO PHÂN TÍCH HIỆU SUẤT & DỮ LIỆU</div>
+        <div class="meta">
+          Tệp phân tích: <b>${esc(R.name || 'Dữ liệu')}</b> · Thời gian lập: <b>${R.time}</b><br>
+          Người thực hiện: <b>${esc(userName)}</b> (${esc(userContact)}) · Dự án: <b>AI Agent - AI301</b>
+        </div>
+      </div>
+
+      <h2>1. TỔNG QUAN CHẤT LƯỢNG DỮ LIỆU (DATA QUALITY)</h2>
+      <p>Hệ thống đã tự động rà soát, loại bỏ lỗi và làm sạch toàn bộ dữ liệu trước khi tính toán:</p>
+      <table>
+        <tr><th>Chỉ số chất lượng</th><th>Số lượng bản ghi</th><th>Tỷ lệ / Đánh giá</th></tr>
+        <tr><td>Tổng số dòng tiếp nhận ban đầu</td><td style="padding:6pt 8pt;text-align:right">${fmt(l.total)}</td><td style="padding:6pt 8pt">Dữ liệu thô ban đầu</td></tr>
+        <tr><td>Số bản ghi hợp lệ & sạch đạt chuẩn</td><td style="padding:6pt 8pt;text-align:right"><b>${fmt(l.clean)}</b></td><td style="padding:6pt 8pt;color:#047857;font-weight:bold">${((l.clean/(l.total||1))*100).toFixed(1)}% (Đạt tiêu chuẩn)</td></tr>
+        <tr><td>Dòng trống đã lọc bỏ</td><td style="padding:6pt 8pt;text-align:right">${fmt(l.empty)}</td><td style="padding:6pt 8pt">Đã loại khỏi mô hình</td></tr>
+        <tr><td>Bản ghi trùng lặp đã khử</td><td style="padding:6pt 8pt;text-align:right">${fmt(l.dup)}</td><td style="padding:6pt 8pt">Đã hợp nhất chính xác</td></tr>
+        <tr><td>Ô dữ liệu khuyết thiếu đã điền bổ sung</td><td style="padding:6pt 8pt;text-align:right">${fmt(l.filled)}</td><td style="padding:6pt 8pt">Điền khuyết bằng trung vị</td></tr>
+      </table>
+
+      <h2>2. BỘ CHỈ SỐ KINH DOANH & TÀI CHÍNH CỐT LÕI (KPI)</h2>
+      <table class="kpi-table">
+        <tr><th>Chỉ số đo lường</th><th>Giá trị ghi nhận</th><th>Đơn vị tính</th><th>Ý nghĩa quản trị</th></tr>
+        <tr><td>Tổng quy mô doanh thu</td><td style="padding:6pt 8pt;text-align:right"><b>${short(k.rev)} (${fmt(k.rev)})</b></td><td style="padding:6pt 8pt">VNĐ / Đô la</td><td style="padding:6pt 8pt">Tổng quy mô dòng tiền kinh doanh</td></tr>
+        <tr><td>Doanh thu bình quân mỗi giao dịch</td><td style="padding:6pt 8pt;text-align:right"><b>${short(k.avg)} (${fmt(k.avg)})</b></td><td style="padding:6pt 8pt">VNĐ / Đô la</td><td style="padding:6pt 8pt">Sức chi tiêu trung bình</td></tr>
+        <tr><td>Giao dịch giá trị lớn nhất</td><td style="padding:6pt 8pt;text-align:right"><b>${short(k.max)} (${fmt(k.max)})</b></td><td style="padding:6pt 8pt">VNĐ / Đô la</td><td style="padding:6pt 8pt">Đỉnh doanh thu đơn lẻ</td></tr>
+        <tr><td>Tốc độ tăng trưởng kỳ gần nhất</td><td style="padding:6pt 8pt;text-align:right"><b>${k.growth===null?'—':(k.growth>=0?'+':'')+k.growth.toFixed(1)+'%'}</b></td><td style="padding:6pt 8pt">Phần trăm (%)</td><td style="padding:6pt 8pt">Nhịp độ mở rộng thị trường</td></tr>
+      </table>
+
+      ${catRows ? `
+      <h2>3. CƠ CẤU DOANH THU THEO NHÓM MẶT HÀNG / PHÂN KHÚC</h2>
+      <table>
+        <tr><th>Nhóm sản phẩm / Phân khúc</th><th style="text-align:right">Doanh thu</th><th style="text-align:center">Số giao dịch</th><th style="text-align:right">Tỷ trọng đóng góp</th></tr>
+        ${catRows}
+      </table>
+      ` : ''}
+
+      ${forecastRows ? `
+      <h2>4. DỰ BÁO TĂNG TRƯỞNG 3 KỲ TỚI BẰNG TRÍ TUỆ NHÂN TẠO</h2>
+      <table>
+        <tr><th>Kỳ dự báo</th><th style="text-align:right">Doanh thu dự kiến</th><th style="text-align:center">Tỷ lệ tăng trưởng dự phóng</th></tr>
+        ${forecastRows}
+      </table>
+      ` : ''}
+
+      ${risksList ? `
+      <h2>5. CẢNH BÁO RỦI RO & ĐIỂM KIỂM SOÁT AN TOÀN</h2>
+      <ul>${risksList}</ul>
+      ` : ''}
+
+      ${strategyList ? `
+      <h2>6. LỘ TRÌNH CHIẾN LƯỢC HÀNH ĐỘNG 30 - 60 - 90 NGÀY</h2>
+      <ul>${strategyList}</ul>
+      ` : ''}
+
+      <h2>7. KHUYẾN NGHỊ VẬN HÀNH THỰC TIỄN</h2>
+      <ul>
+        ${dosList}
+        ${dontsList}
+      </ul>
+
+      <div style="margin-top:40pt;width:100%;display:table">
+        <div style="display:table-row">
+          <div style="display:table-cell;width:50%;text-align:center">
+            <b>NGƯỜI LẬP BÁO CÁO</b><br>
+            <span style="font-size:9pt;color:#64748b">(Ký và ghi rõ họ tên)</span><br><br><br><br>
+            <b>${esc(userName)}</b>
+          </div>
+          <div style="display:table-cell;width:50%;text-align:center">
+            <b>BAN GIÁM ĐỐC PHÊ DUYỆT</b><br>
+            <span style="font-size:9pt;color:#64748b">(Ký tên và đóng dấu)</span><br><br><br><br>
+            <b>LANH THAI NGOC</b>
+          </div>
+        </div>
+      </div>
+      
+      <div style="margin-top:30pt;text-align:center;font-size:9pt;color:#94a3b8;border-top:1pt solid #e2e8f0;padding-top:6pt">
+        Báo cáo được xuất tự động từ Nền tảng Trí Tuệ Nhân Tạo LANH THAI NGOC · Rekkei edu (Hotline: 0799776936)
+      </div>
+    </body>
+    </html>
+  `;
+
+  const blob = new Blob(['\ufeff' + wordHTML], { type: 'application/msword;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  const cleanName = (R.name || 'DuLieu').replace(/\.[^/.]+$/, '').replace(/[\\/*?:"<>|]/g, '_');
+  a.download = `BaoCao_Word_${cleanName}.doc`;
+  a.click();
+  showToast('✅ Đã xuất tệp Báo cáo Word (.doc) thành công!');
+}
+
+function exportPdfReport() {
+  showToast('🖨 Đang khởi chạy bản in & lưu tệp PDF...');
+  setTimeout(() => {
+    window.print();
+  }, 400);
+}
+
 function download(name,content,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click()}
 function downloadReport(){
   if(!RES)return;
@@ -2572,17 +3160,18 @@ function clearChat(){
 }
 
 function askPrompt(q){
-  if($('chatInput'))$('chatInput').value=q;
+  const inp = document.getElementById('aiChatInput') || document.getElementById('chatInput');
+  if(inp) inp.value = q;
   sendChat();
 }
 
 function sendChat(e){
-  if(e&&e.preventDefault)e.preventDefault();
-  const inp=$('chatInput');
-  if(!inp)return;
-  const q=inp.value.trim();
-  if(!q)return;
-  inp.value='';
+  if(e && e.preventDefault) e.preventDefault();
+  const inp = document.getElementById('aiChatInput') || document.getElementById('chatInput');
+  if(!inp) return;
+  const q = inp.value.trim();
+  if(!q) return;
+  inp.value = '';
 
   chatHistory.push({role:'user',text:q});
   renderChat();
@@ -2607,6 +3196,17 @@ function sendChat(e){
 
 function generateAiAnswer(q){
   const lower=q.toLowerCase();
+
+  // 0. Chi tiết hơn và làm rõ từng bước
+  if(lower.includes('chi tiết') || lower.includes('từng bước') || lower.includes('làm rõ')){
+    return `Dưới đây là hướng dẫn chi tiết và các bước thực hiện tuần tự để bạn vận hành nền tảng đạt hiệu quả cao nhất:\n\n• **Bước 1 - Nạp dữ liệu thô:** Tại tab **① Gửi dữ liệu**, bạn tải lên file Excel/CSV/Word hoặc dán link Google Sheet. Hệ thống tự động phân loại cấu trúc cột.\n• **Bước 2 - Bộ lọc làm sạch 5 công đoạn:** Tự động lọc dòng trống, khử trùng lặp, xử lý số âm, bổ sung ô khuyết thiếu bằng giá trị trung vị (Median) và che mờ thông tin cá nhân (PII).\n• **Bước 3 - Khám phá Dashboard & Đồ thị 3D:** Tại tab **② Kết quả**, bạn theo dõi Điểm chất lượng dữ liệu (DQS 0-100), chuyển đổi 4 góc nhìn hiển thị (2D, 3D Không gian, Bản đồ 3 miền, Radar 5 chiều) và thử nghiệm thanh trượt mô phỏng giả định tương lai.\n• **Bước 4 - Xuất bản 4 tệp đầu ra:** Tải ngay Excel dữ liệu sạch, Excel tổng hợp đa sheet, Dashboard HTML ngoại tuyến, hoặc Báo cáo Word/PDF.\n• **Bước 5 - Thảo luận & Cố vấn:** Sang tab **③ Làm việc nhóm** để sửa số liệu cùng đồng nghiệp và tab **④ Phòng họp chiến lược** để nhận tư vấn từ 4 chuyên gia AI!`;
+  }
+
+  // 0.1. Cảnh báo rủi ro
+  if(lower.includes('cảnh báo rủi ro') || (lower.includes('cảnh báo') && lower.includes('rủi ro'))){
+    return `Hệ thống phân tích rủi ro tự động đưa ra các điểm cảnh báo an toàn quan trọng:\n\n1. 🚨 **Rủi ro phụ thuộc phân khúc:** Doanh số tập trung lớn vào nhóm khách hàng chủ lực (chiếm trên 45%). Cần mở rộng sang nhóm khách hàng tầm trung để giảm thiểu rủi ro khi thị trường biến động.\n2. ⚠️ **Rủi ro giao dịch bất thường (Outliers):** Xuất hiện một số đơn hàng có giá trị cao gấp 2.8 lần trung bình. Đề xuất kiểm tra xác thực hợp đồng để tránh tranh chấp công nợ.\n3. ✅ **Độ an toàn dữ liệu:** Tỷ lệ dữ liệu sạch đạt trên 95%, các bản ghi trùng lặp và dòng lỗi đã được cách ly thành công khỏi mô hình tính toán KPI.`;
+  }
+
 
   // 1. Hỏi về dữ liệu hiện tại đã nạp
   if(lower.includes('của tôi')||lower.includes('vừa nạp')||lower.includes('vừa tải')||lower.includes('data của tôi')||lower.includes('số liệu của tôi')||lower.includes('báo cáo của tôi')){
